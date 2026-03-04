@@ -1,0 +1,155 @@
+/* * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Inter', sans-serif; 
+}
+
+body {
+    background: linear-gradient(rgba(30, 60, 92, 0.8), rgba(30, 60, 92, 0.8)), 
+                url('https://www.gov.br/inmet/pt-br/images/mapa-brasil.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 40px;
+    padding: 40px 60px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.brand-container {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.brand-logo {
+    font-size: 40px;
+    font-weight: 800;
+    color: #1e3c5c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.brand-logo i {
+    color: #1e3c5c;
+}
+
+h2 {
+    text-align: center;
+    color: #1e3c5c;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-field:focus {
+    border-color: #1e3c5c;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.btn-register {
+    grid-column: span 2;
+    background: #1e3c5c;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    text-transform: uppercase;
+}
+
+.btn-register .circle-arrow {
+    background: white;
+    color: #1e3c5c;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.login-link a {
+    color: #1e3c5c;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.footer-partners {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.footer-partners a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #1e3c5c;
+    font-size: 14px;
+}
+
+.logos-inmet-gov {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .btn-register { grid-column: span 1; }
+    .card { padding: 30px 20px; } */
