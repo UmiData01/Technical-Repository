@@ -1,155 +1,148 @@
-/* * { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    font-family: 'Inter', sans-serif; 
-}
+* { margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    overflow-y: hidden;
+ }
+
 
 body {
-    background: linear-gradient(rgba(30, 60, 92, 0.8), rgba(30, 60, 92, 0.8)), 
-                url('https://www.gov.br/inmet/pt-br/images/mapa-brasil.jpg');
+
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column; 
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 8vh;
+    padding: 10px 27px;
+    width: 100%;
+    background-color: rgb(255, 255, 255)
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color:#1e3c5c;
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.nav-logo img { height: 30px; }
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    color:#000000;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.nav-links a.active {
+    border-bottom: 2px solid rgb(0, 21, 250);
+    padding-bottom: 7px;
+}
+
+.main-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 20px 20px;
+    background-image: url("../assets/imgs/imagemfundo.png");
+    background-size: cover;
+
 }
 
 .card {
-    background: white;
+    background-color: #ffffff;
     width: 100%;
-    max-width: 900px;
+    max-width: 900px; 
     border-radius: 40px;
-    padding: 40px 60px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    position: relative;
+    padding: 30px 50px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.brand-container {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.brand-logo {
-    font-size: 40px;
+.topo-logo {
+    font-size: 38px;
     font-weight: 800;
     color: #1e3c5c;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
 }
+.topo-logo img { height: 45px; }
 
-.brand-logo i {
-    color: #1e3c5c;
-}
+h2 { text-align: center; color: #1e3c5c; font-size: 22px; margin-bottom: 25px; }
 
-h2 {
-    text-align: center;
-    color: #1e3c5c;
-    font-size: 24px;
-    margin-bottom: 30px;
-}
+.inputs { display: flex; flex-wrap: wrap; gap: 12px; }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
+.input { position: relative; flex: 1 1 calc(50% - 15px); min-width: 250px; }
 
-.input-group {
-    position: relative;
-}
-
-.input-field {
+.forma-input {
     width: 100%;
     padding: 12px 15px 12px 45px;
     border: 2px solid #e2e8f0;
-    border-radius: 15px;
-    font-size: 14px;
+    border-radius: 12px;
+    background-color: #f8fafc;
     outline: none;
-    transition: 0.3s;
 }
 
-.input-field:focus {
-    border-color: #1e3c5c;
+.input i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+
+.container-acao {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
-.input-group i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-}
-
-.btn-register {
-    grid-column: span 2;
-    background: #1e3c5c;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
+.btn-cadastro {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 10px;
-    margin-top: 20px;
+    background-color: #1e3c5c;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
     text-transform: uppercase;
 }
 
-.btn-register .circle-arrow {
-    background: white;
-    color: #1e3c5c;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
+.btn-cadastro .circle-arrow {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.login-link {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #64748b;
-}
-
-.login-link a {
+    background-color: white;
     color: #1e3c5c;
-    text-decoration: none;
-    font-weight: 700;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
 }
 
-.footer-partners {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #e2e8f0;
-}
+.login-link { margin-top: 8px; font-size: 13px; font-weight: 700; }
+.login-link a { color: black; text-decoration: none; }
 
-.footer-partners a {
-    text-decoration: none;
-    font-weight: 600;
-    color: #1e3c5c;
-    font-size: 14px;
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .navbar { padding: 20px; }
+    .nav-links { display: none; } /* Esconde menu no mobile para simplificar */
+    .card { padding: 30px 20px; }
+    .input { flex: 1 1 100%; }
+    .container-acao { align-items: center; }
 }
-
-.logos-inmet-gov {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-@media (max-width: 600px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .btn-register { grid-column: span 1; }
-    .card { padding: 30px 20px; } */
