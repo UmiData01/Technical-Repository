@@ -1,0 +1,279 @@
+.time {
+  width: 100%;
+  padding: 60px 0px;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.time-titulo {
+  font-size: 3em;
+  color: #1e2f4d;
+  font-weight: 700;
+  margin-bottom: 50px;
+}
+
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  gap: 40px;
+  max-width: 90%;
+  margin: 0px auto;
+  margin-right: 13.5px;
+}
+
+.time-card {
+  width: 280px;
+  display: flex;
+  justify-content: center;
+}
+
+.foto-perfil {
+  width: 140px;
+  height: 140px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.foto-perfil img {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+}
+
+.time-titulo {
+  font-size: 2.2em;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 26, 47, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-overlay.ativo {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.4);
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #0a1a2f;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  z-index: 1001;
+}
+
+.modal-close:hover {
+  background-color: #f0f4f8;
+  color: #2b9cff;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #0a1a2f 0%, #0a4d8c 100%);
+  padding: 2rem 1.5rem;
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-foto {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-body {
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.modal-nome {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0a1a2f;
+  margin-bottom: 0.5rem;
+}
+
+.modal-cargo {
+  font-size: 1.1rem;
+  color: #2b9cff;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.modal-descricao {
+  font-size: 0.95rem;
+  color: #2f405b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.modal-redes-sociais {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0ecff;
+}
+
+.rede-social {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: white;
+}
+
+.rede-social.linkedin {
+  background-color: #0a66c2;
+}
+
+.rede-social.linkedin:hover {
+  background-color: #084a9f;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(10, 102, 194, 0.3);
+}
+
+.rede-social.github {
+  background-color: #333333;
+}
+
+.rede-social.github:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(51, 51, 51, 0.3);
+}
+
+.rede-social.instagram {
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.rede-social.instagram:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(220, 39, 67, 0.3);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .modal-nome {
+    font-size: 1.5rem;
+  }
+  
+  .modal-cargo {
+    font-size: 1rem;
+  }
+  
+  .modal-body {
+    padding: 1.5rem 1rem;
+  }
+  
+  .modal-header {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-foto {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .modal-nome {
+    font-size: 1.3rem;
+  }
+  
+  .modal-descricao {
+    font-size: 0.9rem;
+  }
+  
+  .rede-social {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .rede-social svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Hover effect na foto do time card */
+.time-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.time-card:hover .foto-perfil {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(43, 156, 255, 0.2);
+}
+
+.foto-perfil {
+  transition: all 0.3s ease;
+}
