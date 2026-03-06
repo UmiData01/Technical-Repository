@@ -1,9 +1,10 @@
-* { margin: 0;
+* {
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
     overflow-y: hidden;
- }
+}
 
 
 body {
@@ -13,49 +14,59 @@ body {
     background-attachment: fixed;
     min-height: 100vh;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
 }
 
-/* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 8vh;
-    padding: 10px 27px;
-    width: 100%;
-    background-color: rgb(255, 255, 255)
+/* NAVBAR */.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 9vh;
+  padding: 0 5%;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-bottom: 5px solid #003f75;
 }
 
 .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color:#1e3c5c;
-    font-weight: 800;
-    font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgb(0, 10, 121);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -0.5px;
 }
 
-.nav-logo img { height: 30px; }
+.nav-logo img {
+  height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
 
 .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 30px;
+  display: flex;
+  list-style: none;
+  gap: 2.5em;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
-    color:#000000;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
+ color: rgb(0, 10, 121);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 5px 0;
+  transition: all 0.2s ease;
+  position: relative;
 }
-
-.nav-links a.active {
-    border-bottom: 2px solid rgb(0, 21, 250);
-    padding-bottom: 7px;
+.cursor1 {
+  border-bottom: 4px solid #2b9cff;
+  margin-bottom: 0;
+  padding-bottom: 8px;
+  border-radius: 8%;
 }
-
 .main-content {
     display: flex;
     align-items: center;
@@ -69,28 +80,47 @@ body {
 .card {
     background-color: #ffffff;
     width: 100%;
-    max-width: 900px; 
+    max-width: 900px;
     border-radius: 40px;
     padding: 30px 50px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .topo-logo {
-    font-size: 38px;
-    font-weight: 800;
-    color: #1e3c5c;
     display: flex;
-    align-items: center;
     justify-content: center;
+     background: linear-gradient(145deg, #0a1a2f, #0a4d8c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 38px;
+  font-weight: 800;
+}
+
+.topo-logo img {
+    height: 45px;
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
+    color: #1e2f4d;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.inputs {
+    display: flex;
+    flex-wrap: wrap;
     gap: 12px;
 }
-.topo-logo img { height: 45px; }
 
-h2 { text-align: center; color: #1e3c5c; font-size: 22px; margin-bottom: 25px; }
-
-.inputs { display: flex; flex-wrap: wrap; gap: 12px; }
-
-.input { position: relative; flex: 1 1 calc(50% - 15px); min-width: 250px; }
+.input {
+    position: relative;
+    flex: 1 1 calc(50% - 15px);
+    min-width: 250px;
+}
 
 .forma-input {
     width: 100%;
@@ -101,7 +131,13 @@ h2 { text-align: center; color: #1e3c5c; font-size: 22px; margin-bottom: 25px; }
     outline: none;
 }
 
-.input i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+.input i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
 
 .container-acao {
     flex: 1 1 100%;
@@ -114,7 +150,7 @@ h2 { text-align: center; color: #1e3c5c; font-size: 22px; margin-bottom: 25px; }
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #1e3c5c;
+     background: linear-gradient(145deg, #0a4d8c, #0a1a2f);
     color: white;
     border: none;
     padding: 12px 30px;
@@ -134,15 +170,107 @@ h2 { text-align: center; color: #1e3c5c; font-size: 22px; margin-bottom: 25px; }
     width: 24px;
     height: 24px;
 }
+.btn-cadastro:hover {
+  transform: translateX(-2px);
+  background: linear-gradient(145deg, #0a5ca8, #0a1a2f);
+}
 
-.login-link { margin-top: 8px; font-size: 13px; font-weight: 700; }
-.login-link a { color: black; text-decoration: none; }
+.login-link {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e2f4d;
+    
+}
 
-/* RESPONSIVIDADE */
-@media (max-width: 768px) {
-    .navbar { padding: 20px; }
-    .nav-links { display: none; } /* Esconde menu no mobile para simplificar */
-    .card { padding: 30px 20px; }
-    .input { flex: 1 1 100%; }
-    .container-acao { align-items: center; }
+.login-link a{
+  color: #0a4d8c;
+  text-decoration: none;
+
+}
+
+.login-link a:hover {
+    color: #2b9cff;
+  border-bottom-color: #2b9cff;
+}
+
+
+
+@media screen and (max-width: 480px) {
+    .navbar {
+        padding: 0 3%;
+        min-height: 60px;
+        border-bottom-width: 4px;
+    }
+    
+    .nav-logo {
+        font-size: 1.1rem;
+        gap: 6px;
+    }
+    
+    .nav-logo img {
+        height: 30px;
+    }
+    
+    .main-content {
+        padding: 10px;
+    }
+    
+    .card {
+        padding: 20px 15px;
+        border-radius: 25px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .topo-logo {
+        font-size: 26px;
+        margin-bottom: 5px;
+    }
+    
+    .topo-logo img {
+        height: 35px;
+    }
+    
+    h2 {
+        font-size: 14px;
+        margin-bottom: 15px;
+        padding: 0 5px;
+    }
+    
+    .inputs {
+        gap: 8px;
+    }
+    
+    .forma-input {
+        padding: 10px 12px 10px 38px;
+        font-size: 14px;
+        border-radius: 10px;
+        border-width: 1.5px;
+    }
+    
+    .input i {
+        left: 12px;
+        font-size: 14px;
+    }
+    
+    .btn-cadastro {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+        gap: 8px;
+        width: 100%; /* Botão ocupa toda largura */
+        justify-content: center;
+    }
+    
+    .btn-cadastro .circle-arrow {
+        width: 22px;
+        height: 22px;
+        font-size: 12px;
+    }
+    
+    .login-link {
+        font-size: 12px;
+        margin-top: 10px;
+        text-align: center;
+        width: 100%;
+    }
 }

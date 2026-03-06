@@ -1,0 +1,280 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+   overflow-y: hidden;
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; 
+}
+
+body {
+  background: linear-gradient(145deg, #0a1a2f 0%, #1a334f 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 9vh;
+  padding: 0 5%;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-bottom: 5px solid #003f75;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgb(0, 10, 121);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -0.5px;
+}
+
+.nav-logo img {
+  height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5em;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+ color: rgb(0, 10, 121);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 5px 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.cursor1 {
+  border-bottom: 4px solid #2b9cff;
+  margin-bottom: 0;
+  padding-bottom: 8px;
+  border-radius: 8%;
+}
+
+
+.box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  position: relative;
+  overflow: hidden;
+  background-image: url("../assets/imgs/imagemfundo.png");
+   background-size: cover;
+}
+
+/* Elementos decorativos do fundo */
+.box::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(43, 156, 255, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -50px;
+  right: -50px;
+}
+
+
+/* Cartão de Login - Estilo Premium */
+.cartao-login {
+  background-color: rgba(255, 255, 255, 0.98);
+  width: 100%;
+  max-width: 480px;
+  border-radius: 48px;
+  padding: 35px 50px;
+  box-shadow: 
+  0 30px 60px -15px rgba(0, 0, 0, 0.5),
+  0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  text-align: center;
+  border: 1px solid rgba(43, 156, 255, 0.2);
+}
+
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 6px;
+}
+
+.topo h1 {
+  background: linear-gradient(145deg, #0a1a2f, #0a4d8c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 38px;
+  font-weight: 800;
+}
+
+.topo img {
+  height: 55px;
+  filter: drop-shadow(0 4px 6px rgba(10, 77, 140, 0.3));
+}
+
+h2 {
+  color: #1e2f4d;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.divisor-cabecalho {
+  border: none;
+  height: 3px;
+  width: 60px;
+  background: linear-gradient(90deg, #0a1a2f, #2b9cff);
+  margin: 0 auto 25px;
+  border-radius: 2px;
+}
+
+/* Formulário */
+.box-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 8px;
+}
+
+.inputs label {
+  font-weight: 700;
+  color: #0a1a2f;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 5px;
+}
+
+.inputs label i {
+  color: #0a4d8c;
+  font-size: 16px;
+  width: 20px;
+}
+
+.inputs input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 20px;
+  outline: none;
+  background-color: #f8fafc;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+
+.inputs input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+
+/* Botão de Entrar - Estilo do Card1 do index */
+.btn-entrar {
+  background: linear-gradient(145deg, #0a4d8c, #0a1a2f);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 40px;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(10, 77, 140, 0.4);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-entrar:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(10, 77, 140, 0.5);
+  background: linear-gradient(145deg, #0a5ca8, #0a1a2f);
+}
+
+.registro {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e2f4d;
+}
+
+.registro a {
+  color: #0a4d8c;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.registro a:hover {
+  color: #2b9cff;
+  border-bottom-color: #2b9cff;
+}
+
+
+@media screen and (max-width: 480px) {
+  .nav-links {
+    gap: 15px;
+  }
+  
+  .nav-links a {
+    font-size: 0.9rem;
+  }
+  
+  .nav-logo {
+    font-size: 1.4rem;
+  }
+  
+  .nav-logo img {
+    height: 35px;
+  }
+  
+  .cartao-login {
+    padding: 30px 20px;
+  }
+  
+  .topo {
+    gap: 10px;
+  }
+  
+  .topo h1 {
+    font-size: 28px;
+  }
+  
+  .topo img {
+    height: 45px;
+  }
+  
+  .btn-entrar {
+    font-size: 18px;
+    padding: 14px;
+  }
+}
