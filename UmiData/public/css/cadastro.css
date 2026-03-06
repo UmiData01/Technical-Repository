@@ -7,17 +7,17 @@
 }
 
 
-body {
 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
 }
 
-/* NAVBAR */.navbar {
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,6 +74,7 @@ body {
     padding: 20px 20px;
     background-image: url("../assets/imgs/imagemfundo.png");
     background-size: cover;
+    min-height: 91vh;
 
 }
 
@@ -257,7 +258,7 @@ h2 {
         padding: 10px 20px;
         font-size: 0.8rem;
         gap: 8px;
-        width: 100%; /* Botão ocupa toda largura */
+        width: 100%; 
         justify-content: center;
     }
     
