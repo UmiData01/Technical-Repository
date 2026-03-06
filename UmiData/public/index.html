@@ -10,12 +10,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="navbar">
     <div class="logo">
-      <img src="./assets/imgs/logo1.png" alt="UmiData logo">
+      <img src="./assets/imgs/logo1.png">
     </div>
+
+    <i class="fas fa-bars menu-hamburguer" onclick="barra()"></i>
+
     <div class="txt1">
       <div class="cursor1">
         <p>Página Inicial</p>
@@ -24,6 +28,16 @@
       <p> <a href="./cadastro.html">Cadastro </a></p>
     </div>
   </div>
+  
+
+    <div id="sidebar" class="sidebar">
+    <i class="fas fa-times btn-fechar" onclick="barra()"></i>
+    <ul class="sidebar-links">
+        <li><a href="./index.html">Página Inicial</a></li>
+        <li><a href="./login.html">Login</a></li>
+        <li><a href="./cadastro.html">Cadastro</a></li>
+    </ul>
+</div>  
 
   <div class="banner">
     <div class="txt1-banner">
@@ -229,3 +243,14 @@
     <script src="./js/modal.js"></script>
 </body>
 </html>
+<!-- <script>
+   function barra() {
+    const sidebar = document.getElementById("sidebar");
+    
+    if (sidebar.clientWidth === 0) {
+        sidebar.style.width = "250px";
+    } else {
+        sidebar.style.width = "0";
+    }
+}
+</script> -->

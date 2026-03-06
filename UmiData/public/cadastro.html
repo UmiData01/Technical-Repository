@@ -17,6 +17,7 @@
             <img src="./assets/imgs/logo2.png" alt="Logo">
             UmiData
         </div>
+        <i class="fas fa-bars menu-hamburguer" onclick="barra()"></i>
         <ul class="nav-links">
             <li><a href="./index.html">Página Inicial </a></li>
             <li><a href="./login.html">Login </a></li>
@@ -25,6 +26,14 @@
             </div>
         </ul>
     </nav>
+    <div id="sidebar" class="sidebar">
+        <i class="fas fa-times btn-fechar" onclick="barra()"></i>
+        <ul class="sidebar-links">
+            <li><a href="./index.html">Página Inicial</a></li>
+            <li><a href="./login.html">Login</a></li>
+            <li><a href="./cadastro.html">Cadastro</a></li>
+        </ul>
+    </div>
 
     <main class="main-content">
         <div class="card">
@@ -72,5 +81,15 @@
     </main>
 
 </body>
-
 </html>
+<script>
+    function barra() {
+    const sidebar = document.getElementById("sidebar");
+    
+    if (sidebar.style.width === "250px") {
+        sidebar.style.width = "0";
+    } else {
+        sidebar.style.width = "250px";
+    }
+}
+</script>

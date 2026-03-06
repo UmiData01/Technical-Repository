@@ -195,6 +195,51 @@ h2 {
   border-bottom-color: #2b9cff;
 }
 
+.menu-hamburguer {
+    display: none;
+    font-size: 1.8rem;
+    color: rgb(0, 10, 121);
+    cursor: pointer;
+}
+
+.sidebar {
+    height: 100%;
+    width: 0; 
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    right: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s; 
+    padding-top: 60px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+}
+
+.sidebar-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-left: 30px;
+}
+
+.sidebar-links a {
+    text-decoration: none;
+    color: rgb(0, 10, 121);
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.btn-fechar {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 2rem;
+    color: #003f75;
+    cursor: pointer;
+}
+
 
 
 @media screen and (max-width: 480px) {
@@ -273,5 +318,12 @@ h2 {
         margin-top: 10px;
         text-align: center;
         width: 100%;
+    }
+    .nav-links {
+        display: none; 
+    }
+    
+    .menu-hamburguer {
+        display: block; 
     }
 }
