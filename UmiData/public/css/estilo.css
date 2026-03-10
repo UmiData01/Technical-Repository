@@ -1,37 +1,67 @@
 * {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   box-sizing: border-box;
-  
-}
 
-html {
-  scroll-behavior: smooth; 
+  
 }
 
 body {
   font-family: "Poppins", sans-serif;
   background-color: #f5f9ff;
   color: #1e2f4d;
+  overflow-x: hidden;
  
 }
 
 .navbar {
   display: flex;
-  height: 10vh;
-  min-height: 80px;
-  align-items: center;
   justify-content: space-between;
-  background-color: #0a1a2f;
+  align-items: center;
+  height: 9vh;
   padding: 0 5%;
+  width: 100%;
+   background-color: #0a1a2f;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-bottom: 5px solid #2b9cff;
-
+  border-bottom: 5px solid #003f75;
 }
 
-.logo img {
-  max-height: 90px;
-  margin-top: 15px;
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgb(255, 255, 255);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -0.5px;
+}
+
+.nav-logo img {
+  height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5em;
+  margin: 0;
+  padding: 0;
+}
+.nav-links li {
+
+    overflow: visible; 
+}
+
+.nav-links a {
+ color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 5px 0;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 .txt1 {
@@ -456,7 +486,7 @@ body {
     right: 0;
     background-color: white;
     overflow-x: hidden;
-    transition: 0.5s; 
+    transition: ease 0.5s; 
     padding-top: 60px;
     box-shadow: -5px 0 15px rgba(0,0,0,0.3);
 }
@@ -486,186 +516,154 @@ body {
 }
 
 @media screen and (max-width: 480px) {
-
   .navbar {
     flex-direction: row;
-    height: auto;
-    min-height: auto;
+    justify-content: space-between;
+    height: 10vh;
+    padding: 0 5%;
   }
-  
-  .logo img {
-    max-height: 60px;
-    margin-top: 5px;
-    margin-bottom: 10px;
+  .nav-links {
+    display: none !important;
   }
-  
-  .txt1 {
-    gap: 1.2em;
-    margin-right: 0;
-    flex-wrap: wrap;
-    justify-content: center;
+  .menu-hamburguer {
+    display: block !important;
+    font-size: 1.8rem;
+    color: white;
   }
-  
-  .txt1 p {
-    font-size: 0.8rem;
+
+  .nav-logo {
+    font-size: 1.3rem;
   }
-  
-  .cursor1 {
-    padding-bottom: 4px;
-    border-bottom-width: 3px;
+
+  .nav-logo img {
+    height: 35px;
   }
-  
+
   .banner {
-    height: 15vh;
-    min-height: 100px;
+    height: 18vh;
+    padding: 1rem;
   }
-  
+
   .txt1-banner {
-    width: 90%;
-    font-size: 1.2rem;
+    width: 95%;
+    font-size: 1.4rem;
   }
-  
+
   .txt2 {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     margin: 1.5rem 0;
   }
-  
+
   .card1, .card2 {
-    width: 80%;
+    width: 90%;
     max-width: 280px;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
   }
-  
+
   .mapa1 img {
     max-width: 100%;
+    border-radius: 12px;
   }
-  
+
   .funcao-box {
     width: 95%;
-    padding: 1.8rem 1rem;
-    border-radius: 24px;
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
   }
-  
+
   .titulo-funcao p {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
-  
+
   .txt-funcao p {
-    font-size: 0.95rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
-  
-  .img-funcao img {
-    height: 40px;
-  }
-  
+
   .txt-valores h3 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
-  
+
   .valores {
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
   }
-  
+
   .boxes {
     width: 100%;
     max-width: 320px;
-    padding: 1.8rem 1.2rem;
   }
-  
-  .boxes img {
-    height: 80px;
-  }
-  
-  .txt-box h5 {
-    font-size: 1.3rem;
-  }
-  
-  .txt-box p {
-    font-size: 0.9rem;
-  }
-  
   .dash {
-    padding: 1.5rem;
-    border-radius: 32px;
-    margin: 2rem auto;
-  }
-  
-  .ladoum {
-    padding: 1rem;
-  }
-  
-  .ladodois h3 {
-    font-size: 1.6rem;
-  }
-  
-  .ladodois p {
-    font-size: 0.95rem;
-  }
-  
-  /* Mapa Dinâmico */
-  .mapa-container {
-    padding: 1.5rem;
-    border-radius: 32px;
-  }
-  
-  .mapa-header h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .mapa-descricao {
-    font-size: 0.95rem;
-  }
-  
-  .msg-item {
-    font-size: 0.95rem;
-  }
-  
-  .msg-mapa {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-  
-  .footer {
-    border-top-width: 10px;
-    padding: 15px 0;
-  }
-  
-  .footer-container {
-    gap: 15px;
-  }
-  
-  .footer-link p {
-    font-size: 0.9em;
-  }
-  
-  .footer-logos {
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-  
-  .logo-parceiro, .logo-inmet {
-    max-height: 50px;
-  }
-  
-  .divisor {
-    width: 90%;
-  }
-  
-  .barra-final {
-    height: 25px;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    gap: 2rem;
   }
 
-   .txt1 {
-        display: none !important; 
-    }
-    
-    .menu-hamburguer {
-        display: block !important; 
-    }
+  .ladodois h3 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .ladodois p {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .mapa-container {
+    padding: 1.5rem;
+  }
+
+  .mapa-header h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .mapa-content {
+    flex-direction: column;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .time-grid {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 5px; 
+    padding: 20px;
+    /* background-color: green; */
+}
+
+
+.time-card {
+    max-height: auto;
+    max-width: 140px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: blue; */
+}
+
+.foto-perfil {
+    width: 80px; 
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.foto-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+  .divisor {
+    display: none;
+  }
 }

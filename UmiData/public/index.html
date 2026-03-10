@@ -13,22 +13,22 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="navbar">
-    <div class="logo">
-      <img src="./assets/imgs/logo1.png">
-    </div>
 
-    <i class="fas fa-bars menu-hamburguer" onclick="barra()"></i>
-
-    <div class="txt1">
-      <div class="cursor1">
-        <p>Página Inicial</p>
-      </div>
-      <p><a href="./login.html"> Login </a></p>
-      <p> <a href="./cadastro.html">Cadastro </a></p>
+    <div class="navbar">
+        <div class="nav-logo">
+            <img src="./assets/imgs/logo1.png" alt="Logo">
+            UmiData
+        </div>
+        <i class="fas fa-bars menu-hamburguer" onclick="barra()"></i>
+       
+        <ul class="nav-links">
+          <div class="cursor1">
+            <li><a href="./index.html">Página Inicial</a></li>
+          </div>
+            <li><a href="./login.html">Login</a></li>
+            <li><a href="./cadastro.html" class="active">Cadastro</a></li>
+        </ul>
     </div>
-  </div>
-  
 
     <div id="sidebar" class="sidebar">
     <i class="fas fa-times btn-fechar" onclick="barra()"></i>
@@ -243,7 +243,7 @@
     <script src="./js/modal.js"></script>
 </body>
 </html>
-<!-- <script>
+<script>
    function barra() {
     const sidebar = document.getElementById("sidebar");
     
@@ -253,4 +253,4 @@
         sidebar.style.width = "0";
     }
 }
-</script> -->
+</script> 
