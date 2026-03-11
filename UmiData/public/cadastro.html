@@ -46,50 +46,213 @@
             </header>
 
             <form class="inputs">
-                <div class="input"><i class="fas fa-user"></i><input type="text" class="forma-input" placeholder="Nome">
+
+                <div class="input">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="nome" class="forma-input" placeholder="Nome" onblur="validarNome()">
+                    <span id="erroNome" class="erro"></span>
                 </div>
-                <div class="input"><i class="fas fa-user"></i><input type="text" class="forma-input"
-                        placeholder="Sobrenome"></div>
-                <div class="input"><i class="fas fa-id-card"></i><input type="number" class="forma-input"
-                        placeholder="CNPJ"></div>
-                <div class="input"><i class="fas fa-th-large"></i><input type="text" class="forma-input"
-                        placeholder="Setor"></div>
-                <div class="input"><i class="fas fa-briefcase"></i><input type="text" class="forma-input"
-                        placeholder="Cargo"></div>
-                <div class="input"><i class="fas fa-map-marker-alt"></i><input type="text" class="forma-input"
-                        placeholder="Estado (UF)"></div>
-                <div class="input"><i class="fas fa-envelope"></i><input type="email" class="forma-input"
-                        placeholder="Email"></div>
-                <div class="input"><i class="fas fa-phone"></i><input type="tel" class="forma-input"
-                        placeholder="Telefone"></div>
-                <div class="input"><i class="fas fa-lock"></i><input type="password" class="forma-input"
-                        placeholder="Senha"></div>
-                <div class="input"><i class="fas fa-lock"></i><input type="password" class="forma-input"
-                        placeholder="Confirmar Senha"></div>
+
+                <div class="input">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="sobrenome" class="forma-input" placeholder="Sobrenome"
+                        onblur="validarSobrenome()">
+                    <span id="erroSobrenome" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-id-card"></i>
+                    <input type="number" id="cnpj" class="forma-input" placeholder="CNPJ" onblur="validarCnpj()">
+                    <span id="erroCnpj" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-th-large"></i>
+                    <input type="text" id="setor" class="forma-input" placeholder="Setor" onblur="validarSetor()">
+                    <span id="erroSetor" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-briefcase"></i>
+                    <input type="text" id="cargo" class="forma-input" placeholder="Cargo" onblur="validarCargo()">
+                    <span id="erroCargo" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="estado" class="forma-input" placeholder="Estado (UF)"
+                        onblur="validarEstado()">
+                    <span id="erroEstado" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" class="forma-input" placeholder="Email" onblur="validarEmail()">
+                    <span id="erroEmail" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="telefone" class="forma-input" placeholder="Telefone"
+                        onblur="validarTelefone()">
+                    <span id="erroTelefone" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="senha" class="forma-input" placeholder="Senha" onblur="validarSenha()">
+                    <span id="erroSenha" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmarSenha" class="forma-input" placeholder="Confirmar Senha"
+                        onblur="validarConfirmarSenha()">
+                    <span id="erroConfirmarSenha" class="erro"></span>
+                </div>
 
                 <div class="container-acao">
-                    <button type="submit" class="btn-cadastro">
+                    <button type="button" class="btn-cadastro">
                         CADASTRAR - SE
                         <div class="circle-arrow"><i class="fas fa-arrow-right"></i></div>
                     </button>
+
                     <div class="login-link">
                         Já tem uma conta? <a href="./login.html">Entrar</a>
                     </div>
                 </div>
+
             </form>
         </div>
     </main>
 
 </body>
+
 </html>
 <script>
     function barra() {
-    const sidebar = document.getElementById("sidebar");
-    
-    if (sidebar.style.width === "250px") {
-        sidebar.style.width = "0";
-    } else {
-        sidebar.style.width = "250px";
+        const sidebar = document.getElementById("sidebar");
+
+        if (sidebar.style.width === "250px") {
+            sidebar.style.width = "0";
+        } else {
+            sidebar.style.width = "250px";
+        }
     }
-}
+    function validarNome() {
+        let nome = document.getElementById("nome").value
+        let erro = document.getElementById("erroNome")
+
+        erro.innerText = ""
+
+        if (nome.trim() == "") {
+            erro.innerText = "Digite seu nome"
+        }
+        else if (nome.length < 3) {
+            erro.innerText = "Nome deve ter pelo menos 3 letras"
+        }
+    }
+
+    function validarSobrenome() {
+        let sobrenome = document.getElementById("sobrenome").value
+        let erro = document.getElementById("erroSobrenome")
+
+        erro.innerText = ""
+
+        if (sobrenome.trim() == "") {
+            erro.innerText = "Digite seu sobrenome"
+        }
+        else if (sobrenome.length < 3) {
+            erro.innerText = "Sobrenome inválido"
+        }
+    }
+
+    function validarCnpj() {
+        let cnpj = document.getElementById("cnpj").value
+        let erro = document.getElementById("erroCnpj")
+
+        erro.innerText = ""
+
+        if (cnpj.length != 14) {
+            erro.innerText = "CNPJ deve ter 14 números"
+        }
+    }
+
+    function validarSetor() {
+        let setor = document.getElementById("setor").value
+        let erro = document.getElementById("erroSetor")
+
+        erro.innerText = ""
+
+        if (setor.trim() == "") {
+            erro.innerText = "Informe o setor"
+        }
+    }
+
+    function validarCargo() {
+        let cargo = document.getElementById("cargo").value
+        let erro = document.getElementById("erroCargo")
+
+        erro.innerText = ""
+
+        if (cargo.trim() == "") {
+            erro.innerText = "Informe o cargo"
+        }
+    }
+
+    function validarEstado() {
+        let estado = document.getElementById("estado").value
+        let erro = document.getElementById("erroEstado")
+
+        erro.innerText = ""
+
+        if (estado.length != 2) {
+            erro.innerText = "Use a sigla do estado. Ex: SP"
+        }
+    }
+
+    function validarEmail() {
+        let email = document.getElementById("email").value
+        let erro = document.getElementById("erroEmail")
+
+        erro.innerText = ""
+
+        if (!email.includes("@") || !email.includes(".")) {
+            erro.innerText = "Email inválido. Ex: usuario@email.com"
+        }
+    }
+
+    function validarTelefone() {
+        let telefone = document.getElementById("telefone").value
+        let erro = document.getElementById("erroTelefone")
+
+        erro.innerText = ""
+
+        if (telefone.length < 10) {
+            erro.innerText = "Telefone inválido"
+        }
+    }
+
+    function validarSenha() {
+        let senha = document.getElementById("senha").value
+        let erro = document.getElementById("erroSenha")
+
+        erro.innerText = ""
+
+        if (senha.length < 8) {
+            erro.innerText = "Senha precisa ter no mínimo 8 caracteres"
+        }
+    }
+
+    function validarConfirmarSenha() {
+        let senha = document.getElementById("senha").value
+        let confirmar = document.getElementById("confirmarSenha").value
+        let erro = document.getElementById("erroConfirmarSenha")
+
+        erro.innerText = ""
+
+        if (senha != confirmar) {
+            erro.innerText = "As senhas não coincidem"
+        }
+    }
 </script>

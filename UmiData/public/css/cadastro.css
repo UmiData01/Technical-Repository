@@ -239,6 +239,18 @@ h2 {
     color: #003f75;
     cursor: pointer;
 }
+.input{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.erro{
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    overflow: hidden;
+}
 
 
 
