@@ -282,6 +282,10 @@ h2 {
     color: #003f75;
     cursor: pointer;
 }
+.erro{
+    color: red;
+    font-size: 12px;
+}
 
 
 @media screen and (max-width: 490px) {
