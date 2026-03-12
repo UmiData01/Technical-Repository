@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box; 
+  max-width: 100%; 
 }
 
 body {
@@ -9,10 +10,14 @@ body {
   background-color: #f5f9ff;
   color: #1e2f4d;
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .navbar {
@@ -22,7 +27,7 @@ html {
   height: 9vh;
   padding: 0 5%;
   width: 100%;
-   background-color: #0a1a2f;
+  background-color: #0a1a2f;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-bottom: 5px solid #003f75;
 }
@@ -39,6 +44,7 @@ html {
 
 .nav-logo img {
   height: 40px;
+  width: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
@@ -49,13 +55,13 @@ html {
   margin: 0;
   padding: 0;
 }
-.nav-links li {
 
-    overflow: visible; 
+.nav-links li {
+  overflow: visible; 
 }
 
 .nav-links a {
- color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
@@ -98,6 +104,7 @@ html {
   align-items: center;
   height: 28vh;
   background: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
+  width: 100%;
 }
 
 .txt1-banner {
@@ -116,6 +123,7 @@ html {
   margin: 2.5rem 0 3rem;
   flex-wrap: wrap;
   padding: 0 2rem;
+  width: 100%;
 }
 
 .card1 {
@@ -156,14 +164,14 @@ html {
   margin: 1rem auto 4rem;
   max-width: 1300px;
   padding: 0 2rem;
+  width: 100%;
 }
 
 .mapa1 img {
-  max-width: 50%;
+  max-width: 100%;
   height: auto;
   border-radius: 24px;
   box-shadow: 0 25px 40px -15px rgba(0, 30, 60, 0.3);
-
 }
 
 .funcao {
@@ -171,11 +179,12 @@ html {
   justify-content: center;
   margin: 3rem 0;
   padding: 0 2rem;
+  width: 100%;
 }
 
 .funcao-box {
   background: linear-gradient(145deg, #0a1a2f, #102a44);
-  width: 85%;
+  width: 100%;
   max-width: 1200px;
   border-radius: 36px;
   padding: 3rem 4rem;
@@ -188,6 +197,7 @@ html {
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-align: center;
+  word-wrap: break-word;
 }
 
 .txt-funcao p {
@@ -196,6 +206,7 @@ html {
   text-align: center;
   max-width: 1000px;
   margin: 0 auto;
+  word-wrap: break-word;
 }
 
 .img-funcao {
@@ -207,6 +218,7 @@ html {
 
 .img-funcao img {
   height: 60px;
+  width: auto;
 }
 
 .espaco {
@@ -216,6 +228,7 @@ html {
 .txt-valores {
   text-align: center;
   margin: 3rem 0 2rem;
+  padding: 0 1rem;
 }
 
 .txt-valores h3 {
@@ -223,6 +236,7 @@ html {
   font-size: 2.8rem;
   font-weight: 700;
   position: relative;
+  word-wrap: break-word;
 }
 
 .valores {
@@ -232,11 +246,14 @@ html {
   max-width: 1300px;
   margin: 2rem auto;
   padding: 0 2rem;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .boxes {
   background-color: white;
   width: 300px;
+  max-width: 100%;
   padding: 2.5rem 2rem;
   border-radius: 24px;
   box-shadow: 0 20px 30px -10px rgba(0, 30, 60, 0.1);
@@ -251,8 +268,9 @@ html {
 }
 
 .boxes img {
-  height: 110px;
-  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 110px;
   margin-bottom: 1.5rem;
 }
 
@@ -261,11 +279,13 @@ html {
   font-weight: 700;
   color: #0a1a2f;
   margin-bottom: 1rem;
+  word-wrap: break-word;
 }
 
 .txt-box p {
   font-size: 1rem;
   color: #2f405b;
+  word-wrap: break-word;
 }
 
 .dash {
@@ -279,10 +299,13 @@ html {
   background-color: white;
   border-radius: 48px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .ladoum {
   flex: 1 1 400px;
+  min-width: 280px;
   background: linear-gradient(145deg, #0a1a2f, #1a334f);
   border-radius: 32px;
   padding: 2rem;
@@ -300,6 +323,7 @@ html {
 
 .ladodois {
   flex: 1 1 400px;
+  min-width: 280px;
   padding: 1rem;
 }
 
@@ -308,17 +332,20 @@ html {
   font-weight: 700;
   color: #0a1a2f;
   margin-bottom: 1.5rem;
+  word-wrap: break-word;
 }
 
 .ladodois p {
   font-size: 1.2rem;
   color: #1f3a5f;
+  word-wrap: break-word;
 }
 
 .mapa-dinamico {
   max-width: 1300px;
   margin: 5rem auto;
   padding: 0 2rem;
+  width: 100%;
 }
 
 .mapa-container {
@@ -327,6 +354,7 @@ html {
   box-shadow: 0 30px 50px -20px rgba(0, 30, 60, 0.2);
   padding: 3rem;
   border: 1px solid #e8f0fe;
+  width: 100%;
 }
 
 .mapa-header h2 {
@@ -334,22 +362,26 @@ html {
   color: #0a1a2f;
   font-weight: 700;
   margin-bottom: 2rem;
+  word-wrap: break-word;
 }
 
 .mapa-content {
   display: flex;
   gap: 3rem;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .mapa-texto {
   flex: 1 1 400px;
+  min-width: 280px;
 }
 
 .mapa-descricao {
   font-size: 1.2rem;
   color: #1f3a5f;
   margin-bottom: 2rem;
+  word-wrap: break-word;
 }
 
 .mapa-features {
@@ -363,6 +395,7 @@ html {
   color: #2f405b;
   padding-left: 1rem;
   border-left: 4px solid #2b9cff;
+  word-wrap: break-word;
 }
 
 .msg-destaque {
@@ -374,6 +407,7 @@ html {
 
 .mapa-imagem {
   flex: 1 1 400px;
+  min-width: 280px;
   position: relative;
   border-radius: 28px;
   overflow: hidden;
@@ -422,11 +456,118 @@ html {
   border: 2px solid #2b9cff;
 }
 
+
+.nosso-time {
+  width: 100%;
+  max-width: 1300px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  overflow: hidden;
+}
+
+.nosso-time h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #0a1a2f;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.time-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 auto;
+}
+
+.time-card {
+  flex: 0 1 280px;
+  min-width: 250px;
+  max-width: 100%;
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0ecff;
+  transition: transform 0.3s;
+  text-align: center;
+}
+
+.time-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(10, 77, 140, 0.1);
+}
+
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 3px solid #0a4d8c;
+}
+
+.foto-perfil img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.time-info h3 {
+  font-size: 1.3rem;
+  color: #0a1a2f;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.time-info p {
+  font-size: 0.95rem;
+  color: #4a5f7a;
+  word-wrap: break-word;
+}
+
+.time-cargo {
+  color: #2b9cff;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.time-lista-simples {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.time-lista-simples li {
+  flex: 0 1 200px;
+  min-width: 150px;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  font-size: 1rem;
+  color: #0a1a2f;
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+
 .footer {
   width: 100%;
   background-color: #ffffff;
   border-top: 15px solid #1e2f4d;
   padding: 20px 0px;
+  overflow: hidden;
 }
 
 .footer-container {
@@ -435,6 +576,8 @@ html {
   align-items: center;
   max-width: 90%;
   margin: 0px auto;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .footer-link p {
@@ -442,20 +585,25 @@ html {
   font-size: 1.1em;
   font-weight: 500;
   cursor: pointer;
+  word-wrap: break-word;
 }
 
 .footer-logos {
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .logo-parceiro {
   max-height: 80px;
+  width: auto;
 }
 
 .logo-inmet {
   max-height: 80px;
+  width: auto;
   background-color: #0a4d8c;
   border-radius: 10px;
 }
@@ -466,53 +614,56 @@ html {
   background-color: #1e2f4d;
 }
 
-.barra-final{
+.barra-final {
   background-color: #0a1a2f;
   height: 40px;
+  width: 100%;
 }
+
 .menu-hamburguer {
-    display: none !important ; 
-    font-size: 1.8rem;
-    color: white;
-    cursor: pointer;
+  display: none !important; 
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
 }
 
 .sidebar {
-    height: 100%;
-    width: 0; 
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    right: 0;
-    background-color: white;
-    overflow-x: hidden;
-    transition: ease 0.5s; 
-    padding-top: 60px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+  height: 100%;
+  width: 0; 
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: ease 0.5s; 
+  padding-top: 60px;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.3);
 }
 
 .sidebar-links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    padding-left: 30px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-left: 30px;
 }
 
 .sidebar-links a {
-    text-decoration: none;
-    color: rgb(0, 10, 121);
-    font-weight: 800;
-    font-size: 1.5rem;
+  text-decoration: none;
+  color: rgb(0, 10, 121);
+  font-weight: 800;
+  font-size: 1.5rem;
+  word-wrap: break-word;
 }
 
 .btn-fechar {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 2rem;
-    color: #003f75;
-    cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 2rem;
+  color: #003f75;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 480px) {
@@ -522,9 +673,11 @@ html {
     height: 10vh;
     padding: 0 5%;
   }
+  
   .nav-links {
     display: none !important;
   }
+  
   .menu-hamburguer {
     display: block !important;
     font-size: 1.8rem;
@@ -554,13 +707,18 @@ html {
     align-items: center;
     gap: 1rem;
     margin: 1.5rem 0;
+    padding: 0 1rem;
   }
 
   .card1, .card2 {
-    width: 90%;
+    width: 100%;
     max-width: 280px;
     padding: 0.8rem 1rem;
     font-size: 1rem;
+  }
+
+  .mapa1 {
+    padding: 0 1rem;
   }
 
   .mapa1 img {
@@ -569,7 +727,7 @@ html {
   }
 
   .funcao-box {
-    width: 95%;
+    width: 100%;
     padding: 2rem 1.5rem;
     border-radius: 20px;
   }
@@ -583,6 +741,10 @@ html {
     line-height: 1.5;
   }
 
+  .txt-valores {
+    padding: 0 1rem;
+  }
+
   .txt-valores h3 {
     font-size: 1.8rem;
   }
@@ -590,16 +752,30 @@ html {
   .valores {
     flex-direction: column;
     align-items: center;
+    padding: 0 1rem;
+    gap: 1.5rem;
   }
 
   .boxes {
     width: 100%;
     max-width: 320px;
+    padding: 1.5rem;
   }
+
+  .boxes img {
+    max-height: 80px;
+  }
+
   .dash {
     flex-direction: column;
     padding: 2rem 1rem;
     gap: 2rem;
+    margin: 2rem 1rem;
+  }
+
+  .ladoum {
+    width: 100%;
+    padding: 1rem;
   }
 
   .ladodois h3 {
@@ -610,6 +786,10 @@ html {
   .ladodois p {
     font-size: 1rem;
     text-align: center;
+  }
+
+  .mapa-dinamico {
+    padding: 0 1rem;
   }
 
   .mapa-container {
@@ -623,6 +803,38 @@ html {
 
   .mapa-content {
     flex-direction: column;
+    gap: 2rem;
+  }
+
+  .nosso-time {
+    padding: 0 1rem;
+  }
+
+  .nosso-time h2 {
+    font-size: 1.8rem;
+  }
+
+  .time-container {
+    gap: 1rem;
+  }
+
+  .time-card {
+    flex: 0 1 100%;
+    max-width: 280px;
+  }
+
+  .time-lista-simples {
+    gap: 1rem;
+  }
+
+  .time-lista-simples li {
+    flex: 0 1 calc(50% - 1rem);
+    min-width: 120px;
+  }
+
+  .foto-perfil {
+    width: 100px;
+    height: 100px;
   }
 
   .footer-container {
@@ -631,20 +843,38 @@ html {
     text-align: center;
   }
 
-.foto-perfil {
-    width: 80px; 
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-}
+  .footer-link p {
+    font-size: 1rem;
+  }
 
-.foto-perfil img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-}
+  .footer-logos {
+    gap: 15px;
+  }
+
+  .logo-parceiro,
+  .logo-inmet {
+    max-height: 60px;
+  }
 
   .divisor {
     display: none;
+  }
+
+  .sidebar-links a {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .time-lista-simples li {
+    flex: 0 1 100%;
+  }
+  
+  .txt1-banner {
+    font-size: 1.2rem;
+  }
+  
+  .nav-logo {
+    font-size: 1.1rem;
   }
 }
