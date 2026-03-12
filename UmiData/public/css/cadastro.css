@@ -6,9 +6,6 @@
     overflow-y: hidden;
 }
 
-
-
-
 body {
   min-height: 100vh;
   display: flex;
@@ -251,8 +248,6 @@ h2 {
     margin-top: 4px;
     overflow: hidden;
 }
-
-
 
 @media screen and (max-width: 480px) {
     .navbar {

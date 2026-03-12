@@ -84,56 +84,56 @@
     }
     function validarLogin() {
 
-    var email = document.getElementById("email").value;
-    var senha = document.getElementById("senha").value;
+        var email = document.getElementById("email").value;
+        var senha = document.getElementById("senha").value;
 
-    var erroEmail = document.getElementById("erroEmail");
-    var erroSenha = document.getElementById("erroSenha");
+        var erroEmail = document.getElementById("erroEmail");
+        var erroSenha = document.getElementById("erroSenha");
 
-    erroEmail.textContent = "";
-    erroSenha.textContent = "";
+        erroEmail.textContent = "";
+        erroSenha.textContent = "";
 
-    var valido = true;
+        var valido = true;
 
-    if (email.trim() === "") {
-        erroEmail.textContent = "Digite seu email. Ex: usuario@email.com";
-        valido = false;
-    } else {
-        if (!email.includes("@")) {
-            erroEmail.textContent = "Está faltando '@'. Ex: usuario@email.com";
+        if (email.trim() === "") {
+            erroEmail.textContent = "Digite seu email. Ex: usuario@email.com";
             valido = false;
-        } else if (!email.includes(".")) {
-            erroEmail.textContent = "Está faltando o domínio. Ex: usuario@email.com";
+        } else {
+            if (!email.includes("@")) {
+                erroEmail.textContent = "Está faltando '@'. Ex: usuario@email.com";
+                valido = false;
+            } else if (!email.includes(".")) {
+                erroEmail.textContent = "Está faltando o domínio. Ex: usuario@email.com";
+                valido = false;
+            }
+        }
+
+
+        var errosSenha = [];
+
+        if (senha.length < 8) {
+            errosSenha.push("mínimo de 8 caracteres");
+        }
+
+        if (!/[A-Z]/.test(senha)) {
+            errosSenha.push("uma letra maiúscula");
+        }
+
+        if (!/[0-9]/.test(senha)) {
+            errosSenha.push("um número");
+        }
+
+        if (!/[!@#$%^&*(),.?\":{}|<>]/.test(senha)) {
+            errosSenha.push("um caractere especial");
+        }
+
+        if (errosSenha.length > 0) {
+            erroSenha.textContent = "A senha precisa ter: " + errosSenha.join(", ");
             valido = false;
         }
+
+        if (valido) {
+            console.log("Login válido");
+        }
     }
-
-
-    var errosSenha = [];
-
-    if (senha.length < 8) {
-        errosSenha.push("mínimo de 8 caracteres");
-    }
-
-    if (!/[A-Z]/.test(senha)) {
-        errosSenha.push("uma letra maiúscula");
-    }
-
-    if (!/[0-9]/.test(senha)) {
-        errosSenha.push("um número");
-    }
-
-    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(senha)) {
-        errosSenha.push("um caractere especial");
-    }
-
-    if (errosSenha.length > 0) {
-        erroSenha.textContent = "A senha precisa ter: " + errosSenha.join(", ");
-        valido = false;
-    }
-
-    if (valido) {
-        console.log("Login válido");
-    }
-}
 </script>

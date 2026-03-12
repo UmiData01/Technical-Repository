@@ -224,8 +224,6 @@
   box-shadow: 0 8px 16px rgba(220, 39, 67, 0.3);
 }
 
-
-
 /* Responsivo */
 @media (max-width: 768px) {
   .modal-content {
@@ -285,7 +283,6 @@
   }
 }
 
-/* Hover effect na foto do time card */
 .time-card {
   cursor: pointer;
   transition: transform 0.3s ease;
