@@ -1,74 +1,74 @@
 const integrantes = [
   {
     id: 0,
-    nome: "Integrante 1",
-    cargo: "Desenvolvedor Full Stack",
-    descricao: "Especialista em desenvolvimento web com experiência em React e Node.js. Apaixonado por criar soluções inovadoras.",
-    foto: "./assets/imgs/logo1.png",
+    nome: "Cauã Gama",
+    cargo: "Designer UI/UX",
+    descricao: "Criador de interfaces intuitivas e experiências de usuário memoráveis. Apaixonado por design responsivo.",
+    foto: "./assets/imgs/fotoCaua.png",
     redes: {
-      linkedin: "https://linkedin.com/in/integrante1",
-      github: "https://github.com/integrante1",
-      instagram: "https://instagram.com/integrante1"
+      linkedin: "https://www.linkedin.com/in/cau%C3%A3-gama-416842314/",
+      github: "https://github.com/orgs/UmiData01/people/CauaGamaPaixao",
+      instagram: "https://instagram.com/cauaa.gama/"
     }
   },
   {
     id: 1,
-    nome: "Integrante 2",
-    cargo: "Desenvolvedor Backend",
-    descricao: "Especialista em arquitetura de sistemas e banco de dados. Focado em performance e escalabilidade.",
-    foto: "./assets/imgs/logo1.png",
+    nome: "Igor Félix",
+    cargo: "Desenvolvedor FullStack",
+    descricao: "Especialista em desenvolvimento web com experiência em React e Node.js. Apaixonado por criar soluções inovadoras.",
+    foto: "./assets/imgs/fotoIgor.jpeg",
     redes: {
-      linkedin: "https://linkedin.com/in/integrante2",
-      github: "https://github.com/integrante2",
-      instagram: "https://instagram.com/integrante2"
+      linkedin: "https://www.linkedin.com/in/igor-felix0/",
+      github: "https://github.com/orgs/UmiData01/people/igor-fel1x",
+      instagram: "https://instagram.com/_fellix07/"
     }
   },
   {
     id: 2,
-    nome: "Integrante 3",
-    cargo: "Designer UX/UI",
-    descricao: "Criador de interfaces intuitivas e experiências de usuário memoráveis. Apaixonado por design responsivo.",
-    foto: "./assets/imgs/logo1.png",
+    nome: "Paulo Jesus",
+    cargo: "Desenvolvedor FullStack",
+    descricao: "Especialista em desenvolvimento web com experiência em React e Node.js. Apaixonado por criar soluções inovadoras.",
+    foto: "./assets/imgs/fotoPaulo.png",
     redes: {
-      linkedin: "https://linkedin.com/in/integrante3",
-      github: "https://github.com/integrante3",
-      instagram: "https://instagram.com/integrante3"
+      linkedin: "https://www.linkedin.com/in/paulo-gon%C3%A7alves-8093203b5/",
+      github: "https://github.com/orgs/UmiData01/people/PauloJesus09",
+      instagram: "https://www.instagram.com/pxuloow/"
     }
   },
   {
     id: 3,
-    nome: "Integrante 4",
-    cargo: "Desenvolvedor Frontend",
-    descricao: "Especialista em JavaScript e frameworks modernos. Focado em criar interfaces responsivas e acessíveis.",
-    foto: "./assets/imgs/logo1.png",
+    nome: "Sabrina Araújo",
+    cargo: "Analista de Dados",
+    descricao: "Especialista em análise de dados e visualização. Transformando dados em insights valiosos para o negócio.",
+    foto: "./assets/imgs/fotoSabrina.png",
     redes: {
-      linkedin: "https://linkedin.com/in/integrante4",
-      github: "https://github.com/integrante4",
-      instagram: "https://instagram.com/integrante4"
+      linkedin: "https://www.linkedin.com/in/sabrina-araujo-051804337/",
+      github: "https://github.com/orgs/UmiData01/people/SabrinaArjo",
+      instagram: "https://instagram.com/sabrina_araujo2006/"
     }
   },
   {
     id: 4,
-    nome: "Integrante 5",
-    cargo: "Analista de Dados",
-    descricao: "Especialista em análise de dados e visualização. Transformando dados em insights valiosos para o negócio.",
-    foto: "./assets/imgs/logo1.png",
+    nome: "Tiago Santos",
+    cargo: "Product Manager",
+    descricao: "Liderança de produto e estratégia. Focado em entregar valor aos usuários e ao negócio.",
+    foto: "./assets/imgs/fotoTiaguinho.png",
     redes: {
-      linkedin: "https://linkedin.com/in/integrante5",
-      github: "https://github.com/integrante5",
-      instagram: "https://instagram.com/integrante5"
+      linkedin: "https://www.linkedin.com/in/tiago-da-silva-santos-a92b5339a/",
+      github: "https://github.com/orgs/UmiData01/people/Tiago-santos1",
+      instagram: "https://instagram.com/iamtiagooo/"
     }
   },
   {
     id: 5,
-    nome: "Integrante 6",
+    nome: "Vitor Lima",
     cargo: "Product Manager",
     descricao: "Liderança de produto e estratégia. Focado em entregar valor aos usuários e ao negócio.",
-    foto: "./assets/imgs/logo1.png",
+    foto: "./assets/imgs/fotoVitor.jpeg",
     redes: {
-      linkedin: "https://linkedin.com/in/integrante6",
-      github: "https://github.com/integrante6",
-      instagram: "https://instagram.com/integrante6"
+      linkedin: "https://www.linkedin.com/in/vitor-lima13/",
+      github: "https://github.com/orgs/UmiData01/people/Vitorlbs12",
+      instagram: "https://instagram.com/vitinho.lbs/"
     }
   }
 ];
@@ -116,14 +116,6 @@ function fecharModal(fecharModal) {
 // Fecha o modal no esc
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Escape') {
-    fecharModal();
-  }
-});
-
-// fecha o modal quando clica fora do modal
-document.addEventListener('click', function(event) {
-  const modal = document.getElementById('modalIntegrante');
-  if (event.target === modal) {
     fecharModal();
   }
 });
