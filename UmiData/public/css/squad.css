@@ -224,6 +224,8 @@
   box-shadow: 0 8px 16px rgba(220, 39, 67, 0.3);
 }
 
+
+
 /* Responsivo */
 @media (max-width: 768px) {
   .modal-content {
@@ -270,6 +272,16 @@
   .rede-social svg {
     width: 20px;
     height: 20px;
+  }
+
+  .time-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .time-card {
+    min-width: 160px;
+    width: 165px;
   }
 }
 
