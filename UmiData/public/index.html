@@ -44,7 +44,7 @@
 
   <div class="banner">
     <div class="txt1-banner">
-      <p>Inteligência Climática para a Saúde Pública</p>
+      <p>Inteligência de Dados Climática para a Saúde Pública</p>
     </div>
   </div>
 
@@ -100,8 +100,7 @@
       <img src="./assets/imgs/eficiencia.png" alt="">
       <div class="txt-box">
         <h5>Eficiência</h5>
-        <p>Promover a saúde e a eficiência governamental através da democratização e análise inteligente de dados
-          climáticos, salvando vidas por meio da prevenção.</p>
+        <p>Promover a saúde e a eficiência governamental por meio da democratização e da análise inteligente de dados climáticos, salvando vidas por meio da prevenção.</p>
       </div>
     </div>
     <div class="boxes">
@@ -132,7 +131,7 @@
       <h3>Dashboard</h3>
       <p>Nosso Dashboard Central não apenas exibe dados; ele gera inteligência. Com uma interface intuitiva, gestores
         federais e regionais podem visualizar: <br>
-        ° Tendências de Curto e Longo Prazo: Projeções de umidade para os próximos meses. <br>
+        ° Tendências de curto e longo prazo: Projeções de umidade para os próximos meses. <br>
         ° Status de Recursos: Painel para monitoramento da distribuição de medicamentos e equipamentos em áreas
         críticas.
       </p>
@@ -147,7 +146,7 @@
 
       <div class="mapa-content">
         <div class="mapa-texto">
-          <p class="mapa-descricao">Visualize a saúde do Brasil através do nosso Mapa Dinâmico de Umidade. Muito mais do
+          <p class="mapa-descricao">Visualize a saúde do Brasil por meio do nosso Mapa Dinâmico de Umidade. Muito mais do
             que uma imagem estática, nosso mapa de calor interativo utiliza dados em tempo real para colorir o
             território nacional de acordo com os níveis de criticidade.</p>
 
@@ -165,7 +164,7 @@
 
         <div class="mapa-imagem">
           <img src="./assets/imgs/mapa1.png" alt="Mapa de calor de umidade do Brasil">
-          <div class="mapa-overlay">
+          <div class="mapa-overlay" onclick="irParaLogin()">
             <span class="msg-mapa"> Realize seu login e veja o mapa agora mesmo!</span>
           </div>
         </div>
@@ -259,12 +258,12 @@
       </div>
 
       <div class="footer-logos">
-        <img src="./assets/imgs/image 13.png" class="logo-inmet">
+        <a href="https://portal.inmet.gov.br/"><img src="./assets/imgs/image 13.png" class="logo-inmet"></a>
         <div class="divisor"></div>
-        <img src="./assets/imgs/image 14.png" class="logo-parceiro">
+        <a href="https://www.gov.br/pt-br"><img src="./assets/imgs/image 14.png" class="logo-parceiro"></a>
       </div>
 
-      <div class="footer-link">
+      <div class="footer-link"> 
         <p>Privacidade</p>
       </div>
     </div>
@@ -277,6 +276,11 @@
 
 </html>
 <script>
+
+  function irParaLogin () {
+    window.location.href = "login.html"
+  }
+
   function barra() {
     const sidebar = document.getElementById("sidebar");
 

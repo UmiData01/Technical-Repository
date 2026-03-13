@@ -1,9 +1,8 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    overflow-y: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 body {
@@ -12,6 +11,7 @@ body {
   flex-direction: column;
   width: 100%;
   position: relative;
+  overflow-y: auto;
 }
 
 .navbar {
@@ -50,7 +50,7 @@ body {
 }
 
 .nav-links a {
- color: rgb(0, 10, 121);
+  color: rgb(0, 10, 121);
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
@@ -65,29 +65,28 @@ body {
   border-radius: 8%;
 }
 .main-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 20px;
-    background-image: url("../assets/imgs/imagemfundo.png");
-    background-size: cover;
-    min-height: 91vh;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px;
+  background-image: url("../assets/imgs/imagemfundo.png");
+  background-size: cover;
+  min-height: 91vh;
 }
 
 .card {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 900px;
-    border-radius: 40px;
-    padding: 30px 50px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 40px;
+  padding: 30px 50px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .topo-logo {
-    display: flex;
-    justify-content: center;
-     background: linear-gradient(145deg, #0a1a2f, #0a4d8c);
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(145deg, #0a1a2f, #0a4d8c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -96,77 +95,77 @@ body {
 }
 
 .topo-logo img {
-    height: 45px;
+  height: 45px;
 }
 
 h2 {
-    display: flex;
-    justify-content: center;
-    color: #1e2f4d;
+  display: flex;
+  justify-content: center;
+  color: #1e2f4d;
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
 }
 
 .inputs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .input {
-    position: relative;
-    flex: 1 1 calc(50% - 15px);
-    min-width: 250px;
+  position: relative;
+  flex: 1 1 calc(50% - 15px);
+  min-width: 250px;
 }
 
 .forma-input {
-    width: 100%;
-    padding: 12px 15px 12px 45px;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    background-color: #f8fafc;
-    outline: none;
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  outline: none;
 }
 
 .input i {
-    position: absolute;
-    left: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
 }
 
 .container-acao {
-    flex: 1 1 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .btn-cadastro {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-     background: linear-gradient(145deg, #0a4d8c, #0a1a2f);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-weight: 700;
-    cursor: pointer;
-    text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(145deg, #0a4d8c, #0a1a2f);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
 .btn-cadastro .circle-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    color: #1e3c5c;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #1e3c5c;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
 }
 .btn-cadastro:hover {
   transform: translateX(-2px);
@@ -174,163 +173,161 @@ h2 {
 }
 
 .login-link {
-    margin-top: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #1e2f4d;
-    
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e2f4d;
 }
 
-.login-link a{
+.login-link a {
   color: #0a4d8c;
   text-decoration: none;
-
 }
 
 .login-link a:hover {
-    color: #2b9cff;
+  color: #2b9cff;
   border-bottom-color: #2b9cff;
 }
 
 .menu-hamburguer {
-    display: none;
-    font-size: 1.8rem;
-    color: rgb(0, 10, 121);
-    cursor: pointer;
+  display: none;
+  font-size: 1.8rem;
+  color: rgb(0, 10, 121);
+  cursor: pointer;
 }
 
 .sidebar {
-    height: 100%;
-    width: 0; 
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    right: 0;
-    background-color: white;
-    overflow-x: hidden;
-    transition: 0.5s; 
-    padding-top: 60px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    padding-left: 30px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-left: 30px;
 }
 
 .sidebar-links a {
-    text-decoration: none;
-    color: rgb(0, 10, 121);
-    font-weight: 800;
-    font-size: 1.5rem;
+  text-decoration: none;
+  color: rgb(0, 10, 121);
+  font-weight: 800;
+  font-size: 1.5rem;
 }
 
 .btn-fechar {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 2rem;
-    color: #003f75;
-    cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 2rem;
+  color: #003f75;
+  cursor: pointer;
 }
-.input{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.erro{
-    color: red;
-    font-size: 12px;
-    margin-top: 4px;
-    overflow: hidden;
+.erro {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 480px) {
-    .navbar {
-        padding: 0 3%;
-        min-height: 60px;
-        border-bottom-width: 4px;
-    }
-    
-    .nav-logo {
-        font-size: 1.1rem;
-        gap: 6px;
-    }
-    
-    .nav-logo img {
-        height: 30px;
-    }
-    
-    .main-content {
-        padding: 10px;
-    }
-    
-    .card {
-        padding: 20px 15px;
-        border-radius: 25px;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .topo-logo {
-        font-size: 26px;
-        margin-bottom: 5px;
-    }
-    
-    .topo-logo img {
-        height: 35px;
-    }
-    
-    h2 {
-        font-size: 14px;
-        margin-bottom: 15px;
-        padding: 0 5px;
-    }
-    
-    .inputs {
-        gap: 8px;
-    }
-    
-    .forma-input {
-        padding: 10px 12px 10px 38px;
-        font-size: 14px;
-        border-radius: 10px;
-        border-width: 1.5px;
-    }
-    
-    .input i {
-        left: 12px;
-        font-size: 14px;
-    }
-    
-    .btn-cadastro {
-        padding: 10px 20px;
-        font-size: 0.8rem;
-        gap: 8px;
-        width: 100%; 
-        justify-content: center;
-    }
-    
-    .btn-cadastro .circle-arrow {
-        width: 22px;
-        height: 22px;
-        font-size: 12px;
-    }
-    
-    .login-link {
-        font-size: 12px;
-        margin-top: 10px;
-        text-align: center;
-        width: 100%;
-    }
-    .nav-links {
-        display: none; 
-    }
-    
-    .menu-hamburguer {
-        display: block; 
-    }
+  .navbar {
+    padding: 0 3%;
+    min-height: 60px;
+    border-bottom-width: 4px;
+  }
+
+  .nav-logo {
+    font-size: 1.1rem;
+    gap: 6px;
+  }
+
+  .nav-logo img {
+    height: 30px;
+  }
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 20px 15px;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .topo-logo {
+    font-size: 26px;
+    margin-bottom: 5px;
+  }
+
+  .topo-logo img {
+    height: 35px;
+  }
+
+  h2 {
+    font-size: 14px;
+    margin-bottom: 15px;
+    padding: 0 5px;
+  }
+
+  .inputs {
+    gap: 8px;
+  }
+
+  .forma-input {
+    padding: 10px 12px 10px 38px;
+    font-size: 14px;
+    border-radius: 10px;
+    border-width: 1.5px;
+  }
+
+  .input i {
+    left: 12px;
+    font-size: 14px;
+  }
+
+  .btn-cadastro {
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-cadastro .circle-arrow {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+  }
+
+  .login-link {
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+  }
+  .nav-links {
+    display: none;
+  }
+
+  .menu-hamburguer {
+    display: block;
+  }
 }
