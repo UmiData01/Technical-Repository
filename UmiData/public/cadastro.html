@@ -67,21 +67,26 @@
                 </div>
 
                 <div class="input">
-                    <i class="fas fa-th-large"></i>
-                    <input type="text" id="setor" class="forma-input" placeholder="Setor" onblur="validarSetor()">
-                    <span id="erroSetor" class="erro"></span>
-                </div>
-
-                <div class="input">
                     <i class="fas fa-briefcase"></i>
-                    <input type="text" id="cargo" class="forma-input" placeholder="Cargo" onblur="validarCargo()">
+                    <select type="text" id="cargo" class="forma-input" placeholder="Cargo" onblur="validarCargo()">
+                        <option value="#">Selecione um cargo</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Funcionário</option>
+                    </select>
                     <span id="erroCargo" class="erro"></span>
                 </div>
 
                 <div class="input">
                     <i class="fas fa-map-marker-alt"></i>
-                    <input type="text" id="estado" class="forma-input" placeholder="Estado (UF)"
-                        onblur="validarEstado()">
+                    <select type="text" id="estado" class="forma-input" placeholder="Região"
+                        onblur="validarRegião()">
+                            <option value="#">Selecione uma região</option>
+                            <option value="1">Sudeste</option>
+                            <option value="2">Sul</option>
+                            <option value="3">Centro-Oeste</option>
+                            <option value="4">Norte</option>
+                            <option value="5">Nordeste</option>
+                    </select>
                     <span id="erroEstado" class="erro"></span>
                 </div>
 
@@ -106,13 +111,13 @@
 
                 <div class="input">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="confirmarSenha" class="forma-input" placeholder="Confirmar Senha"
+                    <input type="password" id="confirmarSenha" class="forma-input2" placeholder="Confirmar Senha"
                         onblur="validarConfirmarSenha()">
                     <span id="erroConfirmarSenha" class="erro"></span>
                 </div>
 
                 <div class="container-acao">
-                    <button type="button" class="btn-cadastro">
+                    <button type="button" class="btn-cadastro" onclick="registrar()">
                         CADASTRAR - SE
                         <div class="circle-arrow"><i class="fas fa-arrow-right"></i></div>
                     </button>
@@ -178,36 +183,25 @@
         }
     }
 
-    function validarSetor() {
-        let setor = document.getElementById("setor").value
-        let erro = document.getElementById("erroSetor")
-
-        erro.innerText = ""
-
-        if (setor.trim() == "") {
-            erro.innerText = "Informe o setor"
-        }
-    }
-
     function validarCargo() {
         let cargo = document.getElementById("cargo").value
         let erro = document.getElementById("erroCargo")
 
         erro.innerText = ""
 
-        if (cargo.trim() == "") {
+        if (cargo == '#') {
             erro.innerText = "Informe o cargo"
         }
     }
 
-    function validarEstado() {
+    function validarRegião() {
         let estado = document.getElementById("estado").value
         let erro = document.getElementById("erroEstado")
 
         erro.innerText = ""
 
-        if (estado.length != 2) {
-            erro.innerText = "Use a sigla do estado. Ex: SP"
+        if (estado == '#') {
+            erro.innerText = "Selecione uma das regiões"
         }
     }
 
@@ -255,4 +249,66 @@
             erro.innerText = "As senhas não coincidem"
         }
     }
+
+    function registrar() {
+    let nome = document.getElementById("nome").value;
+    let sobrenome = document.getElementById("sobrenome").value;
+    let cnpj = document.getElementById("cnpj").value;
+    let setor = document.getElementById("setor").value;
+    let cargo = document.getElementById("cargo").value;
+    let estado = document.getElementById("estado").value;
+    let email = document.getElementById("email").value;
+    let telefone = document.getElementById("telefone").value;
+    let senha = document.getElementById("senha").value;
+    let confirmarSenha = document.getElementById("confirmarSenha").value;
+
+    // Validação simples geral
+    if (
+        nome == "" ||
+        sobrenome == "" ||
+        cnpj.length != 14 ||
+        setor == "" ||
+        cargo == "" ||
+        estado.length != 2 ||
+        !email.includes("@") ||
+        telefone.length < 10 ||
+        senha.length < 8 ||
+        senha != confirmarSenha
+    ) {
+        alert("Preencha todos os campos corretamente!");
+        return;
+    }
+
+    fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nomeServer: nome,
+            sobrenomeServer: sobrenome,
+            cnpjServer: cnpj,
+            setorServer: setor,
+            cargoServer: cargo,
+            estadoServer: estado,
+            emailServer: email,
+            telefoneServer: telefone,
+            senhaServer: senha
+        })
+    })
+    .then(res => {
+        if (res.ok) {
+            alert("Cadastro realizado com sucesso!");
+            setTimeout(() => {
+                window.location = "login.html";
+            }, 2000);
+        } else {
+            throw new Error("Erro ao cadastrar");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Erro ao cadastrar usuário");
+    });
+}
 </script>

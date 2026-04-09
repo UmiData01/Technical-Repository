@@ -61,7 +61,7 @@
                     <span id="erroSenha" class="erro"></span>
                 </div>
 
-                <button type="button" class="btn-entrar" onclick="validarLogin()">Entrar</button>
+                <button type="button" class="btn-entrar" onclick="entrar()">Entrar</button>
 
                 <p class="registro">Ainda não tem uma conta? <a href="cadastro.html">Registre-se</a></p>
             </div>
@@ -82,58 +82,97 @@
         }
 
     }
-    function validarLogin() {
+    function entrar() {
 
-        var email = document.getElementById("email").value;
-        var senha = document.getElementById("senha").value;
+    var email = document.getElementById("email").value;
+    var senha = document.getElementById("senha").value;
 
-        var erroEmail = document.getElementById("erroEmail");
-        var erroSenha = document.getElementById("erroSenha");
+    var erroEmail = document.getElementById("erroEmail");
+    var erroSenha = document.getElementById("erroSenha");
 
-        erroEmail.textContent = "";
-        erroSenha.textContent = "";
+    erroEmail.textContent = "";
+    erroSenha.textContent = "";
 
-        var valido = true;
+    var valido = true;
 
-        if (email.trim() === "") {
-            erroEmail.textContent = "Digite seu email. Ex: usuario@email.com";
-            valido = false;
-        } else {
-            if (!email.includes("@")) {
-                erroEmail.textContent = "Está faltando '@'. Ex: usuario@email.com";
-                valido = false;
-            } else if (!email.includes(".")) {
-                erroEmail.textContent = "Está faltando o domínio. Ex: usuario@email.com";
-                valido = false;
-            }
-        }
-
-
-        var errosSenha = [];
-
-        if (senha.length < 8) {
-            errosSenha.push("mínimo de 8 caracteres");
-        }
-
-        if (!/[A-Z]/.test(senha)) {
-            errosSenha.push("uma letra maiúscula");
-        }
-
-        if (!/[0-9]/.test(senha)) {
-            errosSenha.push("um número");
-        }
-
-        if (!/[!@#$%^&*(),.?\":{}|<>]/.test(senha)) {
-            errosSenha.push("um caractere especial");
-        }
-
-        if (errosSenha.length > 0) {
-            erroSenha.textContent = "A senha precisa ter: " + errosSenha.join(", ");
-            valido = false;
-        }
-
-        if (valido) {
-            console.log("Login válido");
-        }
+    // 🔹 Validação de email
+    if (email.trim() === "") {
+        erroEmail.textContent = "Digite seu email. Ex: usuario@email.com";
+        valido = false;
+    } else if (!email.includes("@") || !email.includes(".")) {
+        erroEmail.textContent = "Email inválido";
+        valido = false;
+    } else if (email.length > 45) {
+        erroEmail.textContent = "Email muito longo";
+        valido = false;
     }
+
+    // 🔹 Validação de senha
+    if (senha === "") {
+        erroSenha.textContent = "Digite sua senha";
+        valido = false;
+    } else if (senha.length < 8) {
+        erroSenha.textContent = "Senha deve ter no mínimo 8 caracteres";
+        valido = false;
+    } else if (senha.length > 16) {
+        erroSenha.textContent = "Senha muito longa";
+        valido = false;
+    }
+
+    // 🔴 Se inválido, para aqui
+    if (!valido) {
+        return false;
+    }
+
+    // 🔥 Integração com API
+    fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            emailServer: email,
+            senhaServer: senha
+        })
+    })
+    .then(function (resposta) {
+
+        console.log("Resposta recebida:", resposta);
+
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+
+                console.log(json);
+
+                // 🔐 Sessão
+                sessionStorage.EMAIL_USUARIO = json.email;
+                sessionStorage.NOME_USUARIO = json.nome;
+                sessionStorage.ID_USUARIO = json.idUsuario;
+
+                // 🔄 Redirecionamento
+                setTimeout(function () {
+                    window.location = "./dashboard/dashboard.html";
+                }, 1000);
+
+            });
+
+        } else {
+
+            console.log("Erro ao logar");
+
+            resposta.text().then(() => {
+                erroSenha.textContent = "Email ou senha inválidos";
+            });
+
+        }
+
+    })
+    .catch(function (erro) {
+        console.error(erro);
+        erroSenha.textContent = "Erro ao conectar com o servidor";
+    });
+
+    return false;
+}
 </script>

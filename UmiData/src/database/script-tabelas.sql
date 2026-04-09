@@ -6,57 +6,92 @@
 comandos para mysql server
 */
 
-CREATE DATABASE aquatech;
+CREATE DATABASE Umidata;
 
-USE aquatech;
+USE Umidata;
 
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
-);
-
+-- USUÁRIO PODERÁ DAR UPDATE NA SENHA
 CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+nomeUsuario VARCHAR(30),
+email VARCHAR(45),
+senha VARCHAR(16),
+fkUsuarioResponsavel INT,
+      CONSTRAINT fkResponsavel
+            FOREIGN KEY (fkUsuarioAdm)
+                  REFERENCES Usuario(idUsuario)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+-- Separei cidade de região que eu achei masi fácil só adicionar uma chave estrangeira para associar por região
+CREATE TABLE regioes (
+idRegiao INT PRIMARY KEY AUTO_INCREMENT,
+regiao VARCHAR(15),
+      CONSTRAINT chkRegioes
+            CHECK(regiao IN ('Norte' , 'Nordeste' , 'Noroeste' , 'Oeste', 'Centro-Oeste' , 'Sudeste' , 'Sudoeste' , 'Sul')),
+sigla CHAR(2),
+      CONSTRAINT chkSigla
+            CHECK(sigla IN ('N' , 'NE' , 'NO' , 'O', 'CO' , 'SE' , 'SO' , 'S'))
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+-- Associar cidades às suas respectivas regioes
+CREATE TABLE cidades (
+idCidade INT PRIMARY KEY AUTO_INCREMENT,
+nomeCidade VARCHAR(45),
+uf CHAR(2),
+fkRegiao INT,
+      CONSTRAINT fkCidadeRegiao
+            FOREIGN KEY (fkRegiao)
+                  REFERENCES regioes(idRegiao)
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+-- Pensei em ser uma tabela com relacionamento fraco, pois sem a cidade e sem a região, não existe a medida, faz sentido xovens?
+CREATE TABLE medidas (
+idMedida INT AUTO_INCREMENT,
+dataHora DATETIME,
+fkRegiao INT,
+      CONSTRAINT fkUmidadeRegiao
+            FOREIGN KEY (fkRegiao)
+                  REFERENCES regioes(idRegiao),
+fkCidade INT,
+      CONSTRAINT fkUmidadeCIdade
+            FOREIGN KEY (fkCidade)
+                  REFERENCES cidade(idCidade),
+      PRIMARY KEY (IdMedida, idRegiao, idCidade)
 );
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+INSERT INTO usuario (nomeUsuario, email, senha, fkUsuarioAdm) VALUES 
+      ('Fabiano', 'fabiano.silva@gmail.com', NULL),
+      ('José Bonifácio.', 'jose.bonifacio@gmail.com', NULL),
+    ('Amanda Sapia', 'amanda.sapia@gmail.com', NULL),
+      ('Dantas', 'dantas.okamoto@gmail.com', NULL),
+    ('Samara Santos', 'samara.sa@gmail.com', 4),
+    ('Cleiton Rasta', 'cleiton.rasta@gamil.com', 3),
+    ('Larissa Araujo', 'larissaArjo@gmail.com', 2),
+    ('Bianca Azevedo', 'bianca.zevedo@gmail.com', 1);
+    
+INSERT INTO regioes (regiao, sigla) VALUES 
+      ('Norte', 'N'),
+      ('Nordeste', 'NE'),
+      ('Noroeste', 'NO'),
+      ('Oeste', 'O'),
+      ('Centro-Oeste', 'CO'),
+      ('Sudeste', 'SE'),
+      ('Sudoeste', 'SO'),
+      ('Sul', 'S');
+
+INSERT INTO cidades (nomeCidade, uf, fkRegiao) VALUES
+      ('PRADOPOLIS', 'SP', 1),
+      ('SAO GONCALO', 'PB', 2),
+      ('CACHOEIRA PAULISTA', 'SP', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1),
+      ('', '', 1);
