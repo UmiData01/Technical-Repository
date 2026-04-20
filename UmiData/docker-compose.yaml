@@ -23,6 +23,7 @@ services:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./src/database/script-tabelas.sql:/docker-entrypoint-initdb.d/01-ddl.sql
 
 volumes:
   db_data:
