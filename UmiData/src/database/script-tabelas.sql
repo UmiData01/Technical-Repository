@@ -6,6 +6,7 @@
 comandos para mysql server
 */
 
+DROP DATABASE IF EXISTS UmiData;
 CREATE DATABASE Umidata;
 
 USE Umidata;
