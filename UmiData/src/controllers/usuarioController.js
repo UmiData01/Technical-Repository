@@ -25,8 +25,9 @@ function autenticar(req, res) {
                                 if (resultadoAquarios.length > 0) {
                                     res.json({
                                         id: resultadoAutenticar[0].idUsuario,
+                                        nome: resultadoAutenticar[0].nome,
+                                        sobrenome: resultadoAutenticar[0].sobrenome,
                                         email: resultadoAutenticar[0].email,
-                                        nome: resultadoAutenticar[0].nomeUsuario,
                                         senha: resultadoAutenticar[0].senha,
                                     });
                                 } else {
@@ -53,6 +54,7 @@ function autenticar(req, res) {
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var nome = req.body.nomeServer;
+    var sobrenome = req.body.sobrenomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
@@ -67,7 +69,7 @@ function cadastrar(req, res) {
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha)
+        usuarioModel.cadastrar(nome, sobrenome,email, senha)
             .then(
                 function (resultado) {
                     res.json(resultado);
