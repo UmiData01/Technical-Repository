@@ -62,6 +62,12 @@
 
                 <div class="input">
                     <i class="fas fa-id-card"></i>
+                    <input type="text" id="empresa" class="forma-input" placeholder="Nome Empresa" onblur="validarEmpresa()">
+                    <span id="erroEmpresa" class="erro"></span>
+                </div>
+
+                <div class="input">
+                    <i class="fas fa-id-card"></i>
                     <input type="text" id="cnpj" class="forma-input" placeholder="CNPJ" onblur="validarCnpj()">
                     <span id="erroCnpj" class="erro"></span>
                 </div>
@@ -70,8 +76,8 @@
                     <i class="fas fa-briefcase"></i>
                     <select type="text" id="cargo" class="forma-input" placeholder="Cargo" onblur="validarCargo()">
                         <option value="#">Selecione um cargo</option>
-                        <option value="1">Administrador</option>
-                        <option value="2">Funcionário</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Funcionário">Funcionário</option>
                     </select>
                     <span id="erroCargo" class="erro"></span>
                 </div>
@@ -81,11 +87,11 @@
                     <select type="text" id="estado" class="forma-input" placeholder="Região"
                         onblur="validarRegião()">
                             <option value="#">Selecione uma região</option>
-                            <option value="1">Sudeste</option>
-                            <option value="2">Sul</option>
-                            <option value="3">Centro-Oeste</option>
-                            <option value="4">Norte</option>
-                            <option value="5">Nordeste</option>
+                            <option value="Sudeste">Sudeste</option>
+                            <option value="Sul">Sul</option>
+                            <option value="Centro-Oeste">Centro-Oeste</option>
+                            <option value="Norte">Norte</option>
+                            <option value="Nordeste">Nordeste</option>
                     </select>
                     <span id="erroEstado" class="erro"></span>
                 </div>

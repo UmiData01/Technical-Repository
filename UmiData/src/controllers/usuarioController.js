@@ -28,7 +28,13 @@ function autenticar(req, res) {
                                         nome: resultadoAutenticar[0].nome,
                                         sobrenome: resultadoAutenticar[0].sobrenome,
                                         email: resultadoAutenticar[0].email,
+                                        telefone: resultadoAutenticar[0].telefone,
                                         senha: resultadoAutenticar[0].senha,
+                                        cpnj: resultadoAutenticar[0].cnpj,
+                                        tipoCargo: resultadoAutenticar[0].tipoCargo,
+                                        nomeEstado: resultadoAutenticar[0].nomeEstado,
+                                        empresa: resultadoAutenticar[0].empresa,
+                                        sigla: resultadoAutenticar[0].sigla
                                     });
                                 } else {
                                     res.status(204).json({ aquarios: [] });
@@ -56,7 +62,13 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var sobrenome = req.body.sobrenomeServer;
     var email = req.body.emailServer;
+    var telefone = req.body.telefoneServer; 
     var senha = req.body.senhaServer;
+    var cnpj = req.body.cnpjServer;
+    var tipoCargo = req.body.cargoServer;
+    var nomeEstado = req.body.estadoServer;
+    var empresa = req.body.empresaServer;
+    var sigla = req.body.siglaServer;
 
 
     // Faça as validações dos valores
@@ -69,7 +81,7 @@ function cadastrar(req, res) {
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, sobrenome,email, senha)
+        usuarioModel.cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCargo, nomeEstado, empresa, sigla)
             .then(
                 function (resultado) {
                     res.json(resultado);

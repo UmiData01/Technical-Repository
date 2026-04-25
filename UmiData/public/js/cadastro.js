@@ -1,3 +1,6 @@
+var sigla = null;
+var id = 
+
 function barra() {
         const sidebar = document.getElementById("sidebar");
 
@@ -35,6 +38,17 @@ function barra() {
         }
     }
 
+    function validarEmpresa() {
+        let empresa = document.getElementById("empresa").value
+        let erro = document.getElementById("erroEmpresa")
+
+        erro.innerText = ""
+
+        if (empresa.trim() == '') {
+            erro.innerText = "O Nome Empresa é obrigatório"
+        }
+    }
+
     function validarCnpj() {
         let cnpj = document.getElementById("cnpj").value
         let erro = document.getElementById("erroCnpj")
@@ -65,6 +79,23 @@ function barra() {
 
         if (estado == '#') {
             erro.innerText = "Selecione uma das regiões"
+        }
+
+        if (estado == 'Sudeste'){
+            sigla = 'SE'
+            console.log("Sigla: SE")
+        } else if (estado == 'Sul'){
+            sigla = 'S'
+            console.log("Sigla: S")
+        } else if (estado == 'Centro-Oeste'){
+            sigla = 'CO'
+            console.log("Sigla: CO")
+        } else if (estado == 'Nordeste'){
+            sigla = 'NE'
+            console.log("Sigla: NE")
+        } else {
+            sigla = 'N'
+            console.log("Sigla: N")
         }
     }
 
@@ -116,6 +147,7 @@ function barra() {
     function registrar() {
     let nome = document.getElementById("nome").value;
     let sobrenome = document.getElementById("sobrenome").value;
+    let empresa = document.getElementById("empresa").value;
     let cnpj = document.getElementById("cnpj").value;
     let cargo = document.getElementById("cargo").value;
     let estado = document.getElementById("estado").value;
@@ -126,8 +158,9 @@ function barra() {
 
     // Validação simples geral
     if (
-        nome == "" ||
-        sobrenome == "" ||
+        nome.trim() == "" ||
+        sobrenome.trim() == ""|| 
+        empresa.trim() == ""||
         cnpj.length != 14 ||
         cargo == "#" ||
         estado == "#" ||
@@ -143,6 +176,7 @@ function barra() {
     console.log({
         nome,
         sobrenome,
+        empresa,
         cnpj,
         cargo,
         estado,
@@ -157,8 +191,11 @@ function barra() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            idServer: id,
             nomeServer: nome,
             sobrenomeServer: sobrenome,
+            empresaServer: empresa,
+            siglaServer: sigla,
             cnpjServer: cnpj,
             cargoServer: cargo,
             estadoServer: estado,
