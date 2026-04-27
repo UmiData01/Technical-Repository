@@ -45,12 +45,11 @@ function barra() {
         valido = false;
     }
 
-    // 🔴 Se inválido, para aqui
     if (!valido) {
         return false;
     }
 
-    // 🔥 Integração com API
+
     fetch("/usuarios/autenticar", {
         method: "POST",
         headers: {
@@ -76,7 +75,6 @@ function barra() {
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.idUsuario;
 
-                // 🔄 Redirecionamento
                 setTimeout(function () {
                     window.location = "./dashboard/dashboard.html";
                 }, 1000);

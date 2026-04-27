@@ -1,4 +1,4 @@
-// ===== CONFIG =====
+ // ===== CONFIG =====
 const GESTOR = "Cauã";
 const REGIAO = "Sudeste";
 
