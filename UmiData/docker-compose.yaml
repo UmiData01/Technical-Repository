@@ -25,5 +25,20 @@ services:
       - db_data:/var/lib/mysql
       - ./src/database/script-tabelas.sql:/docker-entrypoint-initdb.d/01-ddl.sql
 
+  worker-java:
+    build: ./java-worker
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: urubu100
+      DB_DATABASE: UmiData
+      AWS_ACCESS_KEY_ID: SUA_KEY_AQUI
+      AWS_SECRET_ACCESS_KEY: SEU_SECRET_AQUI
+      AWS_REGION: us-east-1
+    restart: "no"
+
 volumes:
   db_data:
