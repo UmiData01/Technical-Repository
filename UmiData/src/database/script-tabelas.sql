@@ -37,7 +37,7 @@ CREATE TABLE cargo (
 	idCargo INT PRIMARY KEY AUTO_INCREMENT,
 	tipoCargo VARCHAR(15),
 	CONSTRAINT chkCargo
-		CHECK (tipoCargo IN ('Admin', 'Padrao'))
+		CHECK (tipoCargo IN ('Administrador', 'Funcionario'))
 );
 
 CREATE TABLE usuario (
