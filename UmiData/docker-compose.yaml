@@ -27,7 +27,10 @@ services:
       - ./src/database/script-tabelas.sql:/docker-entrypoint-initdb.d/01-ddl.sql
 
   worker-java:
-    build: ./java-worker
+    image: eclipse-temurin:21-jre-alpine
+    working_dir: /app
+    volumes:
+      - ./java-worker/app.jar:/app/app.jar
     depends_on:
       - db
     environment:
@@ -36,9 +39,11 @@ services:
       DB_USER: root
       DB_PASSWORD: urubu100
       DB_DATABASE: UmiData
-      AWS_ACCESS_KEY_ID: SUA_KEY_AQUI
-      AWS_SECRET_ACCESS_KEY: SEU_SECRET_AQUI
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
       AWS_REGION: us-east-1
+    entrypoint: ["java", "-jar", "app.jar"]
     restart: "no"
 
 volumes:
