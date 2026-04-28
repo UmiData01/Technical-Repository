@@ -13,6 +13,7 @@ services:
       DB_PORT: 3306
       APP_PORT: 3333
       APP_HOST: localhost
+      AMBIENTE_PROCESSO: producao
 
   db:
     image: mysql:8.0
