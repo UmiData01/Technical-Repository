@@ -52,6 +52,15 @@ body {
   backdrop-filter: blur(19px);
 }
 
+.a-return {
+  text-decoration: none;
+  color: inherit;
+}
+
+.li-return {
+  list-style: none;
+}
+
 .nav-brand {
   display: flex;
   align-items: center;

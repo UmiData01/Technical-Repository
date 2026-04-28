@@ -1,5 +1,4 @@
  // ===== CONFIG =====
-const GESTOR = "Cauã";
 const REGIAO = "Sudeste";
 
 // ===== DADOS =====
@@ -188,7 +187,7 @@ function salvarEstado() {
 // ===== INIT =====
 document.addEventListener("DOMContentLoaded", () => {
 
-  document.getElementById("nomeGestor").textContent   = GESTOR;
+  document.getElementById("nomeGestor").textContent = sessionStorage.NOME_USUARIO;
   document.getElementById("regiaoGestor").textContent = REGIAO;
  
 
