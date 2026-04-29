@@ -1,150 +1,151 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UmiData — Dashboard</title>
+
+  <!-- Chart.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="../css/dashboard.css">
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="nav-brand">
-<img src="../assets/imgs/logo1.png" class="nav-icon"> <span class="nav-title">Umi<span>Data</span></span>
-  </div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <img src="../assets/imgs/logo2.png" class="nav-icon" alt="Logo">
+      <span class="nav-title">Umi<span>Data</span></span>
+    </div>
 
-  <div class="nav-gestor">
-    <span class="nav-gestor-name" id="nomeGestor">Gestor</span>
-    <span class="nav-gestor-regiao" id="regiaoGestor">Região</span>
-  </div>
+    <div class="nav-gestor">
+      <span class="nav-gestor-name" id="nomeGestor"></span>
+      <span class="nav-gestor-regiao" id="regiaoGestor"></span>
+    </div>
 
-  <div class="nav-controls">
-    <select id="selEstado" class="nav-sel" style="display:none;"></select>
-    <button class="btn-admin" id="btnAdmin">&#xff0b; Adicionar Estado</button>
-  </div>
-</nav>
+    <div class="nav-controls">
+      <button class="btn-admin" id="btnAdmin">+ Adicionar Estado</button>
+    </div>
+  </nav>
 
-<main>
+  <main>
 
-  <section>
-  
-    <div class="kpi-grid" id="kpiGrid"></div>
-  </section>
+    <!-- KPIs -->
+    <section>
+      <div class="kpi-grid" id="kpiGrid"></div>
+    </section>
 
-  <section id="mapaSection">
-   
+    <!-- DASHBOARD -->
+    <section>
+      <div class="viz-layout">
 
-    <div class="viz-layout">
-
-      <!-- COLUNA ESQUERDA: Mapa de calor -->
-      <div class="v-card tall">
-        <div class="v-head">
-          <div>
-            <div class="v-label"> Estados da Região</div>
-            <div class="v-sub">Clique para selecionar o estado</div>
-          </div>
-      
-        </div>
-
-        <div id="estadoStatusBar"></div>
-        <div id="mapaCards" class="mapa-cards-grid"></div>
-        
-        <div class="mapa-legenda">
-          <div class="leg"><div class="leg-sq" style="background:#22c55e"></div>Normal &ge; 40%</div>
-          <div class="leg"><div class="leg-sq" style="background:#eab308"></div>Atenção 25&ndash;39%</div>
-          <div class="leg"><div class="leg-sq" style="background:#f97316"></div>Alerta 15&ndash;24%</div>
-          <div class="leg"><div class="leg-sq" style="background:#ef4444"></div>Crítico &lt; 15%</div>
-        </div>
-      </div>
-
-      <!-- COLUNA DIREITA: Linha + Barras -->
-      <div class="v-card">
-        <div class="v-head">
-          <div>
-            <div class="v-label">Evolução da Umidade</div>
-            <div class="v-sub">Últimas 6 semanas · estado selecionado</div>
-          </div>
-        </div>
-        <div class="canvas-wrap"><canvas id="lineChart"></canvas></div>
-      </div>
-      
-      <div class="v-card">
-        <div class="v-head">
-          <div>
-            <div class="v-label">Umidade por Estado</div>
-            <div class="v-sub">Comparativo dentro da região</div>
-          </div>
-        </div>
-        <div class="canvas-wrap"><canvas id="barChart"></canvas></div>
-      </div>
-
-      <!-- RANKING -->
-      <div class="v-card ranking-full">
-        <div class="v-head">
-          <div>
-            <div class="v-label">Ranking da Região &mdash; por Criticidade</div>
-            <div class="v-sub">
-            
-              <span style="color:var(--red)"></span>
+        <!-- MAPA -->
+        <div class="v-card tall">
+          <div class="v-head">
+            <div>
+              <div class="v-label">Estados da Região</div>
+              <div class="v-sub">Clique para selecionar o estado</div>
             </div>
           </div>
+
+          <div id="estadoStatusBar"></div>
+          <div id="mapaCards" class="mapa-cards-grid"></div>
+
+          <!-- LEGENDA -->
+          <div class="mapa-legenda">
+            <div class="leg"><div class="leg-sq" style="background:#22c55e"></div>Ideal > 60%</div>
+            <div class="leg"><div class="leg-sq" style="background:#eab308"></div>Atenção 30-60% </div>
+            <div class="leg"><div class="leg-sq" style="background:#f97316"></div>Alerta 20-30%</div>
+            <div class="leg"><div class="leg-sq" style="background:#ef4444"></div>Emergência 12-19%</div>
+            <div class="leg"><div class="leg-sq" style="background:#7f1d1d"></div>Crítico < 12%</div>
+          </div>
         </div>
-        <div class="t-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th><th>Estado</th><th>Umidade</th>
-              <th>Internações</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="rankBody"></tbody>
-           </table>
+
+        <!-- LINHA -->
+        <div class="v-card">
+          <div class="v-head">
+            <div class="v-label">Evolução da Umidade</div>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="lineChart"></canvas>
+          </div>
         </div>
+
+        <!-- BARRA -->
+        <div class="v-card">
+          <div class="v-head">
+            <div class="v-label">Comparativo</div>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+
+        <!-- TABELA -->
+        <div class="v-card ranking-full">
+          <div class="v-head">
+            <div class="v-label">Ranking</div>
+          </div>
+
+          <div class="t-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Estado</th>
+                  <th>Umidade</th>
+                  <th>Internações</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="rankBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-ov" id="modalOv">
+    <div class="modal-box">
+      <div class="modal-title">+ Adicionar Estado</div>
+
+      <div class="fg">
+        <label>Nome</label>
+        <input id="fNome" />
       </div>
 
-    </div>
-  </section>
-  
-</main>
+      <div class="fg">
+        <label>Sigla</label>
+        <input id="fSigla" />
+      </div>
 
-<!-- MODAL ADMIN -->
-<div class="modal-ov" id="modalOv">
-  <div class="modal-box">
-    <div class="modal-title">&#xff0b; Adicionar <span>Novo Estado</span></div>
-    <p style="font-size:.75rem;color:var(--muted);margin-bottom:18px;line-height:1.5">
-      O novo estado será adicionado à região <strong id="modalRegiaoInfo" style="color:var(--blue)"></strong>,
-      atrelada ao seu cadastro. Os dados de umidade, internações e hospitais
-      serão preenchidos automaticamente pelo sistema ETL.
-    </p>
-    
-    <div class="fg">
-      <label>Nome do Estado</label>
-      <input type="text" id="fNome" placeholder="Ex: Tocantins" maxlength="50"/>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="fg">
-        <label>Sigla (2&ndash;3 letras)</label>
-        <input type="text" id="fSigla" placeholder="Ex: TO" maxlength="3"/>
+        <label>IBGE</label>
+        <input id="fIbge" />
       </div>
-      <div class="fg">
-        <label>Código IBGE</label>
-        <input type="text" id="fIbge" placeholder="Ex: 17"/>
+
+      <div class="modal-foot">
+        <button class="btn btn-c" id="btnCancelar">Cancelar</button>
+        <button class="btn btn-s" id="btnSalvar">Salvar</button>
       </div>
-    </div>
-    
-    <div class="modal-foot">
-      <button class="btn btn-c" id="btnCancelar">Cancelar</button>
-      <button class="btn btn-s" id="btnSalvar">Adicionar Estado</button>
     </div>
   </div>
-</div>
 
-<div class="toast" id="toast">&#10003; Salvo</div>
+  <div class="toast" id="toast">Salvo</div>
 
-<script src="../js/dashboard.js"></script>
+  <!-- JS -->
+  <script src="../js/dashboard.js"></script>
+
 </body>
 </html>
