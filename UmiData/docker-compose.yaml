@@ -13,6 +13,7 @@ services:
       DB_PORT: 3306
       APP_PORT: 3333
       APP_HOST: localhost
+      AMBIENTE_PROCESSO: producao
 
   db:
     image: mysql:8.0
@@ -24,6 +25,22 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./src/database/script-tabelas.sql:/docker-entrypoint-initdb.d/01-ddl.sql
+
+  worker-java:
+    build: ./java-worker
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: urubu100
+      DB_DATABASE: UmiData
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
+      AWS_REGION: us-east-1
+    restart: "no"
 
 volumes:
   db_data:

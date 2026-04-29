@@ -7,92 +7,77 @@ comandos para mysql server
 */
 
 DROP DATABASE IF EXISTS UmiData;
-CREATE DATABASE Umidata;
+CREATE DATABASE UmiData;
+USE UmiData;
 
-USE Umidata;
+CREATE TABLE regiao (
+    idRegiao INT PRIMARY KEY AUTO_INCREMENT,
+    nomeRegiao VARCHAR(20) UNIQUE NOT NULL,
+    sigla VARCHAR(2) UNIQUE NOT NULL,
+    CONSTRAINT chkRegiao
+    CHECK (nomeRegiao IN ('Norte','Nordeste','Centro-Oeste','Sudeste','Sul')),
+    CONSTRAINT chkSigla
+		CHECK(sigla IN ('N' , 'NE' , 'CO' , 'SE' , 'S'))
+);
 
--- USUÁRIO PODERÁ DAR UPDATE NA SENHA
+CREATE TABLE empresas_governamentais (
+    idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
+    nomeEmpresa VARCHAR(100) NOT NULL,
+    cnpj CHAR(14) UNIQUE NOT NULL,
+    fkRegiao INT NOT NULL,
+    CONSTRAINT chkCnpj
+    CHECK (cnpj REGEXP '^[0-9]{14}$'),
+    CONSTRAINT fkEmpresaRegiao
+        FOREIGN KEY (fkRegiao)
+        REFERENCES regiao(idRegiao)
+	ON DELETE RESTRICT
+);
+
+CREATE TABLE cargo (
+	idCargo INT PRIMARY KEY AUTO_INCREMENT,
+	tipoCargo VARCHAR(15),
+	CONSTRAINT chkCargo
+		CHECK (tipoCargo IN ('Administrador', 'Funcionario'))
+);
+
 CREATE TABLE usuario (
-idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-nomeUsuario VARCHAR(30),
-email VARCHAR(45),
-senha VARCHAR(16),
-fkUsuarioResponsavel INT,
-      CONSTRAINT fkResponsavel
-            FOREIGN KEY (fkUsuarioAdm)
-                  REFERENCES Usuario(idUsuario)
+    idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    sobrenome VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    telefone VARCHAR(20),
+    fkEmpresa INT,
+    fkCargo INT,
+	CONSTRAINT fkUsuarioCargo
+		FOREIGN KEY (fkCargo)
+		REFERENCES cargo(idCargo)
+        ON DELETE SET NULL,
+        
+	CONSTRAINT fkUsuarioEmpresa
+        FOREIGN KEY (fkEmpresa)
+		REFERENCES empresas_governamentais(idEmpresa)
+        ON DELETE SET NULL
 );
 
--- Separei cidade de região que eu achei masi fácil só adicionar uma chave estrangeira para associar por região
-CREATE TABLE regioes (
-idRegiao INT PRIMARY KEY AUTO_INCREMENT,
-regiao VARCHAR(15),
-      CONSTRAINT chkRegioes
-            CHECK(regiao IN ('Norte' , 'Nordeste' , 'Noroeste' , 'Oeste', 'Centro-Oeste' , 'Sudeste' , 'Sudoeste' , 'Sul')),
-sigla CHAR(2),
-      CONSTRAINT chkSigla
-            CHECK(sigla IN ('N' , 'NE' , 'NO' , 'O', 'CO' , 'SE' , 'SO' , 'S'))
+CREATE TABLE estado (
+    idEstado INT PRIMARY KEY,
+    nomeEstado VARCHAR(100) NOT NULL,
+    uf CHAR(2) NOT NULL,
+    fkRegiao INT NOT NULL,
+    CONSTRAINT fkEstadoRegiao
+        FOREIGN KEY (fkRegiao)
+        REFERENCES regiao(idRegiao)
+        ON DELETE RESTRICT
 );
 
--- Associar cidades às suas respectivas regioes
-CREATE TABLE cidades (
-idCidade INT PRIMARY KEY AUTO_INCREMENT,
-nomeCidade VARCHAR(45),
-uf CHAR(2),
-fkRegiao INT,
-      CONSTRAINT fkCidadeRegiao
-            FOREIGN KEY (fkRegiao)
-                  REFERENCES regioes(idRegiao)
+CREATE TABLE medida (
+    idMedida INT PRIMARY KEY AUTO_INCREMENT,
+    dataHora DATETIME NOT NULL,
+    umidade DECIMAL(5,2) NOT NULL,
+    fkEstado INT NOT NULL,
+    CONSTRAINT fkMedidaEstado
+        FOREIGN KEY (fkEstado)
+        REFERENCES estado(idEstado)
+        ON DELETE RESTRICT
 );
-
--- Pensei em ser uma tabela com relacionamento fraco, pois sem a cidade e sem a região, não existe a medida, faz sentido xovens?
-CREATE TABLE medidas (
-idMedida INT AUTO_INCREMENT,
-dataHora DATETIME,
-fkRegiao INT,
-      CONSTRAINT fkUmidadeRegiao
-            FOREIGN KEY (fkRegiao)
-                  REFERENCES regioes(idRegiao),
-fkCidade INT,
-      CONSTRAINT fkUmidadeCIdade
-            FOREIGN KEY (fkCidade)
-                  REFERENCES cidade(idCidade),
-      PRIMARY KEY (IdMedida, idRegiao, idCidade)
-);
-
-INSERT INTO usuario (nomeUsuario, email, senha, fkUsuarioAdm) VALUES 
-      ('Fabiano', 'fabiano.silva@gmail.com', NULL),
-      ('José Bonifácio.', 'jose.bonifacio@gmail.com', NULL),
-    ('Amanda Sapia', 'amanda.sapia@gmail.com', NULL),
-      ('Dantas', 'dantas.okamoto@gmail.com', NULL),
-    ('Samara Santos', 'samara.sa@gmail.com', 4),
-    ('Cleiton Rasta', 'cleiton.rasta@gamil.com', 3),
-    ('Larissa Araujo', 'larissaArjo@gmail.com', 2),
-    ('Bianca Azevedo', 'bianca.zevedo@gmail.com', 1);
-    
-INSERT INTO regioes (regiao, sigla) VALUES 
-      ('Norte', 'N'),
-      ('Nordeste', 'NE'),
-      ('Noroeste', 'NO'),
-      ('Oeste', 'O'),
-      ('Centro-Oeste', 'CO'),
-      ('Sudeste', 'SE'),
-      ('Sudoeste', 'SO'),
-      ('Sul', 'S');
-
-INSERT INTO cidades (nomeCidade, uf, fkRegiao) VALUES
-      ('PRADOPOLIS', 'SP', 1),
-      ('SAO GONCALO', 'PB', 2),
-      ('CACHOEIRA PAULISTA', 'SP', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1),
-      ('', '', 1);
