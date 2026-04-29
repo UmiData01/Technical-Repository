@@ -30,15 +30,14 @@ services:
     build: ./java-worker
     depends_on:
       - db
+    volumes:
+      - ~/.aws:/root/.aws:ro
     environment:
       DB_HOST: db
       DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: urubu100
       DB_DATABASE: UmiData
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
       AWS_REGION: us-east-1
     restart: "no"
 
