@@ -112,10 +112,10 @@ function renderKPIs() {
   
   // Criando cards via DOM, sem HTML inline
   const cards = [
-    { label: "Umidade Máxima", value: maxUmi, unit: "%", color: cor(maxUmi) },
-    { label: "Estados Críticos", value: criticos, unit: "", color: "var(--red)" },
-    { label: "Internações", value: internacoes, unit: "", color: null },
-    { label: "Umidade Mínima", value: minUmi, unit: "%", color: cor(minUmi) }
+    { label: "Umidade Máxima", value: maxUmi, unit: "%", color: cor(maxUmi), info: "A umidade ideal é acima de <b style='color: green'>60%</b>." },
+    { label: "Estados Críticos", value: criticos, unit: "", color: "var(--red)", info: "O máximo são <b style='color: #eab308'>4</b>." },
+    { label: "Internações", value: internacoes, unit: "", color: null, info: "Todos os estados somam <b style='color: blue'>100.000 habitantes</b>."},
+    { label: "Umidade Mínima", value: minUmi, unit: "%", color: cor(minUmi), info: "Abaixo de <b style='color: red'>12%</b> entra em estado crítico." }
   ];
   
   cards.forEach(card => {
@@ -138,6 +138,10 @@ function renderKPIs() {
     
     cardDiv.appendChild(labelDiv);
     cardDiv.appendChild(valueDiv);
+    const infoDiv = document.createElement("div");
+    infoDiv.className = "kpi-info";
+    infoDiv.innerHTML = card.info;
+    cardDiv.appendChild(infoDiv);
     container.appendChild(cardDiv);
   });
 }
