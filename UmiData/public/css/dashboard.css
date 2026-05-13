@@ -781,3 +781,48 @@ tbody tr.linha-critica {
   box-shadow: 0 4px 20px rgba(37, 99, 235, .12);
   display: none;
 }
+
+.mapa-ranking-card{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+.ranking-compact{
+  margin-top:12px;
+}
+
+.ranking-head{
+  margin-bottom:8px;
+}
+
+.mini-divider{
+  height:1px;
+  background:rgba(255,255,255,0.08);
+  margin:16px 0;
+}
+
+.compact-table{
+  overflow:hidden;
+}
+
+.compact-table table{
+  font-size:0.78rem;
+}
+
+.compact-table thead th{
+  padding:8px 6px;
+}
+
+.compact-table tbody td{
+  padding:7px 6px;
+}
+
+.compact-table .pill{
+  padding:4px 7px;
+  font-size:0.65rem;
+}
+
+.compact-table .td-nm{
+  max-width:120px;
+}
