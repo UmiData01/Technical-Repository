@@ -1,6 +1,7 @@
 // ===== CONFIG =====
-const GESTOR = "Cauã";
-const REGIAO = "Sudeste";
+// Preenchidos via sessionStorage após o login.
+let GESTOR = "";
+let REGIAO = "";
 
 // ===== DADOS =====
 const DB = {
@@ -505,14 +506,45 @@ function renderTudo() {
   renderTabela();
 }
 
-// ===== INIT =====
-document.addEventListener("DOMContentLoaded", () => {
-  // Preencher nome/região em todos os lugares
-  document.getElementById("nomeGestor").textContent = GESTOR;
-  document.getElementById("regiaoGestor").textContent = REGIAO;
-  document.getElementById("nomeGestorDrawer").textContent = GESTOR;
-  document.getElementById("regiaoGestorDrawer").textContent = REGIAO;
+// ===== PREENCHER GESTOR NA UI =====
+function preencherGestor() {
 
+  document.getElementById("nomeGestor").textContent        = GESTOR;
+  document.getElementById("regiaoGestor").textContent      = REGIAO;
+  document.getElementById("nomeGestorDrawer").textContent  = GESTOR;
+  document.getElementById("regiaoGestorDrawer").textContent = REGIAO;
+}
+
+// ===== BUSCAR GESTOR DO SESSIONSTORAGE =====
+// Lê as chaves salvas pelo login (NOME_USUARIO e ESTADO_USUARIO).
+async function carregarGestor() {
+
+  const nome       = sessionStorage.NOME_USUARIO;
+  const nomeEstado = sessionStorage.ESTADO_USUARIO;
+
+  if (nome && nomeEstado) {
+
+    GESTOR = nome;
+    REGIAO = nomeEstado;
+
+  } else {
+
+    // Sessão não encontrada — redireciona para o login
+    console.warn("[carregarGestor] Sessão não encontrada. Redirecionando...");
+    window.location.href = "../index.html";
+  }
+}
+
+// ===== INIT =====
+document.addEventListener("DOMContentLoaded", async () => {
+
+  // 1. Busca gestor e região no banco via API
+  await carregarGestor();
+
+  // 2. Preenche os elementos da UI com os dados reais
+  preencherGestor();
+
+  // 3. Inicializa o dashboard
   estadoAtual = estadoCritico().sigla;
   renderTudo();
 

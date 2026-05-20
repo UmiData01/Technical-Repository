@@ -70,10 +70,11 @@ function barra() {
 
                 console.log(json);
 
-                // 🔐 Sessão
+            
                 sessionStorage.EMAIL_USUARIO = json.email;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.idUsuario;
+                sessionStorage.ESTADO_USUARIO = json.nomeEstado;
 
                 setTimeout(function () {
                     window.location = "./dashboard/dashboard.html";
