@@ -25,62 +25,81 @@
 
 <body>
 
-  <div class="layout">
+  <!-- NAVBAR -->
+  <header class="navbar">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <!-- LOGO -->
+    <div class="nav-brand">
+      <img src="../assets/imgs/logo2.png" class="nav-logo">
+      <span class="nav-title">Umi<span>Data</span></span>
+    </div>
 
-      <!-- LOGO -->
-      <div>
+    <!-- USUÁRIO (centro) -->
+    <div class="nav-user">
+      <span id="nomeGestor"></span>
+      <span class="nav-sep">•</span>
+      <span id="regiaoGestor"></span>
+    </div>
 
-        <div class="side-brand">
+    <!-- MENU BUTTON -->
+    <button class="nav-menu-btn" id="btnDrawer" aria-label="Abrir menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
-          <img src="../assets/imgs/logo2.png" class="side-logo">
+  </header>
 
-          <div class="side-brand-text">
-            <span class="side-title">
-              Umi<span>Data</span>
-            </span>
+  <!-- DRAWER OVERLAY -->
+  <div class="drawer-ov" id="drawerOv"></div>
 
-            <span class="side-user">
-              <span id="nomeGestor"></span> •
-              <span id="regiaoGestor"></span>
-            </span>
-          </div>
+  <!-- DRAWER -->
+  <aside class="drawer" id="drawer">
 
+    <div class="drawer-head">
+      <div class="side-brand">
+        <img src="../assets/imgs/logo2.png" class="side-logo">
+        <div class="side-brand-text">
+          <span class="side-title">Umi<span>Data</span></span>
+          <span class="side-user">
+            <span id="nomeGestorDrawer"></span> •
+            <span id="regiaoGestorDrawer"></span>
+          </span>
         </div>
-
-        <!-- MENU -->
-        <div class="side-menu">
-
-          <button class="side-btn active">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>Dashboard</span>
-          </button>
-
-          <button class="side-btn">
-            <i class="fa-solid fa-gear"></i>
-            <span>Opções</span>
-          </button>
-
-          <button class="side-btn" id="btnAdmin">
-            <i class="fa-solid fa-plus"></i>
-            <span>Adicionar Estado</span>
-          </button>
-
-        </div>
-
       </div>
+      <button class="drawer-close" id="btnFecharDrawer" aria-label="Fechar menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
 
-      <!-- SAIR -->
-      <a href="../index.html" class="side-btn logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>Sair</span>
-      </a>
+    <!-- MENU -->
+    <div class="side-menu">
 
-    </aside>
+      <button class="side-btn active">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Dashboard</span>
+      </button>
 
-    <!-- MAIN -->
+      <button class="side-btn">
+        <i class="fa-solid fa-gear"></i>
+        <span>Opções</span>
+      </button>
+
+      <button class="side-btn" id="btnAdmin">
+        <i class="fa-solid fa-plus"></i>
+        <span>Adicionar Estado</span>
+      </button>
+
+    </div>
+
+    <!-- SAIR -->
+    <a href="../index.html" class="side-btn logout">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <span>Sair</span>
+    </a>
+
+  </aside>
+
+  <!-- MAIN -->
+  <div class="layout">
     <main>
 
       <!-- KPIs -->
@@ -93,16 +112,11 @@
         <div class="left-panel">
 
           <!-- ESTADOS -->
-          <div class="v-card">
+          <div class="v-card mapa-card">
 
             <div class="v-head">
-              <div class="v-label">
-                Estados da Região
-              </div>
-
-              <div class="v-sub">
-                Clique para selecionar o estado
-              </div>
+              <div class="v-label">Estados da Região</div>
+              <div class="v-sub">Clique para selecionar o estado</div>
             </div>
 
             <div id="estadoStatusBar"></div>
@@ -112,32 +126,11 @@
 
             <!-- LEGENDA -->
             <div class="mapa-legenda">
-
-              <div class="leg">
-                <div class="leg-sq verde"></div>
-                Ideal > 60%
-              </div>
-
-              <div class="leg">
-                <div class="leg-sq amarelo"></div>
-                Atenção 30-60%
-              </div>
-
-              <div class="leg">
-                <div class="leg-sq laranja"></div>
-                Alerta 20-30%
-              </div>
-
-              <div class="leg">
-                <div class="leg-sq vermelho"></div>
-                Emergência 12-19%
-              </div>
-
-              <div class="leg">
-                <div class="leg-sq vinho"></div>
-                Crítico < 12%
-              </div>
-
+              <div class="leg"><div class="leg-sq verde"></div>Ideal > 60%</div>
+              <div class="leg"><div class="leg-sq amarelo"></div>Atenção 30-60%</div>
+              <div class="leg"><div class="leg-sq laranja"></div>Alerta 20-30%</div>
+              <div class="leg"><div class="leg-sq vermelho"></div>Emergência 12-19%</div>
+              <div class="leg"><div class="leg-sq vinho"></div>Crítico < 12%</div>
             </div>
 
           </div>
@@ -146,15 +139,11 @@
           <div class="v-card ranking-card">
 
             <div class="v-head">
-              <div class="v-label">
-                Ranking
-              </div>
+              <div class="v-label">Ranking</div>
             </div>
 
             <div class="table-wrap">
-
               <table>
-
                 <thead>
                   <tr>
                     <th>#</th>
@@ -164,11 +153,8 @@
                     <th>Status</th>
                   </tr>
                 </thead>
-
                 <tbody id="rankBody"></tbody>
-
               </table>
-
             </div>
 
           </div>
@@ -180,28 +166,19 @@
 
           <!-- LINHA -->
           <div class="v-card graph-card">
-
             <div class="v-head">
-              <div class="v-label">
-                Evolução da Umidade
-              </div>
+              <div class="v-label">Evolução da Umidade</div>
             </div>
-
             <div class="chart-wrap">
               <canvas id="lineChart"></canvas>
             </div>
-
           </div>
 
           <!-- BARRAS -->
           <div class="v-card graph-card">
-
             <div class="v-head">
-              <div class="v-label">
-                Comparativo
-              </div>
+              <div class="v-label">Comparativo</div>
             </div>
-
             <div class="chart-wrap">
               <canvas id="barChart"></canvas>
             </div>
@@ -213,7 +190,6 @@
       </section>
 
     </main>
-
   </div>
 
   <!-- MODAL -->
@@ -221,9 +197,7 @@
 
     <div class="modal-box">
 
-      <div class="modal-title">
-        + Adicionar Estado
-      </div>
+      <div class="modal-title">+ Adicionar Estado</div>
 
       <div class="fg">
         <label>Nome</label>
@@ -241,15 +215,8 @@
       </div>
 
       <div class="modal-foot">
-
-        <button class="btn btn-c" id="btnCancelar">
-          Cancelar
-        </button>
-
-        <button class="btn btn-s" id="btnSalvar">
-          Salvar
-        </button>
-
+        <button class="btn btn-c" id="btnCancelar">Cancelar</button>
+        <button class="btn btn-s" id="btnSalvar">Salvar</button>
       </div>
 
     </div>
@@ -257,9 +224,7 @@
   </div>
 
   <!-- TOAST -->
-  <div class="toast" id="toast">
-    Salvo
-  </div>
+  <div class="toast" id="toast">Salvo</div>
 
   <!-- JS -->
   <script src="../js/dashboard.js"></script>
