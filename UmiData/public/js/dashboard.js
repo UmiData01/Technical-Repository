@@ -217,7 +217,7 @@ function renderKPIs() {
       value: maxUmi,
       unit: "%",
       color: cor(maxUmi),
-      info: "Ideal acima de 60%."
+      info: "A região está 18 pontos abaixo do nível ideal."
     },
 
     {
@@ -225,7 +225,7 @@ function renderKPIs() {
       value: criticos,
       unit: "",
       color: "#ef4444",
-      info: "Estados abaixo de 12%."
+      info: "Cenário controlado, sem estados em nível crítico."
     },
 
     {
@@ -233,7 +233,7 @@ function renderKPIs() {
       value: internacoes.toLocaleString("pt-BR"),
       unit: "",
       color: "#2563eb",
-      info: "Total da região monitorada."
+      info: "12,7% da população precisou de internação."
     },
 
     {
@@ -241,7 +241,7 @@ function renderKPIs() {
       value: minUmi,
       unit: "%",
       color: cor(minUmi),
-      info: "Menor índice registrado."
+      info: "Necessário reforço em alertas públicos."
     }
   ];
 
