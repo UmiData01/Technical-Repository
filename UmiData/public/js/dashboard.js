@@ -4,67 +4,48 @@ const REGIAO = "Sudeste";
 
 // ===== DADOS =====
 const DB = {
-  ES: {
-    nome: "Espírito Santo",
-    sigla: "ES",
-    ibge: "32",
-    regiao: "Sudeste",
-    umidade: 42,
-    internacoes: 1100,
-    hospitais: 340
-  },
-
-
-  MG: {
-    nome: "Minas Gerais",
-    sigla: "MG",
-    ibge: "31",
-    regiao: "Sudeste",
-    umidade: 22,
-    internacoes: 3700,
-    hospitais: 980
-  },
-
-  RJ: {
-    nome: "Rio de Janeiro",
-    sigla: "RJ",
-    ibge: "33",
-    regiao: "Sudeste",
-    umidade: 28,
-    internacoes: 3100,
-    hospitais: 820
-  },
-
-  SP: {
-    nome: "São Paulo",
-    sigla: "SP",
-    ibge: "35",
-    regiao: "Sudeste",
-    umidade: 18,
-    internacoes: 4820,
-    hospitais: 1250
-  },
+  ES: { nome: "Espírito Santo", sigla: "ES", ibge: "32", regiao: "Sudeste", umidade: 42, internacoes: 1100, hospitais: 340 },
+  MG: { nome: "Minas Gerais", sigla: "MG", ibge: "31", regiao: "Sudeste", umidade: 22, internacoes: 3700, hospitais: 980 },
+  RJ: { nome: "Rio de Janeiro", sigla: "RJ", ibge: "33", regiao: "Sudeste", umidade: 28, internacoes: 3100, hospitais: 820 },
+  SP: { nome: "São Paulo", sigla: "SP", ibge: "35", regiao: "Sudeste", umidade: 18, internacoes: 4820, hospitais: 1250 },
 };
 
-// ===== SÉRIES =====
 const SERIE = {
   labels: Array.from({ length: 24 }, (_, i) => `${i}h`),
-
   ES: [48, 46, 45, 44, 43, 42],
   MG: [30, 28, 26, 24, 23, 22],
   RJ: [38, 36, 34, 32, 30, 28],
   SP: [30, 26, 23, 21, 19, 18],
 };
 
+// Média de umidade por semana (últimas 4 semanas) por estado
+const SERIE_SEMANAS = {
+  labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+  ES: [50, 47, 44, 42],
+  MG: [28, 26, 24, 22],
+  RJ: [35, 32, 30, 28],
+  SP: [25, 22, 20, 18],
+};
+
+// ===== SÉRIE SEMANAL =====
+// Média de umidade por dia da semana (Seg → Dom) para cada estado
+const SERIE_SEMANA = {
+  labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+
+  ES: [50, 47, 45, 43, 41, 40, 42],
+  MG: [28, 26, 25, 23, 22, 21, 22],
+  RJ: [35, 33, 31, 29, 28, 27, 28],
+  SP: [24, 22, 20, 19, 18, 17, 18],
+};
+
 let estadoAtual;
-let lineChart;
-let barChart;
+let lineChart, barChart;
 
-// ===== CORES =====
+// ===== CORES GRÁFICOS =====
 const CHART_TEXT = "#1e3a5f";
-const CHART_GRID = "rgba(147,197,253,0.35)";
+const CHART_GRID = "rgba(147,197,253,0.4)";
 
-// ===== REGIÕES =====
+// ===== DADOS ADICIONAIS =====
 const REGIOES = {
   Sudeste: ["ES", "MG", "RJ", "SP"],
   Sul: ["PR", "RS", "SC"],
@@ -73,18 +54,14 @@ const REGIOES = {
   "Centro-Oeste": ["DF", "GO", "MS", "MT"],
 };
 
-// ===== ESTADOS =====
 const ESTADOS_INFO = {
-
   ES: { nome: "Espírito Santo", regiao: "Sudeste" },
   MG: { nome: "Minas Gerais", regiao: "Sudeste" },
   RJ: { nome: "Rio de Janeiro", regiao: "Sudeste" },
   SP: { nome: "São Paulo", regiao: "Sudeste" },
-
   PR: { nome: "Paraná", regiao: "Sul" },
   RS: { nome: "Rio Grande do Sul", regiao: "Sul" },
   SC: { nome: "Santa Catarina", regiao: "Sul" },
-
   AC: { nome: "Acre", regiao: "Norte" },
   AM: { nome: "Amazonas", regiao: "Norte" },
   AP: { nome: "Amapá", regiao: "Norte" },
@@ -92,7 +69,6 @@ const ESTADOS_INFO = {
   RO: { nome: "Rondônia", regiao: "Norte" },
   RR: { nome: "Roraima", regiao: "Norte" },
   TO: { nome: "Tocantins", regiao: "Norte" },
-
   AL: { nome: "Alagoas", regiao: "Nordeste" },
   BA: { nome: "Bahia", regiao: "Nordeste" },
   CE: { nome: "Ceará", regiao: "Nordeste" },
@@ -102,363 +78,261 @@ const ESTADOS_INFO = {
   PI: { nome: "Piauí", regiao: "Nordeste" },
   RN: { nome: "Rio Grande do Norte", regiao: "Nordeste" },
   SE: { nome: "Sergipe", regiao: "Nordeste" },
-
   DF: { nome: "Distrito Federal", regiao: "Centro-Oeste" },
   GO: { nome: "Goiás", regiao: "Centro-Oeste" },
   MS: { nome: "Mato Grosso do Sul", regiao: "Centro-Oeste" },
   MT: { nome: "Mato Grosso", regiao: "Centro-Oeste" },
 };
 
-// ===== AUX =====
-
+// ===== FUNÇÕES AUXILIARES =====
 function listaEstados() {
-  return Object.values(DB)
-    .filter(e => e.regiao === REGIAO);
+  return Object.values(DB).filter(e => e.regiao === REGIAO);
 }
 
 function cor(u) {
-
   if (u < 12) return "#7f1d1d";
-
   if (u < 20) return "#ef4444";
-
   if (u < 30) return "#f97316";
-
   if (u <= 60) return "#eab308";
-
   return "#22c55e";
 }
 
 function status(u) {
-
   if (u < 12) return "CRÍTICO";
-
   if (u < 20) return "EMERGÊNCIA";
-
   if (u < 30) return "ALERTA";
-
   if (u <= 60) return "ATENÇÃO";
-
   return "IDEAL";
 }
 
-function classeStatus(u) {
-
-  if (u < 12) return "pill-c";
-
-  if (u < 20) return "pill-e";
-
-  if (u < 30) return "pill-a";
-
-  if (u <= 60) return "pill-t";
-
-  return "pill-n";
-}
-
 function estadoCritico() {
-
-  return listaEstados().reduce((menor, atual) =>
-    atual.umidade < menor.umidade ? atual : menor
+  return listaEstados().reduce((menor, e) =>
+    e.umidade < menor.umidade ? e : menor
   );
 }
 
+function classeStatus(u) {
+  if (u < 12) return "pill-c";
+  if (u < 20) return "pill-e";
+  if (u < 30) return "pill-a";
+  if (u <= 60) return "pill-t";
+  return "pill-n";
+}
+
 // ===== DRAWER =====
-
 function abrirDrawer() {
-
-  document
-    .getElementById("drawer")
-    .classList.add("open");
-
-  document
-    .getElementById("drawerOv")
-    .classList.add("open");
+  document.getElementById("drawer").classList.add("open");
+  document.getElementById("drawerOv").classList.add("open");
 }
 
 function fecharDrawer() {
-
-  document
-    .getElementById("drawer")
-    .classList.remove("open");
-
-  document
-    .getElementById("drawerOv")
-    .classList.remove("open");
+  document.getElementById("drawer").classList.remove("open");
+  document.getElementById("drawerOv").classList.remove("open");
 }
 
-// ===== KPI =====
-
+// ===== KPIs =====
 function renderKPIs() {
-
   const lista = listaEstados();
+  const criticos = lista.filter(e => e.umidade < 12).length;
+  const internacoes = lista.reduce((s, e) => s + e.internacoes, 0);
+  const maxUmi = Math.max(...lista.map(e => e.umidade));
+  const minUmi = Math.min(...lista.map(e => e.umidade));
 
-  const criticos =
-    lista.filter(e => e.umidade < 12).length;
-
-  const internacoes =
-    lista.reduce((soma, e) =>
-      soma + e.internacoes, 0);
-
-  const maxUmi =
-    Math.max(...lista.map(e => e.umidade));
-
-  const minUmi =
-    Math.min(...lista.map(e => e.umidade));
-
-  const container =
-    document.getElementById("kpiGrid");
-
+  const container = document.getElementById("kpiGrid");
   container.innerHTML = "";
 
   const cards = [
-
-    {
-      label: "Umidade Máxima",
-      value: maxUmi,
-      unit: "%",
-      color: cor(maxUmi),
-      info: "A região está 18 pontos abaixo do nível ideal."
-    },
-
-    {
-      label: "Estados Críticos",
-      value: criticos,
-      unit: "",
-      color: "#ef4444",
-      info: "Cenário controlado, sem estados em nível crítico."
-    },
-
-    {
-      label: "Internações",
-      value: internacoes.toLocaleString("pt-BR"),
-      unit: "",
-      color: "#2563eb",
-      info: "12,7% da população precisou de internação."
-    },
-
-    {
-      label: "Umidade Mínima",
-      value: minUmi,
-      unit: "%",
-      color: cor(minUmi),
-      info: "Necessário reforço em alertas públicos."
-    }
+    { label: "Umidade Máxima", value: maxUmi, unit: "%", color: cor(maxUmi), info: "A umidade ideal é acima de <b style='color: green'>60%</b>." },
+    { label: "Estados Críticos", value: criticos, unit: "", color: "var(--red)", info: "O máximo são <b style='color: #eab308'>4</b>." },
+    { label: "Internações", value: internacoes, unit: "", color: null, info: "Todos os estados somam <b style='color: blue'>100.000 habitantes</b>."},
+    { label: "Umidade Mínima", value: minUmi, unit: "%", color: cor(minUmi), info: "Abaixo de <b style='color: red'>12%</b> entra em estado crítico." }
   ];
 
   cards.forEach(card => {
-
-    const cardDiv =
-      document.createElement("div");
-
+    const cardDiv = document.createElement("div");
     cardDiv.className = "kpi-card";
+    if (card.color) {
+      cardDiv.style.setProperty("--kc", card.color);
+    }
 
-    cardDiv.style.setProperty(
-      "--kc",
-      card.color
-    );
+    const labelDiv = document.createElement("div");
+    labelDiv.className = "kpi-label";
+    labelDiv.textContent = card.label;
 
-    cardDiv.innerHTML = `
-      <div class="kpi-label">
-        ${card.label}
-      </div>
+    const valueDiv = document.createElement("div");
+    valueDiv.className = "kpi-val";
+    if (card.color) {
+      valueDiv.style.color = card.color;
+    }
+    valueDiv.innerHTML = `${card.value}${card.unit ? `<span class="kpi-unit">${card.unit}</span>` : ""}`;
 
-      <div class="kpi-val" style="color:${card.color}">
-        ${card.value}
-        ${card.unit ? `<span class="kpi-unit">${card.unit}</span>` : ""}
-      </div>
+    const infoDiv = document.createElement("div");
+    infoDiv.className = "kpi-info";
+    infoDiv.innerHTML = card.info;
 
-      <div class="kpi-info">
-        ${card.info}
-      </div>
-    `;
-
+    cardDiv.appendChild(labelDiv);
+    cardDiv.appendChild(valueDiv);
+    cardDiv.appendChild(infoDiv);
     container.appendChild(cardDiv);
   });
 }
 
+// ===== MODAL =====
+function abrirModal() {
+  document.getElementById("fNome").value = "";
+  document.getElementById("fSigla").value = "";
+  document.getElementById("fIbge").value = "";
+  document.getElementById("modalOv").classList.add("open");
+  fecharDrawer();
+}
+
+function fecharModal() {
+  document.getElementById("modalOv").classList.remove("open");
+}
+
+function mostrarToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(() => { t.style.display = "none"; }, 3000);
+}
+
+function salvarEstado() {
+  const nome = document.getElementById("fNome").value.trim();
+  const sigla = document.getElementById("fSigla").value.trim().toUpperCase();
+  const ibge = document.getElementById("fIbge").value.trim();
+
+  if (!nome || !sigla || !ibge) {
+    alert("Preencha todos os campos.");
+    return;
+  }
+
+  if (sigla.length < 2 || sigla.length > 3) {
+    alert("Sigla deve ter 2 ou 3 letras.");
+    return;
+  }
+
+  if (DB[sigla]) {
+    alert("Estado já cadastrado.");
+    return;
+  }
+
+  const info = ESTADOS_INFO[sigla];
+  if (!info || info.regiao !== REGIAO) {
+    alert(`${sigla} não pertence à região ${REGIAO}.`);
+    return;
+  }
+
+  SERIE[sigla] = Array.from({ length: 6 }, (_, i) =>
+    Math.max(5, DB[sigla].umidade + (5 - i) * 2)
+  );
+
+  fecharModal();
+  alert(`${nome} adicionado com sucesso!`);
+  renderTudo();
+}
+
 // ===== MAPA =====
-
 function renderMapa() {
-
   const lista = listaEstados();
-
-  const container =
-    document.getElementById("mapaCards");
-
+  const container = document.getElementById("mapaCards");
   container.innerHTML = "";
 
   lista.forEach(e => {
+    const card = document.createElement("div");
+    card.className = `heat-card ${e.sigla === estadoAtual ? "ativo" : ""}`;
+    card.style.setProperty("--hc", cor(e.umidade));
+    card.style.borderColor = cor(e.umidade);
+    card.onclick = () => selecionarEstado(e.sigla);
 
-    const card =
-      document.createElement("div");
+    const siglaSpan = document.createElement("span");
+    siglaSpan.className = "hc-sigla";
+    siglaSpan.textContent = e.sigla;
 
-    card.className = "heat-card";
+    const nomeSpan = document.createElement("span");
+    nomeSpan.className = "hc-nome";
+    nomeSpan.textContent = e.nome;
 
-    card.style.borderColor =
-      cor(e.umidade);
+    const umiDiv = document.createElement("div");
+    umiDiv.className = "hc-umi-val";
+    umiDiv.innerHTML = `${e.umidade}<span class="hc-umi-unit">%</span>`;
 
-    card.onclick = () =>
-      selecionarEstado(e.sigla);
+    const trackDiv = document.createElement("div");
+    trackDiv.className = "hc-bar-track";
 
-    card.innerHTML = `
-      <span class="hc-sigla">
-        ${e.sigla}
-      </span>
+    const fillDiv = document.createElement("div");
+    fillDiv.className = "hc-bar-fill";
+    fillDiv.style.width = `${e.umidade}%`;
+    fillDiv.style.background = cor(e.umidade);
+    trackDiv.appendChild(fillDiv);
 
-      <span class="hc-nome">
-        ${e.nome}
-      </span>
+    const pillSpan = document.createElement("span");
+    pillSpan.className = "hc-pill";
+    pillSpan.textContent = status(e.umidade);
 
-      <div class="hc-umi-val">
-        ${e.umidade}
-        <span class="hc-umi-unit">%</span>
-      </div>
-
-      <div class="hc-bar-track">
-        <div
-          class="hc-bar-fill"
-          style="
-            width:${e.umidade}%;
-            background:${cor(e.umidade)};
-          "
-        ></div>
-      </div>
-
-      <span class="hc-pill">
-        ${status(e.umidade)}
-      </span>
-    `;
-
+    card.appendChild(siglaSpan);
+    card.appendChild(nomeSpan);
+    card.appendChild(umiDiv);
+    card.appendChild(trackDiv);
+    card.appendChild(pillSpan);
     container.appendChild(card);
   });
 }
 
-// ===== STATUS =====
-
+// ===== STATUS BAR =====
 function renderStatus() {
-
   const e = DB[estadoAtual];
+  const container = document.getElementById("estadoStatusBar");
+  container.innerHTML = "";
 
-  document.getElementById(
-    "estadoStatusBar"
-  ).innerHTML = `
-    <div class="estado-status-bar">
-      <div class="esb-estado">
-        ${e.nome}
-      </div>
-    </div>
-  `;
+  const barDiv = document.createElement("div");
+  barDiv.className = "estado-status-bar";
+
+  const estadoDiv = document.createElement("div");
+  estadoDiv.className = "esb-estado";
+  estadoDiv.textContent = e.nome;
+
+  barDiv.appendChild(estadoDiv);
+  container.appendChild(barDiv);
 }
 
-// ===== GRÁFICO LINHA =====
-
+// ===== GRÁFICOS =====
 function renderLinha() {
+  const ctx = document.getElementById("lineChart");
+  if (lineChart) lineChart.destroy();
 
-  const ctx =
-    document.getElementById("lineChart");
-
-  if (lineChart)
-    lineChart.destroy();
-
-  const dados =
-    SERIE[estadoAtual] ||
-    Array(24).fill(DB[estadoAtual].umidade);
-
-  const corAtual =
-    cor(DB[estadoAtual].umidade);
+  const dados = SERIE[estadoAtual] || Array(24).fill(DB[estadoAtual].umidade);
+  const corAtual = cor(DB[estadoAtual].umidade);
 
   lineChart = new Chart(ctx, {
-
     type: "line",
-
     data: {
-
       labels: SERIE.labels,
-
       datasets: [{
         label: DB[estadoAtual].nome,
-
         data: dados,
-
         borderColor: corAtual,
-
-        backgroundColor:
-          corAtual + "20",
-
-        pointBackgroundColor:
-          corAtual,
-
-        pointRadius: 4,
-
-        borderWidth: 3,
-
-        tension: 0.35,
-
+        backgroundColor: corAtual + "18",
+        pointBackgroundColor: corAtual,
+        tension: 0.3,
         fill: true,
       }]
     },
-
     options: {
-
       responsive: true,
-
       maintainAspectRatio: false,
-
       plugins: {
-
         legend: {
-
-          labels: {
-
-            color: CHART_TEXT,
-
-            font: {
-              size: 14,
-              weight: "700"
-            }
-          }
+          labels: { color: CHART_TEXT }
         }
       },
-
       scales: {
-
-        x: {
-
-          ticks: {
-
-            color: CHART_TEXT,
-
-            font: {
-              size: 13
-            }
-          },
-
-          grid: {
-            color: CHART_GRID
-          }
-        },
-
-        y: {
-
-          ticks: {
-
-            color: CHART_TEXT,
-
-            font: {
-              size: 13
-            }
-          },
-
-          grid: {
-            color: CHART_GRID
-          }
-        }
+        x: { ticks: { color: CHART_TEXT } },
+        y: { ticks: { color: CHART_TEXT } }
       }
     }
   });
 }
-
-// ===== GRÁFICO BARRA =====
 
 function renderBarras() {
 
@@ -468,8 +342,17 @@ function renderBarras() {
   if (barChart)
     barChart.destroy();
 
-  const lista =
-    listaEstados();
+  const corAtual =
+    cor(DB[estadoAtual].umidade);
+
+  // Fallback para estados adicionados dinamicamente
+  const dados =
+    SERIE_SEMANAS[estadoAtual] ||
+    Array.from(
+      { length: 4 },
+      (_, i) =>
+        Math.max(5, DB[estadoAtual].umidade + (3 - i) * 2)
+    );
 
   barChart = new Chart(ctx, {
 
@@ -477,25 +360,19 @@ function renderBarras() {
 
     data: {
 
-      labels:
-        lista.map(e => e.sigla),
+      labels: SERIE_SEMANAS.labels,
 
       datasets: [{
 
-        label: "Umidade",
+        label: DB[estadoAtual].nome,
 
-        data:
-          lista.map(e => e.umidade),
+        data: dados,
 
         backgroundColor:
-          lista.map(e =>
-            cor(e.umidade) + "cc"
-          ),
+          dados.map(v => cor(v) + "cc"),
 
         borderColor:
-          lista.map(e =>
-            cor(e.umidade)
-          ),
+          dados.map(v => cor(v)),
 
         borderWidth: 2,
 
@@ -521,6 +398,15 @@ function renderBarras() {
               size: 14,
               weight: "700"
             }
+          }
+        },
+
+        tooltip: {
+
+          callbacks: {
+
+            label: ctx =>
+              ` Média: ${ctx.parsed.y}%`
           }
         }
       },
@@ -552,7 +438,9 @@ function renderBarras() {
 
             font: {
               size: 13
-            }
+            },
+
+            callback: v => v + "%"
           },
 
           grid: {
@@ -565,289 +453,80 @@ function renderBarras() {
 }
 
 // ===== TABELA =====
-
 function renderTabela() {
-
-  const lista =
-    listaEstados()
-      .sort((a, b) =>
-        a.umidade - b.umidade
-      );
-
-  const tbody =
-    document.getElementById("rankBody");
-
+  const lista = listaEstados().sort((a, b) => a.umidade - b.umidade);
+  const tbody = document.getElementById("rankBody");
   tbody.innerHTML = "";
 
   lista.forEach((e, i) => {
+    const tr = document.createElement("tr");
 
-    const tr =
-      document.createElement("tr");
+    const tdRank = document.createElement("td");
+    tdRank.textContent = i + 1;
 
-    tr.innerHTML = `
-      <td>${i + 1}</td>
+    const tdNome = document.createElement("td");
+    tdNome.className = "td-nm";
+    tdNome.textContent = e.nome;
 
-      <td class="td-nm">
-        ${e.nome}
-      </td>
+    const tdUmi = document.createElement("td");
+    tdUmi.textContent = `${e.umidade}%`;
 
-      <td>
-        ${e.umidade}%
-      </td>
+    const tdInternacoes = document.createElement("td");
+    tdInternacoes.textContent = e.internacoes;
 
-      <td>
-        ${e.internacoes.toLocaleString("pt-BR")}
-      </td>
+    const tdStatus = document.createElement("td");
+    const pillSpan = document.createElement("span");
+    pillSpan.className = `pill ${classeStatus(e.umidade)}`;
+    pillSpan.textContent = status(e.umidade);
+    tdStatus.appendChild(pillSpan);
 
-      <td>
-        <span class="pill ${classeStatus(e.umidade)}">
-          ${status(e.umidade)}
-        </span>
-      </td>
-    `;
-
+    tr.appendChild(tdRank);
+    tr.appendChild(tdNome);
+    tr.appendChild(tdUmi);
+    tr.appendChild(tdInternacoes);
+    tr.appendChild(tdStatus);
     tbody.appendChild(tr);
   });
 }
 
-// ===== MODAL =====
-
-function abrirModal() {
-
-  document
-    .getElementById("modalOv")
-    .classList.add("open");
-
-  fecharDrawer();
-}
-
-function fecharModal() {
-
-  document
-    .getElementById("modalOv")
-    .classList.remove("open");
-}
-
-// ===== TOAST =====
-
-function mostrarToast(msg) {
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent = msg;
-
-  toast.style.display = "block";
-
-  setTimeout(() => {
-
-    toast.style.display = "none";
-
-  }, 3000);
-}
-
-// ===== SALVAR =====
-
-function salvarEstado() {
-
-  const nome =
-    document
-      .getElementById("fNome")
-      .value
-      .trim();
-
-  const sigla =
-    document
-      .getElementById("fSigla")
-      .value
-      .trim()
-      .toUpperCase();
-
-  const ibge =
-    document
-      .getElementById("fIbge")
-      .value
-      .trim();
-
-  if (!nome || !sigla || !ibge) {
-
-    alert("Preencha todos os campos.");
-
-    return;
-  }
-
-  if (DB[sigla]) {
-
-    alert("Estado já existe.");
-
-    return;
-  }
-
-  const info =
-    ESTADOS_INFO[sigla];
-
-  if (!info) {
-
-    alert("Sigla inválida.");
-
-    return;
-  }
-
-  if (info.regiao !== REGIAO) {
-
-    alert(
-      `${sigla} não pertence à região ${REGIAO}.`
-    );
-
-    return;
-  }
-
-  const umidade =
-    Math.floor(Math.random() * 70) + 10;
-
-  DB[sigla] = {
-
-    nome,
-    sigla,
-    ibge,
-
-    regiao: REGIAO,
-
-    umidade,
-
-    internacoes:
-      Math.floor(Math.random() * 5000),
-
-    hospitais:
-      Math.floor(Math.random() * 1500),
-  };
-
-  SERIE[sigla] =
-    Array.from(
-      { length: 24 },
-      () =>
-        Math.floor(Math.random() * 60) + 10
-    );
-
-  fecharModal();
-
-  mostrarToast(
-    `${nome} adicionado com sucesso`
-  );
-
-  renderTudo();
-}
-
 // ===== CONTROLE =====
-
 function selecionarEstado(sigla) {
-
   estadoAtual = sigla;
-
   renderTudo();
 }
 
-// ===== RENDER =====
-
+// ===== RENDER PRINCIPAL =====
 function renderTudo() {
-
   renderKPIs();
-
   renderStatus();
-
   renderMapa();
-
   renderLinha();
-
   renderBarras();
-
   renderTabela();
 }
 
 // ===== INIT =====
+document.addEventListener("DOMContentLoaded", () => {
+  // Preencher nome/região em todos os lugares
+  document.getElementById("nomeGestor").textContent = GESTOR;
+  document.getElementById("regiaoGestor").textContent = REGIAO;
+  document.getElementById("nomeGestorDrawer").textContent = GESTOR;
+  document.getElementById("regiaoGestorDrawer").textContent = REGIAO;
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
+  estadoAtual = estadoCritico().sigla;
+  renderTudo();
 
-    document.getElementById(
-      "nomeGestor"
-    ).textContent = GESTOR;
+  // Drawer
+  document.getElementById("btnDrawer").addEventListener("click", abrirDrawer);
+  document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawer);
+  document.getElementById("drawerOv").addEventListener("click", fecharDrawer);
 
-    document.getElementById(
-      "regiaoGestor"
-    ).textContent = REGIAO;
+  // Modal (botão dentro do drawer)
+  document.getElementById("btnAdmin").addEventListener("click", abrirModal);
+  document.getElementById("btnCancelar").addEventListener("click", fecharModal);
+  document.getElementById("btnSalvar").addEventListener("click", salvarEstado);
 
-    document.getElementById(
-      "nomeGestorDrawer"
-    ).textContent = GESTOR;
-
-    document.getElementById(
-      "regiaoGestorDrawer"
-    ).textContent = REGIAO;
-
-    estadoAtual =
-      estadoCritico().sigla;
-
-    renderTudo();
-
-    // Drawer
-    document
-      .getElementById("btnDrawer")
-      .addEventListener(
-        "click",
-        abrirDrawer
-      );
-
-    document
-      .getElementById("btnFecharDrawer")
-      .addEventListener(
-        "click",
-        fecharDrawer
-      );
-
-    document
-      .getElementById("drawerOv")
-      .addEventListener(
-        "click",
-        fecharDrawer
-      );
-
-    // Modal
-    document
-      .getElementById("btnAdmin")
-      .addEventListener(
-        "click",
-        abrirModal
-      );
-
-    document
-      .getElementById("btnCancelar")
-      .addEventListener(
-        "click",
-        fecharModal
-      );
-
-    document
-      .getElementById("btnSalvar")
-      .addEventListener(
-        "click",
-        salvarEstado
-      );
-
-    document
-      .getElementById("modalOv")
-      .addEventListener(
-        "click",
-        e => {
-
-          if (
-            e.target ===
-            document.getElementById("modalOv")
-          ) {
-            fecharModal();
-          }
-        }
-      );
-  }
-);
+  document.getElementById("modalOv").addEventListener("click", e => {
+    if (e.target === document.getElementById("modalOv")) fecharModal();
+  });
+});
