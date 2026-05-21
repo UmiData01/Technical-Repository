@@ -1,21 +1,52 @@
 var database = require("../database/config")
 
 function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
+
+    console.log("ACESSEI O USUARIO MODEL");
+
     var instrucaoSql = `
-        SELECT idUsuario, nome, email, senha FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT 
+            u.idUsuario,
+            u.nome,
+            u.sobrenome,
+            u.email,
+            u.telefone,
+            u.senha,
+
+            c.tipoCargo,
+
+            e.nomeEmpresa AS empresa,
+            e.cnpj,
+
+            r.nomeRegiao,
+            r.sigla
+
+        FROM usuario u
+
+        INNER JOIN empresas_governamentais e
+        ON u.fkEmpresa = e.idEmpresa
+
+        INNER JOIN regiao r
+        ON e.fkRegiao = r.idRegiao
+
+        INNER JOIN cargo c
+        ON u.fkCargo = c.idCargo
+
+        WHERE u.email = '${email}'
+        AND u.senha = '${senha}';
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+    console.log(instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-async function cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCargo, nomeEstado, empresa, sigla) {
+async function cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCargo, nomeRegiao, empresa, sigla) {
     console.log("ACESSEI O USUARIO MODEL");
 
     try {
         let instrucaoSql = `
-            SELECT idRegiao FROM regiao WHERE nomeRegiao = '${nomeEstado}';
+            SELECT idRegiao FROM regiao WHERE nomeRegiao = '${nomeRegiao}';
         `;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
@@ -67,7 +98,32 @@ async function cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCarg
     }
 }
 
+function listarPorEmpresa(nomeEmpresa) {
+    var instrucaoSql = `
+        SELECT u.idUsuario, u.nome, u.sobrenome, u.email, c.tipoCargo 
+        FROM usuario u
+        INNER JOIN empresas_governamentais e ON u.fkEmpresa = e.idEmpresa
+        INNER JOIN cargo c ON u.fkCargo = c.idCargo
+        WHERE e.nomeEmpresa = '${nomeEmpresa}';
+    `;
+    return database.executar(instrucaoSql);
+}
+
+function alterarCargo(idUsuario, idCargo) {
+    var instrucaoSql = `UPDATE usuario SET fkCargo = ${idCargo} WHERE idUsuario = ${idUsuario};`;
+    return database.executar(instrucaoSql);
+}
+
+function deletarUsuario(idUsuario) {
+    var instrucaoSql = `DELETE FROM usuario WHERE idUsuario = ${idUsuario};`;
+    return database.executar(instrucaoSql);
+}
+
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar, 
+    listarPorEmpresa, 
+    alterarCargo, 
+    deletarUsuario
 };

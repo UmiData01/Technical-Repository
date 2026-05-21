@@ -1,14 +1,14 @@
 function barra() {
-        const sidebar = document.getElementById("sidebar");
+    const sidebar = document.getElementById("sidebar");
 
-        if (sidebar.style.width === "250px") {
-            sidebar.style.width = "0";
-        } else {
-            sidebar.style.width = "250px";
-        }
-
+    if (sidebar.style.width === "250px") {
+        sidebar.style.width = "0";
+    } else {
+        sidebar.style.width = "250px";
     }
-    function entrar() {
+
+}
+function entrar() {
 
     var email = document.getElementById("email").value;
     var senha = document.getElementById("senha").value;
@@ -60,43 +60,45 @@ function barra() {
             senhaServer: senha
         })
     })
-    .then(function (resposta) {
+        .then(function (resposta) {
 
-        console.log("Resposta recebida:", resposta);
+            console.log("Resposta recebida:", resposta);
 
-        if (resposta.ok) {
+            if (resposta.ok) {
 
-            resposta.json().then(json => {
+                resposta.json().then(json => {
 
-                console.log(json);
+                    console.log(json);
 
-            
-                sessionStorage.EMAIL_USUARIO = json.email;
-                sessionStorage.NOME_USUARIO = json.nome;
-                sessionStorage.ID_USUARIO = json.idUsuario;
-                sessionStorage.ESTADO_USUARIO = json.nomeEstado;
 
-                setTimeout(function () {
-                    window.location = "./dashboard/dashboard.html";
-                }, 1000);
+                    sessionStorage.setItem("ID_USUARIO", json.id);
+                    sessionStorage.setItem("NOME_USUARIO", json.nome);
+                    sessionStorage.setItem("EMAIL_USUARIO", json.email);
+                    sessionStorage.setItem("REGIAO_USUARIO", json.nomeRegiao);
+                    sessionStorage.setItem("TIPO_CARGO", json.tipoCargo);
+                    sessionStorage.setItem("EMPRESA_USUARIO", json.empresa);
 
-            });
+                    setTimeout(function () {
+                        window.location = "./dashboard/dashboard.html";
+                    }, 1000);
 
-        } else {
+                });
 
-            console.log("Erro ao logar");
+            } else {
 
-            resposta.text().then(() => {
-                erroSenha.textContent = "Email ou senha inválidos";
-            });
+                console.log("Erro ao logar");
 
-        }
+                resposta.text().then(() => {
+                    erroSenha.textContent = "Email ou senha inválidos";
+                });
 
-    })
-    .catch(function (erro) {
-        console.error(erro);
-        erroSenha.textContent = "Erro ao conectar com o servidor";
-    });
+            }
+
+        })
+        .catch(function (erro) {
+            console.error(erro);
+            erroSenha.textContent = "Erro ao conectar com o servidor";
+        });
 
     return false;
 }

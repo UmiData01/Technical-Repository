@@ -198,7 +198,7 @@ function barra() {
             siglaServer: sigla,
             cnpjServer: cnpj,
             cargoServer: cargo,
-            estadoServer: estado,
+            regiaoServer: estado,
             emailServer: email,
             telefoneServer: telefone,
             senhaServer: senha

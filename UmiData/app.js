@@ -17,15 +17,22 @@ var app = express();
 
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
+var kpiRouter = require('./src/routes/kpi');
+var graficosRouter = require("./src/routes/graficos");
+var estadosRouter = require("./src/routes/estados");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+
 app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
+app.use("/kpi", kpiRouter);
+app.use("/graficos", graficosRouter);
+app.use("/estados", estadosRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

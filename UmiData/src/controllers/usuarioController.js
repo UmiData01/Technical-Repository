@@ -1,5 +1,4 @@
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
@@ -15,31 +14,26 @@ function autenticar(req, res) {
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
-                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
+                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
 
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
-
-                        aquarioModel.buscarAquariosPorEmpresa(resultadoAutenticar[0].idUsuario)
-                            .then((resultadoAquarios) => {
-                                if (resultadoAquarios.length > 0) {
-                                    res.json({
-                                        id: resultadoAutenticar[0].idUsuario,
-                                        nome: resultadoAutenticar[0].nome,
-                                        sobrenome: resultadoAutenticar[0].sobrenome,
-                                        email: resultadoAutenticar[0].email,
-                                        telefone: resultadoAutenticar[0].telefone,
-                                        senha: resultadoAutenticar[0].senha,
-                                        cpnj: resultadoAutenticar[0].cnpj,
-                                        tipoCargo: resultadoAutenticar[0].tipoCargo,
-                                        nomeEstado: resultadoAutenticar[0].nomeEstado,
-                                        empresa: resultadoAutenticar[0].empresa,
-                                        sigla: resultadoAutenticar[0].sigla
-                                    });
-                                } else {
-                                    res.status(204).json({ aquarios: [] });
-                                }
-                            })
+                        
+                        // Retorna os dados do usuário logado diretamente, sem buscar "aquários"
+                        res.json({
+                            id: resultadoAutenticar[0].idUsuario,
+                            nome: resultadoAutenticar[0].nome,
+                            sobrenome: resultadoAutenticar[0].sobrenome,
+                            email: resultadoAutenticar[0].email,
+                            telefone: resultadoAutenticar[0].telefone,
+                            senha: resultadoAutenticar[0].senha,
+                            cnpj: resultadoAutenticar[0].cnpj,
+                            tipoCargo: resultadoAutenticar[0].tipoCargo,
+                            nomeRegiao: resultadoAutenticar[0].nomeRegiao,
+                            empresa: resultadoAutenticar[0].empresa,
+                            sigla: resultadoAutenticar[0].sigla
+                        });
+                        
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -54,11 +48,9 @@ function autenticar(req, res) {
                 }
             );
     }
-
 }
 
 function cadastrar(req, res) {
-    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var nome = req.body.nomeServer;
     var sobrenome = req.body.sobrenomeServer;
     var email = req.body.emailServer;
@@ -66,22 +58,22 @@ function cadastrar(req, res) {
     var senha = req.body.senhaServer;
     var cnpj = req.body.cnpjServer;
     var tipoCargo = req.body.cargoServer;
-    var nomeEstado = req.body.estadoServer;
+    var nomeRegiao = req.body.regiaoServer;
     var empresa = req.body.empresaServer;
     var sigla = req.body.siglaServer;
 
-
-    // Faça as validações dos valores
+    // Validações rigorosas para não quebrar o Model
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
+    } else if (nomeRegiao == undefined) {
+        res.status(400).send("A região está undefined! Verifique o Front-end.");
     } else {
 
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCargo, nomeEstado, empresa, sigla)
+        usuarioModel.cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCargo, nomeRegiao, empresa, sigla)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -89,17 +81,39 @@ function cadastrar(req, res) {
             ).catch(
                 function (erro) {
                     console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
+                    console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
                     res.status(500).json(erro.sqlMessage);
                 }
             );
     }
 }
 
+function listarPorEmpresa(req, res) {
+    var empresa = req.params.empresa;
+    usuarioModel.listarPorEmpresa(empresa)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
+function alterarCargo(req, res) {
+    var idUsuario = req.params.idUsuario;
+    var cargo = req.body.cargoServer;
+    usuarioModel.alterarCargo(idUsuario, cargo)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
+function deletarUsuario(req, res) {
+    var idUsuario = req.params.idUsuario;
+    usuarioModel.deletarUsuario(idUsuario)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar, 
+    listarPorEmpresa, 
+    alterarCargo, 
+    deletarUsuario
 }
