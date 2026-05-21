@@ -4,22 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>UmiData — Dashboard</title>
-
-  <!-- Chart -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <!-- Fontes -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
-
-  <!-- CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
@@ -27,25 +15,18 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-
-    <!-- LOGO -->
     <div class="nav-brand">
       <img src="../assets/imgs/logo2.png" class="nav-logo">
       <span class="nav-title">Umi<span>Data</span></span>
     </div>
-
-    <!-- USUÁRIO (centro) -->
     <div class="nav-user">
       <span id="nomeGestor"></span>
       <span class="nav-sep">•</span>
       <span id="regiaoGestor"></span>
     </div>
-
-    <!-- MENU BUTTON -->
-    <button class="nav-menu-btn" id="btnDrawer" aria-label="Abrir menu">
+    <button class="nav-menu-btn" id="btnDrawer">
       <i class="fa-solid fa-bars"></i>
     </button>
-
   </header>
 
   <!-- DRAWER OVERLAY -->
@@ -53,7 +34,6 @@
 
   <!-- DRAWER -->
   <aside class="drawer" id="drawer">
-
     <div class="drawer-head">
       <div class="side-brand">
         <img src="../assets/imgs/logo2.png" class="side-logo">
@@ -65,66 +45,49 @@
           </span>
         </div>
       </div>
-      <button class="drawer-close" id="btnFecharDrawer" aria-label="Fechar menu">
+      <button class="drawer-close" id="btnFecharDrawer">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
 
-    <!-- MENU -->
     <div class="side-menu">
-
       <button class="side-btn active">
         <i class="fa-solid fa-chart-line"></i>
         <span>Dashboard</span>
       </button>
-
-      <button class="side-btn">
+      <button class="side-btn" id="btnOpcoes">
         <i class="fa-solid fa-gear"></i>
         <span>Opções</span>
       </button>
-
       <button class="side-btn" id="btnAdmin">
         <i class="fa-solid fa-plus"></i>
         <span>Adicionar Estado</span>
       </button>
-
     </div>
 
-    <!-- SAIR -->
     <a href="../index.html" class="side-btn logout">
       <i class="fa-solid fa-right-from-bracket"></i>
       <span>Sair</span>
     </a>
-
   </aside>
 
   <!-- MAIN -->
   <div class="layout">
     <main>
 
-      <!-- KPIs -->
       <section class="kpi-grid" id="kpiGrid"></section>
 
-      <!-- GRID -->
       <section class="dashboard-grid">
 
-        <!-- ESQUERDA -->
         <div class="left-panel">
 
-          <!-- ESTADOS -->
           <div class="v-card">
-
             <div class="v-head">
               <div class="v-label">Estados da Região</div>
               <div class="v-sub">Clique para selecionar o estado</div>
             </div>
-
             <div id="estadoStatusBar"></div>
-
-            <!-- CARDS -->
             <div id="mapaCards" class="estado-grid"></div>
-
-            <!-- LEGENDA -->
             <div class="mapa-legenda">
               <div class="leg"><div class="leg-sq verde"></div>Ideal > 60%</div>
               <div class="leg"><div class="leg-sq amarelo"></div>Atenção 30-60%</div>
@@ -132,16 +95,12 @@
               <div class="leg"><div class="leg-sq vermelho"></div>Emergência 12-19%</div>
               <div class="leg"><div class="leg-sq vinho"></div>Crítico < 12%</div>
             </div>
-
           </div>
 
-          <!-- RANKING -->
           <div class="v-card ranking-card">
-
             <div class="v-head">
               <div class="v-label">Ranking</div>
             </div>
-
             <div class="table-wrap">
               <table>
                 <thead>
@@ -156,15 +115,12 @@
                 <tbody id="rankBody"></tbody>
               </table>
             </div>
-
           </div>
 
         </div>
 
-        <!-- DIREITA -->
         <div class="right-panel">
 
-          <!-- LINHA -->
           <div class="v-card graph-card">
             <div class="v-head">
               <div class="v-label">Evolução da Umidade</div>
@@ -174,7 +130,6 @@
             </div>
           </div>
 
-          <!-- BARRAS -->
           <div class="v-card graph-card">
             <div class="v-head">
               <div class="v-label">Média Semanal de Umidade</div>
@@ -182,7 +137,6 @@
             <div class="chart-wrap">
               <canvas id="barChart"></canvas>
             </div>
-
           </div>
 
         </div>
@@ -192,43 +146,166 @@
     </main>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL ADICIONAR ESTADO -->
   <div class="modal-ov" id="modalOv">
-
     <div class="modal-box">
-
       <div class="modal-title">+ Adicionar Estado</div>
-
       <div class="fg">
         <label>Nome</label>
         <input id="fNome" />
       </div>
-
       <div class="fg">
         <label>Sigla</label>
         <input id="fSigla" />
       </div>
-
       <div class="fg">
         <label>IBGE</label>
         <input id="fIbge" />
       </div>
-
       <div class="modal-foot">
         <button class="btn btn-c" id="btnCancelar">Cancelar</button>
         <button class="btn btn-s" id="btnSalvar">Salvar</button>
       </div>
-
     </div>
-
   </div>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">Salvo</div>
+  <!-- MODAL OPÇÕES -->
+  <div class="modal-ov" id="opcoesOv">
+    <div class="modal-opcoes">
+
+      <!-- HEADER -->
+      <div class="mopc-header">
+        <div class="mopc-title">
+          <i class="fa-solid fa-gear"></i>
+          Opções
+        </div>
+        <button class="drawer-close" id="btnFecharOpcoes">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- BODY -->
+      <div class="mopc-body">
+
+        <!-- NAV LATERAL -->
+        <nav class="mopc-nav">
+          <button class="mopc-nav-btn active" data-tab="acessos">
+            <i class="fa-solid fa-users"></i>
+            <span>Acessos</span>
+          </button>
+          <button class="mopc-nav-btn" data-tab="notificacoes">
+            <i class="fa-regular fa-bell"></i>
+            <span>Notificações</span>
+          </button>
+          <button class="mopc-nav-btn" data-tab="senha">
+            <i class="fa-solid fa-key"></i>
+            <span>Senha</span>
+          </button>
+        </nav>
+
+        <!-- CONTEÚDO DAS ABAS -->
+        <div class="mopc-content">
+
+          <!-- ABA ACESSOS -->
+          <div class="mopc-tab" id="tab-acessos">
+            <div class="tab-title">Usuários da Empresa</div>
+            <table class="usuarios-table">
+              <thead>
+                <tr>
+                  <th>Usuário</th>
+                  <th>Permissão</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyUsuarios"></tbody>
+            </table>
+          </div>
+
+          <!-- ABA NOTIFICAÇÕES -->
+          <div class="mopc-tab" id="tab-notificacoes" style="display:none">
+            <div class="tab-title">Preferências de Notificação</div>
+
+            <div class="notif-card">
+              <div class="notif-info">
+                <div class="notif-icon"><i class="fa-brands fa-slack"></i></div>
+                <div>
+                  <div class="notif-label">Slack</div>
+                  <div class="notif-desc">Receba alertas de umidade e emergências no Slack</div>
+                </div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="toggleSlack" checked>
+                <span class="toggle-track"></span>
+              </label>
+            </div>
+
+            <div class="notif-card">
+              <div class="notif-info">
+                <div class="notif-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div>
+                  <div class="notif-label">E-mail (JavaMail)</div>
+                  <div class="notif-desc">Receba relatórios diários e alertas críticos por e-mail</div>
+                </div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="toggleEmail" checked>
+                <span class="toggle-track"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- ABA SENHA -->
+          <div class="mopc-tab" id="tab-senha" style="display:none">
+            <div class="tab-title">Alterar Senha</div>
+            <div class="senha-form">
+
+              <div class="fg-senha">
+                <label>Senha Atual</label>
+                <div class="pw-wrap">
+                  <input type="password" id="senhaAtual" placeholder="Digite sua senha atual">
+                  <button class="pw-eye" onclick="togglePw('senhaAtual', this)">
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="fg-senha">
+                <label>Nova Senha</label>
+                <div class="pw-wrap">
+                  <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres">
+                  <button class="pw-eye" onclick="togglePw('novaSenha', this)">
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </div>
+                <span class="senha-hint">Mínimo 6 caracteres</span>
+              </div>
+
+              <div class="fg-senha">
+                <label>Confirmar Nova Senha</label>
+                <div class="pw-wrap">
+                  <input type="password" id="confirmarSenha" placeholder="Repita a nova senha">
+                  <button class="pw-eye" onclick="togglePw('confirmarSenha', this)">
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="senha-actions">
+                <button class="btn-senha-c" onclick="fecharOpcoes()">Cancelar</button>
+                <button class="btn-senha-s" onclick="salvarSenha()">Salvar</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- fim mopc-content -->
+
+      </div><!-- fim mopc-body -->
+
+    </div><!-- fim modal-opcoes -->
+  </div><!-- fim opcoesOv -->
 
   <!-- JS -->
   <script src="../js/dashboard.js"></script>
 
 </body>
-
 </html>
