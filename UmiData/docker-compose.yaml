@@ -1,5 +1,6 @@
 services:
   app:
+    container_name: umidata_app
     depends_on:
       - db
     build: .
@@ -16,6 +17,7 @@ services:
       AMBIENTE_PROCESSO: producao
 
   db:
+    container_name: umidata_db
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: urubu100
@@ -27,6 +29,7 @@ services:
       - ./src/database/script-tabelas.sql:/docker-entrypoint-initdb.d/01-ddl.sql
 
   worker-java:
+    container_name: umidata_java
     build: ./java-worker
     depends_on:
       - db
