@@ -1,7 +1,7 @@
 var database = require("../database/config");
 
 function buscarEstadosPorRegiao(regiao) {
-    console.log("Buscando estados da região:", regiao);
+    console.log("Buscando estados da região (MÉDIA):", regiao);
 
     var instrucaoSql = `
         SELECT 
@@ -9,11 +9,9 @@ function buscarEstadosPorRegiao(regiao) {
             e.nomeEstado AS nome,
             e.uf AS sigla,
             COALESCE((
-                SELECT m.umidade 
+                SELECT ROUND(AVG(m.umidade), 1) 
                 FROM medida m 
                 WHERE m.fkEstado = e.idEstado 
-                ORDER BY m.dataHora DESC 
-                LIMIT 1
             ), 0) AS umidade
         FROM estado e
         INNER JOIN regiao r 

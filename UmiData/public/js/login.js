@@ -102,3 +102,30 @@ function entrar() {
 
     return false;
 }
+
+function mostrarMensagemSucesso(mensagem) {
+    const toast = document.createElement("div");
+    toast.textContent = mensagem;
+    
+    toast.style.position = "fixed";
+    toast.style.top = "30px";
+    toast.style.right = "30px";
+    toast.style.backgroundColor = "#22c55e";
+    toast.style.color = "white";
+    toast.style.padding = "16px 24px";
+    toast.style.borderRadius = "10px";
+    toast.style.fontWeight = "bold";
+    toast.style.boxShadow = "0 10px 25px rgba(34, 197, 94, 0.4)";
+    toast.style.zIndex = "9999";
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(-20px)";
+    toast.style.transition = "all 0.4s ease";
+    
+    document.body.appendChild(toast);
+
+  
+    setTimeout(() => {
+        toast.style.opacity = "1";
+        toast.style.transform = "translateY(0)";
+    }, 10);
+}

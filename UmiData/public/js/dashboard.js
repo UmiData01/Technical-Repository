@@ -375,28 +375,36 @@ function renderLinha() {
         }
     });
 }
-
 function renderBarras() {
     const ctx = document.getElementById("barChart");
     if (barChart) barChart.destroy();
     
-    const valores = dadosSemanais.map(d => Number(d.mediaUmidade));
+    // 🔴 AQUI ESTÁ O LIMITADOR: Pega apenas os 4 últimos registros (ou os 4 primeiros)
+    // O slice(-4) garante que se vierem 10 semanas do banco, ele só vai pegar as 4 mais recentes
+    const dadosLimitados = dadosSemanais.slice(-4);
+    
+    const valores = dadosLimitados.map(d => Number(d.mediaUmidade));
     
     barChart = new Chart(ctx, {
         type: "bar",
         data: {
-            labels: dadosSemanais.map((d, i) => `Semana ${i + 1}`),
+            // Usa o array limitado para gerar as labels (Semana 1, Semana 2, etc.)
+            labels: dadosLimitados.map((d, i) => `Semana ${i + 1}`),
             datasets: [{
                 label: DB[estadoAtual].nome,
                 data: valores,
                 backgroundColor: valores.map(v => cor(v) + "cc"),
                 borderColor: valores.map(v => cor(v)),
-                borderWidth: 2, borderRadius: 6
+                borderWidth: 2, 
+                borderRadius: 6
             }]
         },
         options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: CHART_TEXT, font: { weight: "700" } } } },
+            responsive: true, 
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { labels: { color: CHART_TEXT, font: { weight: "700" } } } 
+            },
             scales: {
                 x: { ticks: { color: CHART_TEXT }, grid: { color: CHART_GRID } },
                 y: { ticks: { color: CHART_TEXT }, grid: { color: CHART_GRID } }
@@ -462,4 +470,29 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".mopc-nav-btn").forEach(btn =>
         btn.addEventListener("click", () => setTab(btn.dataset.tab))
     );
+
+    // ===== MODAL SAIR =====
+  const modalSair = document.getElementById("modalSairOv");
+
+  // Abre o modal ao clicar em "Sair" no menu
+  document.getElementById("btnSairMenu").addEventListener("click", () => {
+    modalSair.classList.add("open");
+    fecharDrawer(); // Fecha o menu lateral para não ficar bagunçado
+  });
+
+  // Fecha o modal se clicar em "Ficar"
+  document.getElementById("btnCancelarSair").addEventListener("click", () => {
+    modalSair.classList.remove("open");
+  });
+
+  // Fecha se clicar fora da caixinha do modal
+  modalSair.addEventListener("click", (e) => {
+    if (e.target === modalSair) modalSair.classList.remove("open");
+  });
+
+  // Ação real de sair (limpa os dados e redireciona)
+  document.getElementById("btnConfirmarSair").addEventListener("click", () => {
+    sessionStorage.clear(); // Apaga quem estava logado
+    window.location = "../index.html"; // Manda de volta pra tela de login
+  });
 });

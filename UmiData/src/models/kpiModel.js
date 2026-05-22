@@ -1,37 +1,33 @@
 var database = require("../database/config");
 
 function buscarKPIs(regiao) {
+    console.log("Buscando KPIs baseados na MÉDIA dos estados da região:", regiao);
 
-    // A query agora cria uma "tabela virtual" (ultimas) contendo apenas
-    // o registro mais recente de cada estado da região solicitada.
+    // Usamos uma Subquery (tabela virtual) para primeiro calcular as médias,
+    // e depois extrair os valores Máximos, Mínimos e Críticos dessa tabela.
     var instrucaoSql = `
         SELECT 
-            MAX(ultimas.umidadeAtual) AS umidadeMaxima,
-            MIN(ultimas.umidadeAtual) AS umidadeMinima,
-            COUNT(CASE WHEN ultimas.umidadeAtual < 12 THEN 1 END) AS estadosCriticos
+            MAX(umidadeMedia) AS umidadeMaxima,
+            MIN(umidadeMedia) AS umidadeMinima,
+            SUM(CASE WHEN umidadeMedia < 12 THEN 1 ELSE 0 END) AS estadosCriticos
         FROM (
             SELECT 
-                (
-                    SELECT m.umidade 
-                    FROM medida m 
-                    WHERE m.fkEstado = e.idEstado 
-                    ORDER BY m.dataHora DESC 
-                    LIMIT 1
-                ) AS umidadeAtual
+                e.idEstado,
+                COALESCE(ROUND(AVG(m.umidade), 1), 0) AS umidadeMedia
             FROM estado e
-            INNER JOIN regiao r 
-                ON e.fkRegiao = r.idRegiao
+            INNER JOIN regiao r ON e.fkRegiao = r.idRegiao
+            LEFT JOIN medida m ON m.fkEstado = e.idEstado
             WHERE r.nomeRegiao = '${regiao}'
-        ) AS ultimas
-        WHERE ultimas.umidadeAtual IS NOT NULL;
+            GROUP BY e.idEstado
+        ) AS MediasEstados;
     `;
 
-    console.log("Executando SQL KPIs em tempo real:");
-    console.log(instrucaoSql);
+    console.log("Executando SQL KPIs:\n", instrucaoSql);
 
     return database.executar(instrucaoSql);
 }
 
+// Lembre-se de verificar se o nome da função no seu arquivo bate com `buscarKPIs`!
 module.exports = {
     buscarKPIs
 };
