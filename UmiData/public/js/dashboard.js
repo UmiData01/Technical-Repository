@@ -51,69 +51,13 @@ function fecharDrawer() {
     document.getElementById("drawerOv").classList.remove("open");
 }
 
-// ===== MODAL ADICIONAR ESTADO =====
-function abrirModal() {
-    ["fNome", "fSigla", "fIbge"].forEach(id => document.getElementById(id).value = "");
-    document.getElementById("modalOv").classList.add("open");
-    fecharDrawer();
-}
-
-function fecharModal() {
-    document.getElementById("modalOv").classList.remove("open");
-}
-
-async function salvarEstado() {
-    const nome  = document.getElementById("fNome").value.trim();
-    const sigla = document.getElementById("fSigla").value.trim().toUpperCase();
-    const ibge  = document.getElementById("fIbge").value.trim();
-
-    if (!nome || !sigla || !ibge) { 
-        alert("Preencha todos os campos."); 
-        return; 
-    }
-    if (sigla.length < 2 || sigla.length > 3) { 
-        alert("Sigla deve ter 2 ou 3 letras."); 
-        return; 
-    }
-    if (DB[sigla]) { 
-        alert("Estado já está cadastrado no seu painel."); 
-        return; 
-    }
-
-    try {
-        const resposta = await fetch("/estados/cadastrar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                nomeServer: nome,
-                siglaServer: sigla,
-                ibgeServer: ibge,
-                regiaoServer: REGIAO
-            })
-        });
-
-        if (resposta.ok) {
-            alert(`${nome} adicionado com sucesso!`);
-            fecharModal();
-            renderTudo(); 
-        } else {
-            const erro = await resposta.text();
-            alert(`Erro ao cadastrar estado: ${erro}`);
-        }
-
-    } catch (erro) {
-        console.error("Erro na requisição:", erro);
-        alert("Erro de conexão ao tentar cadastrar o estado.");
-    }
-}
-
-// ===== MODAL OPÇÕES (CONTROLE DE ACESSOS REAL) =====
+// ===== MODAL OPÇÕES =====
 let tabAtiva = "acessos";
 
 function abrirOpcoes() {
     document.getElementById("opcoesOv").classList.add("open");
     fecharDrawer();
-    configurarModalOpcoes(); // Verifica se é Admin
+    configurarModalOpcoes();
     setTab(tabAtiva);
 }
 
@@ -141,10 +85,9 @@ function configurarModalOpcoes() {
         btnAcessos.style.display = 'none';
         tabAcessos.style.display = 'none';
         btnAcessos.classList.remove('active');
-        
         tabNotificacoes.style.display = 'block';
         btnNotificacoes.classList.add('active');
-        tabAtiva = 'notificacoes'; 
+        tabAtiva = 'notificacoes';
     } else {
         carregarUsuariosEmpresa();
     }
@@ -154,14 +97,14 @@ function configurarModalOpcoes() {
 async function carregarUsuariosEmpresa() {
     try {
         const resposta = await fetch(`/usuarios/listarPorEmpresa/${EMPRESA_LOGADA}`);
-        
+
         if (resposta.ok) {
             const usuarios = await resposta.json();
             const tbody = document.getElementById("tbodyUsuarios");
             tbody.innerHTML = "";
 
             usuarios.forEach(user => {
-                const btnExcluir = user.nome === sessionStorage.getItem("NOME_USUARIO") 
+                const btnExcluir = user.nome === sessionStorage.getItem("NOME_USUARIO")
                     ? `<button class="btn btn-c" disabled style="opacity: 0.5; cursor: not-allowed;"><i class="fa-solid fa-ban"></i></button>`
                     : `<button class="btn btn-c" style="color: #ef4444;" onclick="removerUsuario(${user.idUsuario}, '${user.nome}')"><i class="fa-solid fa-trash"></i></button>`;
 
@@ -213,14 +156,14 @@ async function alterarPermissao(idUsuario, idNovoCargo) {
 }
 
 async function removerUsuario(idUsuario, nomeUsuario) {
-    if(!confirm(`Tem certeza que deseja REVOGAR O ACESSO de ${nomeUsuario}? Esta ação não pode ser desfeita.`)) return;
+    if (!confirm(`Tem certeza que deseja REVOGAR O ACESSO de ${nomeUsuario}? Esta ação não pode ser desfeita.`)) return;
 
     try {
         const resposta = await fetch(`/usuarios/deletar/${idUsuario}`, { method: "DELETE" });
 
         if (resposta.ok) {
             alert("Usuário removido com sucesso!");
-            carregarUsuariosEmpresa(); 
+            carregarUsuariosEmpresa();
         } else {
             alert("Erro ao remover usuário.");
         }
@@ -257,24 +200,24 @@ async function carregarEstados() {
         if (!resposta.ok) throw new Error("Erro ao buscar estados");
         if (resposta.status === 204) {
             console.warn("Nenhum estado cadastrado para esta região ainda.");
-            DB = {}; 
-            return;  
+            DB = {};
+            return;
         }
-        
+
         const dados = await resposta.json();
-        DB = {}; 
+        DB = {};
         dados.forEach(est => {
             DB[est.sigla] = {
                 id: est.idEstado,
                 nome: est.nome,
                 sigla: est.sigla,
                 umidade: Number(est.umidade),
-                internacoes: 0 
+                internacoes: 0
             };
         });
 
         if (!estadoAtual || !DB[estadoAtual]) {
-            estadoAtual = Object.keys(DB)[0]; 
+            estadoAtual = Object.keys(DB)[0];
         }
     } catch (erro) {
         console.error("Erro ao carregar estados:", erro);
@@ -305,10 +248,10 @@ async function renderKPIs() {
         const criticos = Number(dados.estadosCriticos) || 0;
 
         const cards = [
-            { label: "Umidade Máxima", value: maxUmi, unit: "%", color: cor(maxUmi), info: "Maior umidade na região." },
-            { label: "Estados Críticos", value: criticos, unit: "", color: "#ef4444", info: "Abaixo de 12%." },
-            { label: "Internações", value: 0, unit: "", color: "#2563eb", info: "Sem integração." },
-            { label: "Umidade Mínima", value: minUmi, unit: "%", color: cor(minUmi), info: "Menor umidade na região." }
+            { label: "Umidade Máxima",   value: maxUmi,   unit: "%", color: cor(maxUmi), info: "Maior umidade na região." },
+            { label: "Estados Críticos", value: criticos,  unit: "",  color: "#ef4444",   info: "Abaixo de 12%." },
+            { label: "Internações",      value: 0,         unit: "",  color: "#2563eb",   info: "Sem integração." },
+            { label: "Umidade Mínima",   value: minUmi,   unit: "%", color: cor(minUmi), info: "Menor umidade na região." }
         ];
 
         const container = document.getElementById("kpiGrid");
@@ -351,7 +294,7 @@ function renderLinha() {
     const ctx = document.getElementById("lineChart");
     if (lineChart) lineChart.destroy();
     const c = cor(DB[estadoAtual].umidade);
-    
+
     lineChart = new Chart(ctx, {
         type: "line",
         data: {
@@ -375,35 +318,32 @@ function renderLinha() {
         }
     });
 }
+
 function renderBarras() {
     const ctx = document.getElementById("barChart");
     if (barChart) barChart.destroy();
-    
-    // 🔴 AQUI ESTÁ O LIMITADOR: Pega apenas os 4 últimos registros (ou os 4 primeiros)
-    // O slice(-4) garante que se vierem 10 semanas do banco, ele só vai pegar as 4 mais recentes
+
     const dadosLimitados = dadosSemanais.slice(-4);
-    
     const valores = dadosLimitados.map(d => Number(d.mediaUmidade));
-    
+
     barChart = new Chart(ctx, {
         type: "bar",
         data: {
-            // Usa o array limitado para gerar as labels (Semana 1, Semana 2, etc.)
             labels: dadosLimitados.map((d, i) => `Semana ${i + 1}`),
             datasets: [{
                 label: DB[estadoAtual].nome,
                 data: valores,
                 backgroundColor: valores.map(v => cor(v) + "cc"),
                 borderColor: valores.map(v => cor(v)),
-                borderWidth: 2, 
+                borderWidth: 2,
                 borderRadius: 6
             }]
         },
         options: {
-            responsive: true, 
+            responsive: true,
             maintainAspectRatio: false,
-            plugins: { 
-                legend: { labels: { color: CHART_TEXT, font: { weight: "700" } } } 
+            plugins: {
+                legend: { labels: { color: CHART_TEXT, font: { weight: "700" } } }
             },
             scales: {
                 x: { ticks: { color: CHART_TEXT }, grid: { color: CHART_GRID } },
@@ -431,12 +371,12 @@ function renderTabela() {
 function selecionarEstado(sigla) { estadoAtual = sigla; renderTudo(); }
 
 async function renderTudo() {
-    await carregarEstados(); 
+    await carregarEstados();
     if (Object.keys(DB).length === 0) {
         document.getElementById("estadoStatusBar").innerHTML = `<div class="estado-status-bar"><div class="esb-estado">Nenhum estado cadastrado</div></div>`;
-        return; 
+        return;
     }
-    await buscarGraficos();  
+    await buscarGraficos();
     renderKPIs();
     renderStatus();
     renderMapa();
@@ -447,52 +387,97 @@ async function renderTudo() {
 
 // ===== INIT =====
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("nomeGestor").textContent = GESTOR;
-    document.getElementById("regiaoGestor").textContent = REGIAO;
-    document.getElementById("nomeGestorDrawer").textContent = GESTOR;
+    document.getElementById("nomeGestor").textContent         = GESTOR;
+    document.getElementById("regiaoGestor").textContent       = REGIAO;
+    document.getElementById("nomeGestorDrawer").textContent   = GESTOR;
     document.getElementById("regiaoGestorDrawer").textContent = REGIAO;
 
     renderTudo();
 
+    // Drawer
     document.getElementById("btnDrawer").addEventListener("click", abrirDrawer);
     document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawer);
-    document.getElementById("drawerOv").addEventListener("click", e => { if (e.target === document.getElementById("drawerOv")) fecharDrawer(); });
+    document.getElementById("drawerOv").addEventListener("click", e => {
+        if (e.target === document.getElementById("drawerOv")) fecharDrawer();
+    });
 
-    document.getElementById("btnAdmin").addEventListener("click", abrirModal);
-    document.getElementById("btnCancelar").addEventListener("click", fecharModal);
-    document.getElementById("btnSalvar").addEventListener("click", salvarEstado);
-    document.getElementById("modalOv").addEventListener("click", e => { if (e.target === document.getElementById("modalOv")) fecharModal(); });
-
+    // Modal opções
     document.getElementById("btnOpcoes").addEventListener("click", abrirOpcoes);
     document.getElementById("btnFecharOpcoes").addEventListener("click", fecharOpcoes);
-    document.getElementById("opcoesOv").addEventListener("click", e => { if (e.target === document.getElementById("opcoesOv")) fecharOpcoes(); });
+    document.getElementById("opcoesOv").addEventListener("click", e => {
+        if (e.target === document.getElementById("opcoesOv")) fecharOpcoes();
+    });
 
+    // Tabs
     document.querySelectorAll(".mopc-nav-btn").forEach(btn =>
         btn.addEventListener("click", () => setTab(btn.dataset.tab))
     );
 
-    // ===== MODAL SAIR =====
-  const modalSair = document.getElementById("modalSairOv");
+    // Modal sair
+    const modalSair = document.getElementById("modalSairOv");
 
-  // Abre o modal ao clicar em "Sair" no menu
-  document.getElementById("btnSairMenu").addEventListener("click", () => {
-    modalSair.classList.add("open");
-    fecharDrawer(); // Fecha o menu lateral para não ficar bagunçado
+    document.getElementById("btnSairMenu").addEventListener("click", () => {
+        modalSair.classList.add("open");
+        fecharDrawer();
+    });
+
+    document.getElementById("btnCancelarSair").addEventListener("click", () => {
+        modalSair.classList.remove("open");
+    });
+
+    modalSair.addEventListener("click", (e) => {
+        if (e.target === modalSair) modalSair.classList.remove("open");
+    });
+
+    document.getElementById("btnConfirmarSair").addEventListener("click", () => {
+        sessionStorage.clear();
+        window.location = "../index.html";
+    });
+
+    // ===== MODAL ADICIONAR ESTADO (Angular Element) =====
+    // ===== MODAL ADICIONAR ESTADO (Angular Element) =====
+setTimeout(() => {
+  const modalEl = document.querySelector('app-adicionar-estado-modal');
+  if (!modalEl) return;
+
+  document.getElementById('btnAdmin').addEventListener('click', () => {
+    modalEl.aberto = true;
+    fecharDrawer();
   });
 
-  // Fecha o modal se clicar em "Ficar"
-  document.getElementById("btnCancelarSair").addEventListener("click", () => {
-    modalSair.classList.remove("open");
+  modalEl.addEventListener('fechar', () => {
+    modalEl.aberto = false;
   });
 
-  // Fecha se clicar fora da caixinha do modal
-  modalSair.addEventListener("click", (e) => {
-    if (e.target === modalSair) modalSair.classList.remove("open");
-  });
+  modalEl.addEventListener('salvar', async (e) => {
+    const { nome, sigla, ibge } = e.detail;
 
-  // Ação real de sair (limpa os dados e redireciona)
-  document.getElementById("btnConfirmarSair").addEventListener("click", () => {
-    sessionStorage.clear(); // Apaga quem estava logado
-    window.location = "../index.html"; // Manda de volta pra tela de login
+    if (DB[sigla]) { alert('Estado já cadastrado no seu painel.'); return; }
+
+    try {
+      const resposta = await fetch('/estados/cadastrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nomeServer: nome,
+          siglaServer: sigla,
+          ibgeServer: ibge,
+          regiaoServer: REGIAO
+        })
+      });
+
+      if (resposta.ok) {
+        alert(`${nome} adicionado com sucesso!`);
+        modalEl.aberto = false;
+        renderTudo();
+      } else {
+        const erro = await resposta.text();
+        alert(`Erro ao cadastrar estado: ${erro}`);
+      }
+    } catch (erro) {
+      console.error('Erro na requisição:', erro);
+      alert('Erro de conexão ao tentar cadastrar o estado.');
+    }
   });
+}, 1000);
 });
