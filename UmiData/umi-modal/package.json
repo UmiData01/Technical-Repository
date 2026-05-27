@@ -2,13 +2,13 @@
   "name": "frontend-angular",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "build:elements": "ng build --configuration production && node build-elements.js"
-  },
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test",
+  "build:elements": "ng build --configuration production --output-hashing none && concat dist/SEU-PROJETO/browser/runtime.js dist/SEU-PROJETO/browser/polyfills.js dist/SEU-PROJETO/browser/main.js -o umi-modal.js"
+},
   "private": true,
   "packageManager": "npm@11.12.1",
   "dependencies": {

@@ -176,8 +176,8 @@
 
       <div class="mopc-header">
         <div class="mopc-title">
-          <i class="fa-solid fa-gear"></i>
-          Opções
+      
+          Configurações
         </div>
         <button class="drawer-close" id="btnFecharOpcoes">
           <i class="fa-solid fa-xmark"></i>
@@ -188,15 +188,13 @@
 
         <nav class="mopc-nav">
           <button class="mopc-nav-btn active" data-tab="acessos">
-            <i class="fa-solid fa-users"></i>
+  
             <span>Acessos</span>
           </button>
           <button class="mopc-nav-btn" data-tab="notificacoes">
-            <i class="fa-regular fa-bell"></i>
             <span>Notificações</span>
           </button>
           <button class="mopc-nav-btn" data-tab="senha">
-            <i class="fa-solid fa-key"></i>
             <span>Senha</span>
           </button>
         </nav>
@@ -232,20 +230,6 @@
                 <span class="toggle-track"></span>
               </label>
             </div>
-
-            <div class="notif-card">
-              <div class="notif-info">
-                <div class="notif-icon"><i class="fa-solid fa-envelope"></i></div>
-                <div>
-                  <div class="notif-label">E-mail (JavaMail)</div>
-                  <div class="notif-desc">Receba relatórios diários e alertas críticos por e-mail</div>
-                </div>
-              </div>
-              <label class="toggle">
-                <input type="checkbox" id="toggleEmail" checked>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
           </div>
 
           <div class="mopc-tab" id="tab-senha" style="display:none">
@@ -257,7 +241,7 @@
                 <div class="pw-wrap">
                   <input type="password" id="senhaAtual" placeholder="Digite sua senha atual">
                   <button class="pw-eye" onclick="togglePw('senhaAtual', this)">
-                    <i class="fa-regular fa-eye"></i>
+                  
                   </button>
                 </div>
               </div>
@@ -267,7 +251,7 @@
                 <div class="pw-wrap">
                   <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres">
                   <button class="pw-eye" onclick="togglePw('novaSenha', this)">
-                    <i class="fa-regular fa-eye"></i>
+                  
                   </button>
                 </div>
                 <span class="senha-hint">Mínimo 6 caracteres</span>
@@ -278,7 +262,7 @@
                 <div class="pw-wrap">
                   <input type="password" id="confirmarSenha" placeholder="Repita a nova senha">
                   <button class="pw-eye" onclick="togglePw('confirmarSenha', this)">
-                    <i class="fa-regular fa-eye"></i>
+                
                   </button>
                 </div>
               </div>

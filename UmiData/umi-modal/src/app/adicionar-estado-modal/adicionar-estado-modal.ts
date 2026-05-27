@@ -22,6 +22,7 @@ export class AdicionarEstadoModalComponent implements OnChanges {
   @Input() aberto: boolean = false;
   @Output() fechar = new EventEmitter<void>();
   @Output() salvar = new EventEmitter<EstadoForm>();
+  @Output() excluir = new EventEmitter<string>(); // 🔴 Novo emissor de evento
 
   nome = '';
   sigla = '';
@@ -43,6 +44,14 @@ export class AdicionarEstadoModalComponent implements OnChanges {
 
   fecharModal() {
     this.fechar.emit();
+  }
+
+  excluirEstado() {
+    if (!this.sigla) {
+      this.erro = 'Preencha ao menos a Sigla para excluir um estado.';
+      return;
+    }
+    this.excluir.emit(this.sigla.toUpperCase());
   }
 
   confirmar() {

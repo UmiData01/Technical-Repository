@@ -479,5 +479,32 @@ setTimeout(() => {
       alert('Erro de conexão ao tentar cadastrar o estado.');
     }
   });
+  // 🔴 Listener para a exclusão do estado
+  modalEl.addEventListener('excluir', async (e) => {
+    const sigla = e.detail; // Pega a sigla que foi emitida pelo Angular
+
+    if (!confirm(`ATENÇÃO: Tem certeza que deseja excluir o estado ${sigla} e todos os seus dados? Esta ação não pode ser desfeita.`)) {
+      return;
+    }
+
+    try {
+      
+      const resposta = await fetch(`/estados/deletar/${sigla}`, {
+        method: 'DELETE'
+      });
+
+      if (resposta.ok) {
+        alert(`Estado ${sigla} excluído com sucesso!`);
+        modalEl.aberto = false;
+        renderTudo(); 
+      } else {
+        const erro = await resposta.text();
+        alert(`Erro ao excluir estado: ${erro}`);
+      }
+    } catch (erro) {
+      console.error('Erro na requisição:', erro);
+      alert('Erro de conexão ao tentar excluir o estado.');
+    }
+  });
 }, 1000);
 });
