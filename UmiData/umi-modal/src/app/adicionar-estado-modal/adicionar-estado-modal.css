@@ -10,7 +10,7 @@
 }
 
 .modal-adicionar {
-  background: #1a1d2e;
+  background: white;
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
   width: 100%;
@@ -32,31 +32,26 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: #1e3a5f;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
 .modal-title i {
-  color: #6c8af5;
+  color: #1e3a5f;
 }
 
 .drawer-close {
   background: none;
   border: none;
-  color: rgba(255,255,255,0.5);
+  color: #1e3a5f;
   font-size: 1.1rem;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 6px;
-  transition: color 0.2s, background 0.2s;
 }
 
-.drawer-close:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.08);
-}
 
 .modal-body {
   display: flex;
@@ -74,17 +69,17 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.55);
+  color: #1e3a5f;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .form-input {
   background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid #1e3a5f;
   border-radius: 8px;
   padding: 10px 14px;
-  color: #fff;
+  color: #1e3a5f;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.95rem;
   outline: none;
@@ -97,7 +92,7 @@
 }
 
 .form-input::placeholder {
-  color: rgba(255,255,255,0.25);
+  color: rgba(51, 49, 49, 0.25);
 }
 
 .sigla-input {
@@ -126,23 +121,6 @@
   gap: 10px;
 }
 
-.btn-cancelar {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  color: rgba(255,255,255,0.7);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-cancelar:hover {
-  background: rgba(255,255,255,0.1);
-}
-
 .btn-confirmar {
   background: #6c8af5;
   border: none;
@@ -153,31 +131,18 @@
   font-weight: 700;
   padding: 10px 24px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
 }
 
-.btn-confirmar:hover {
-  background: #5a78e8;
-  transform: translateY(-1px);
-}
 
 .btn-excluir {
-  background: rgba(248, 113, 113, 0.1);
-  border: 1px solid rgba(248, 113, 113, 0.3);
+  background: #f87171;
+  border: none;
   border-radius: 8px;
-  color: #f87171;
+  color: #fff;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   padding: 10px 20px;
   cursor: pointer;
-  transition: all 0.2s;
   margin-right: auto;
-}
-
-.btn-excluir:hover {
-  background: #ef4444;
-  color: #fff;
-  border-color: #ef4444;
-  transform: translateY(-1px);
 }
