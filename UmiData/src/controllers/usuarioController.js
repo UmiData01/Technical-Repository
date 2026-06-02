@@ -110,10 +110,40 @@ function deletarUsuario(req, res) {
         .catch(erro => res.status(500).json(erro.sqlMessage));
 }
 
+function alterarSenha(req, res) {
+    var idUsuario = req.params.idUsuario;
+    var senhaAtual = req.body.senhaAtualServer;
+    var novaSenha = req.body.novaSenhaServer;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("Usuário não identificado.");
+    } else if (senhaAtual == undefined) {
+        res.status(400).send("Senha atual está undefined!");
+    } else if (novaSenha == undefined) {
+        res.status(400).send("Nova senha está undefined!");
+    } else if (novaSenha.length < 6) {
+        res.status(400).send("A nova senha deve ter no mínimo 6 caracteres.");
+    } else {
+        usuarioModel.alterarSenha(idUsuario, senhaAtual, novaSenha)
+            .then(function (resultado) {
+                if (resultado.affectedRows == 0) {
+                    res.status(403).send("Senha atual incorreta.");
+                } else {
+                    res.status(200).send("Senha alterada com sucesso.");
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     autenticar,
     cadastrar, 
     listarPorEmpresa, 
     alterarCargo, 
-    deletarUsuario
+    deletarUsuario,
+    alterarSenha
 }

@@ -180,17 +180,57 @@ function togglePw(inputId, btn) {
     btn.querySelector("i").className = isText ? "fa-regular fa-eye" : "fa-regular fa-eye-slash";
 }
 
-function salvarSenha() {
+async function salvarSenha() {
     const atual = document.getElementById("senhaAtual").value;
     const nova = document.getElementById("novaSenha").value;
     const confirmar = document.getElementById("confirmarSenha").value;
+    const idUsuario = sessionStorage.getItem("ID_USUARIO");
 
-    if (!atual || !nova || !confirmar) { alert("Preencha todos os campos."); return; }
-    if (nova.length < 6) { alert("A nova senha deve ter no mínimo 6 caracteres."); return; }
-    if (nova !== confirmar) { alert("As senhas não coincidem."); return; }
+    if (!idUsuario) {
+        alert("Usuário não identificado. Faça login novamente.");
+        return;
+    }
 
-    alert("Simulação: Senha alterada com sucesso.");
-    ["senhaAtual", "novaSenha", "confirmarSenha"].forEach(id => document.getElementById(id).value = "");
+    if (!atual || !nova || !confirmar) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    if (nova.length < 6) {
+        alert("A nova senha deve ter no mínimo 6 caracteres.");
+        return;
+    }
+
+    if (nova !== confirmar) {
+        alert("As senhas não coincidem.");
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`/usuarios/alterarSenha/${idUsuario}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                senhaAtualServer: atual,
+                novaSenhaServer: nova
+            })
+        });
+
+        if (resposta.ok) {
+            alert("Senha alterada com sucesso!");
+            ["senhaAtual", "novaSenha", "confirmarSenha"].forEach(id => {
+                document.getElementById(id).value = "";
+            });
+            fecharOpcoes();
+        } else {
+            const erro = await resposta.text();
+            alert(erro);
+        }
+
+    } catch (erro) {
+        console.error("Erro ao alterar senha:", erro);
+        alert("Erro de conexão ao tentar alterar a senha.");
+    }
 }
 
 // ===== REQUISIÇÕES DOS GRÁFICOS =====
@@ -440,10 +480,18 @@ setTimeout(() => {
   const modalEl = document.querySelector('app-adicionar-estado-modal');
   if (!modalEl) return;
 
+  const btnAdmin = document.getElementById("btnAdmin");
+
+    if (TIPO_CARGO_LOGADO !== "Administrador") {
+        btnAdmin.style.display = "none";
+    }  
+
+  if (TIPO_CARGO_LOGADO === "Administrador") {
   document.getElementById('btnAdmin').addEventListener('click', () => {
     modalEl.aberto = true;
     fecharDrawer();
   });
+}
 
   modalEl.addEventListener('fechar', () => {
     modalEl.aberto = false;
@@ -479,7 +527,7 @@ setTimeout(() => {
       alert('Erro de conexão ao tentar cadastrar o estado.');
     }
   });
-  // 🔴 Listener para a exclusão do estado
+
   modalEl.addEventListener('excluir', async (e) => {
     const sigla = e.detail; // Pega a sigla que foi emitida pelo Angular
 
