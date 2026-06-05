@@ -88,12 +88,20 @@
             </div>
             <div id="estadoStatusBar"></div>
             <div id="mapaCards" class="estado-grid"></div>
-            <div class="mapa-legenda">
-              <div class="leg"><div class="leg-sq verde"></div>Ideal > 60%</div>
-              <div class="leg"><div class="leg-sq amarelo"></div>Atenção 30-60%</div>
-              <div class="leg"><div class="leg-sq laranja"></div>Alerta 20-30%</div>
-              <div class="leg"><div class="leg-sq vermelho"></div>Emergência 12-19%</div>
-              <div class="leg"><div class="leg-sq vinho"></div>Crítico < 12%</div>
+            <div class="umidade-gauge">
+              <div class="gauge-header">
+                <span class="gauge-estado-nome" id="gaugeNome">—</span>
+                <span class="gauge-badge" id="gaugeBadge">—</span>
+              </div>
+              <div class="gauge-track">
+                <div class="gauge-fill" id="gaugeFill"></div>
+                <div class="gauge-marker" id="gaugeMarker"></div>
+                <!-- Labels dentro da barra -->
+                <div class="gauge-tick" style="left:12%"><span>12%</span></div>
+                <div class="gauge-tick" style="left:20%"><span>20%</span></div>
+                <div class="gauge-tick" style="left:30%"><span>30%</span></div>
+                <div class="gauge-tick" style="left:60%"><span>60%</span></div>
+              </div>
             </div>
           </div>
 

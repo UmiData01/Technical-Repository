@@ -1,7 +1,6 @@
 var database = require("../database/config");
 
-function buscarEstadosPorRegiao(regiao) {
-    console.log("Buscando estados da região (MÉDIA):", regiao);
+function buscarEstadosPorRegiao(regiao, nomeEmpresa) {
 
     var instrucaoSql = `
         SELECT 
@@ -11,37 +10,41 @@ function buscarEstadosPorRegiao(regiao) {
             COALESCE((
                 SELECT ROUND(AVG(m.umidade), 1) 
                 FROM medida m 
-                WHERE m.fkEstado = e.idEstado 
+                WHERE m.fkEstado = e.idEstado
             ), 0) AS umidade
         FROM estado e
-        INNER JOIN regiao r 
-            ON e.fkRegiao = r.idRegiao
-        WHERE r.nomeRegiao = '${regiao}';
+        INNER JOIN regiao r ON e.fkRegiao = r.idRegiao
+        LEFT JOIN empresas_governamentais eg ON e.fkEmpresa = eg.idEmpresa
+        WHERE r.nomeRegiao = '${regiao}'
+        AND (eg.nomeEmpresa = '${nomeEmpresa}' OR e.fkEmpresa IS NULL);
     `;
-
-    console.log("Executando SQL Estados:\n", instrucaoSql);
 
     return database.executar(instrucaoSql);
 }
 
-function cadastrarEstado(idEstado, nomeEstado, uf, nomeRegiao) {
-    console.log("Inserindo novo estado:", nomeEstado);
+function cadastrarEstado(idEstado, nomeEstado, uf, nomeRegiao, nomeEmpresa) {
 
     var instrucaoSql = `
-        INSERT INTO estado (idEstado, nomeEstado, uf, fkRegiao)
+        INSERT INTO estado (idEstado, nomeEstado, uf, fkRegiao, fkEmpresa)
         VALUES (
             ${idEstado}, 
             '${nomeEstado}', 
             '${uf}', 
-            (SELECT idRegiao FROM regiao WHERE nomeRegiao = '${nomeRegiao}')
+            (SELECT idRegiao FROM regiao WHERE nomeRegiao = '${nomeRegiao}'),
+            (SELECT idEmpresa FROM empresas_governamentais WHERE nomeEmpresa = '${nomeEmpresa}')
         );
     `;
 
-    console.log("Executando SQL Cadastro:\n", instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function deletarEstado(uf) {
+    var instrucaoSql = `DELETE FROM estado WHERE uf = '${uf}';`;
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
     buscarEstadosPorRegiao,
-    cadastrarEstado 
+    cadastrarEstado,
+    deletarEstado
 };

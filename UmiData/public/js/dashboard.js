@@ -81,7 +81,7 @@ function configurarModalOpcoes() {
     const tabNotificacoes = document.getElementById('tab-notificacoes');
     const btnNotificacoes = document.querySelector('[data-tab="notificacoes"]');
 
-    if (TIPO_CARGO_LOGADO !== 'Administrador') {
+    if (TIPO_CARGO_LOGADO !== 'Admin') {
         btnAcessos.style.display = 'none';
         tabAcessos.style.display = 'none';
         btnAcessos.classList.remove('active');
@@ -121,7 +121,7 @@ async function carregarUsuariosEmpresa() {
                       </td>
                       <td>
                         <select class="perm-select" onchange="alterarPermissao(${user.idUsuario}, this.value)">
-                          <option value="1" ${user.tipoCargo === 'Administrador' ? 'selected' : ''}>Administrador</option>
+                          <option value="1" ${user.tipoCargo === 'Admin' ? 'selected' : ''}>Admin</option>
                           <option value="2" ${user.tipoCargo === 'Padrao' ? 'selected' : ''}>Padrão</option>
                         </select>
                       </td>
@@ -236,7 +236,7 @@ async function salvarSenha() {
 // ===== REQUISIÇÕES DOS GRÁFICOS =====
 async function carregarEstados() {
     try {
-        const resposta = await fetch(`/estados/${REGIAO}`);
+        const resposta = await fetch(`/estados/${REGIAO}?empresa=${EMPRESA_LOGADA}`);
         if (!resposta.ok) throw new Error("Erro ao buscar estados");
         if (resposta.status === 204) {
             console.warn("Nenhum estado cadastrado para esta região ainda.");
@@ -290,7 +290,7 @@ async function renderKPIs() {
         const cards = [
             { label: "Umidade Máxima",   value: maxUmi,   unit: "%", color: cor(maxUmi), info: "Maior umidade na região." },
             { label: "Estados Críticos", value: criticos,  unit: "",  color: "#ef4444",   info: "Abaixo de 12%." },
-            { label: "Internações",      value: 0,         unit: "",  color: "#2563eb",   info: "Sem integração." },
+            { label: "Internações", value: Number(dados.totalInternacoes) || 0, unit: "", color: "#2563eb", info: "Internações respiratórias na região." },
             { label: "Umidade Mínima",   value: minUmi,   unit: "%", color: cor(minUmi), info: "Menor umidade na região." }
         ];
 
@@ -410,6 +410,39 @@ function renderTabela() {
 
 function selecionarEstado(sigla) { estadoAtual = sigla; renderTudo(); }
 
+function renderGauge() {
+    if (!DB[estadoAtual]) return;
+
+    const u      = DB[estadoAtual].umidade;
+    const nome   = DB[estadoAtual].nome;
+    const pct    = Math.min(Math.max(u, 0), 100);
+
+    document.getElementById("gaugeNome").textContent  = nome;
+    document.getElementById("gaugeMarker").style.left = pct + "%";
+
+    const badge = document.getElementById("gaugeBadge");
+    badge.textContent = status(u);
+
+    // Cor do badge conforme status
+    const cores = {
+        "CRÍTICO":    { bg: "#7f1d1d", color: "white" },
+        "EMERGÊNCIA": { bg: "#fee2e2", color: "#dc2626" },
+        "ALERTA":     { bg: "#ffedd5", color: "#ea580c" },
+        "ATENÇÃO":    { bg: "#fef9c3", color: "#ca8a04" },
+        "IDEAL":      { bg: "#dcfce7", color: "#16a34a" }
+    };
+
+    const c = cores[status(u)] || { bg: "#e2e8f0", color: "#64748b" };
+    badge.style.background = c.bg;
+    badge.style.color      = c.color;
+}
+
+// Atualize selecionarEstado para chamar renderGauge
+function selecionarEstado(sigla) {
+    estadoAtual = sigla;
+    renderTudo();
+}
+
 async function renderTudo() {
     await carregarEstados();
     if (Object.keys(DB).length === 0) {
@@ -423,6 +456,7 @@ async function renderTudo() {
     renderLinha();
     renderBarras();
     renderTabela();
+    renderGauge();
 }
 
 // ===== INIT =====
@@ -482,11 +516,11 @@ setTimeout(() => {
 
   const btnAdmin = document.getElementById("btnAdmin");
 
-    if (TIPO_CARGO_LOGADO !== "Administrador") {
+    if (TIPO_CARGO_LOGADO !== "Admin") {
         btnAdmin.style.display = "none";
     }  
 
-  if (TIPO_CARGO_LOGADO === "Administrador") {
+  if (TIPO_CARGO_LOGADO === "Admin") {
   document.getElementById('btnAdmin').addEventListener('click', () => {
     modalEl.aberto = true;
     fecharDrawer();
@@ -510,7 +544,8 @@ setTimeout(() => {
           nomeServer: nome,
           siglaServer: sigla,
           ibgeServer: ibge,
-          regiaoServer: REGIAO
+          regiaoServer: REGIAO,
+          empresaServer: EMPRESA_LOGADA
         })
       });
 

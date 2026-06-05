@@ -294,6 +294,7 @@ main {
   flex-direction: column;
   gap: 12px;
   min-height: 0;
+  overflow: visible;
 }
 
 /* ===== CARDS ===== */
@@ -301,7 +302,7 @@ main {
   background: white;
   border-radius: 16px;
   padding: 20px;
-  overflow: hidden;
+  overflow: visible;
   min-height: 0;
 }
 
@@ -312,9 +313,10 @@ main {
 }
 
 .ranking-card {
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-direction: column;
+  min-height: 200px;
 }
 
 .v-head {
@@ -467,17 +469,17 @@ thead {
 }
 
 th {
-  padding: 9px 8px;
-  font-size: 0.78rem;
+  padding: 11px 8px;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-align: left;
 }
 
 td {
-  padding: 10px 8px;
+  padding: 12px 8px;
   border-bottom: 1px solid #e2e8f0;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
 }
 
 /* ===== PILLS ===== */
@@ -973,6 +975,76 @@ canvas {
   background: #1d4ed8;
 }
 
+/* ===== MODAL SAIR ===== */
+.modal-adicionar {
+  width: 380px;
+  background: #1e3a5f;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  animation: fadeUp 0.22s ease;
+}
+
+.modal-header {
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: white;
+}
+
+.modal-title i {
+  color: #93c5fd;
+}
+
+.modal-body {
+  margin-bottom: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-cancelar {
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btn-cancelar:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.btn-confirmar {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btn-confirmar:hover {
+  background: #dc2626;
+}
+
 /* ===== TOAST ===== */
 .toast {
   position: fixed;
@@ -987,6 +1059,97 @@ canvas {
   font-size: 0.9rem;
   font-weight: 600;
 }
+
+/* ===== UMIDADE GAUGE ===== */
+.umidade-gauge {
+  margin-top: 6px;      /* era 14px */
+  padding: 6px 4px 0;  /* era 12px 4px 4px */
+  flex-shrink: 0;
+}
+
+.gauge-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;  /* era 10px */
+}
+
+.gauge-estado-nome {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+.gauge-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #64748b;
+  transition: 0.3s;
+}
+
+.gauge-track {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #7f1d1d 0%,   #7f1d1d 12%,
+    #ef4444 12%,  #ef4444 20%,
+    #f97316 20%,  #f97316 30%,
+    #eab308 30%,  #eab308 60%,
+    #22c55e 60%,  #22c55e 100%
+  );
+  margin-bottom: 14px;  /* era 18px */
+}
+
+.gauge-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #1e3a5f;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gauge-track {
+  position: relative;
+  width: 100%;
+  height: 14px;  /* um pouco mais alta para caber os ticks */
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #7f1d1d 0%,   #7f1d1d 12%,
+    #ef4444 12%,  #ef4444 20%,
+    #f97316 20%,  #f97316 30%,
+    #eab308 30%,  #eab308 60%,
+    #22c55e 60%,  #22c55e 100%
+  );
+  margin-bottom: 18px;
+}
+
+.gauge-tick {
+  position: absolute;
+  top: 18px;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748b;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vinho-txt   { color: #7f1d1d; }
+.vermelho-txt { color: #ef4444; }
+.laranja-txt  { color: #f97316; }
+.amarelo-txt  { color: #eab308; }
 
 /* ===== SCROLLBAR ===== */
 .estado-grid::-webkit-scrollbar,

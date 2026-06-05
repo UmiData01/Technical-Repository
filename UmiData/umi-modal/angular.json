@@ -58,10 +58,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "frontendAngular:build:production"
+              "buildTarget": "umi-modal:build:production"
             },
             "development": {
-              "buildTarget": "frontendAngular:build:development"
+              "buildTarget": "umi-modal:build:development"
             }
           },
           "defaultConfiguration": "development"

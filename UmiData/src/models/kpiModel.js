@@ -3,13 +3,17 @@ var database = require("../database/config");
 function buscarKPIs(regiao) {
     console.log("Buscando KPIs baseados na MÉDIA dos estados da região:", regiao);
 
-    // Usamos uma Subquery (tabela virtual) para primeiro calcular as médias,
-    // e depois extrair os valores Máximos, Mínimos e Críticos dessa tabela.
     var instrucaoSql = `
         SELECT 
             MAX(umidadeMedia) AS umidadeMaxima,
             MIN(umidadeMedia) AS umidadeMinima,
-            SUM(CASE WHEN umidadeMedia < 12 THEN 1 ELSE 0 END) AS estadosCriticos
+            SUM(CASE WHEN umidadeMedia < 12 THEN 1 ELSE 0 END) AS estadosCriticos,
+            COALESCE((
+                SELECT SUM(ri.qtdInternacoes)
+                FROM registro_internacao ri
+                INNER JOIN regiao r2 ON ri.fkRegiao = r2.idRegiao
+                WHERE r2.nomeRegiao = '${regiao}'
+            ), 0) AS totalInternacoes
         FROM (
             SELECT 
                 e.idEstado,
@@ -27,7 +31,6 @@ function buscarKPIs(regiao) {
     return database.executar(instrucaoSql);
 }
 
-// Lembre-se de verificar se o nome da função no seu arquivo bate com `buscarKPIs`!
 module.exports = {
     buscarKPIs
 };
