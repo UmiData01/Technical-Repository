@@ -7,7 +7,9 @@
   <title>UmiData — Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
@@ -96,7 +98,6 @@
               <div class="gauge-track">
                 <div class="gauge-fill" id="gaugeFill"></div>
                 <div class="gauge-marker" id="gaugeMarker"></div>
-                <!-- Labels dentro da barra -->
                 <div class="gauge-tick" style="left:12%"><span>12%</span></div>
                 <div class="gauge-tick" style="left:20%"><span>20%</span></div>
                 <div class="gauge-tick" style="left:30%"><span>30%</span></div>
@@ -184,7 +185,7 @@
 
       <div class="mopc-header">
         <div class="mopc-title">
-      
+
           Configurações
         </div>
         <button class="drawer-close" id="btnFecharOpcoes">
@@ -196,7 +197,7 @@
 
         <nav class="mopc-nav">
           <button class="mopc-nav-btn active" data-tab="acessos">
-  
+
             <span>Acessos</span>
           </button>
           <button class="mopc-nav-btn" data-tab="notificacoes">
@@ -249,7 +250,7 @@
                 <div class="pw-wrap">
                   <input type="password" id="senhaAtual" placeholder="Digite sua senha atual">
                   <button class="pw-eye" onclick="togglePw('senhaAtual', this)">
-                  
+
                   </button>
                 </div>
               </div>
@@ -257,12 +258,12 @@
               <div class="fg-senha">
                 <label>Nova Senha</label>
                 <div class="pw-wrap">
-                  <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres">
+                  <input type="password" id="novaSenha" placeholder="Mínimo 8 caracteres">
                   <button class="pw-eye" onclick="togglePw('novaSenha', this)">
-                  
+
                   </button>
                 </div>
-                <span class="senha-hint">Mínimo 6 caracteres</span>
+                <span class="senha-hint">Mínimo 8 caracteres</span>
               </div>
 
               <div class="fg-senha">
@@ -270,7 +271,7 @@
                 <div class="pw-wrap">
                   <input type="password" id="confirmarSenha" placeholder="Repita a nova senha">
                   <button class="pw-eye" onclick="togglePw('confirmarSenha', this)">
-                
+
                   </button>
                 </div>
               </div>
@@ -294,4 +295,5 @@
   <script src="../js/slack.js"></script>
 
 </body>
+
 </html>

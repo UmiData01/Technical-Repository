@@ -294,7 +294,6 @@ main {
   flex-direction: column;
   gap: 12px;
   min-height: 0;
-  overflow: visible;
 }
 
 /* ===== CARDS ===== */
@@ -302,7 +301,14 @@ main {
   background: white;
   border-radius: 16px;
   padding: 20px;
-  overflow: visible;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.v-card:first-child {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   min-height: 0;
 }
 
@@ -352,7 +358,6 @@ main {
   gap: 10px;
   flex: 1;
   align-content: start;
-  overflow-y: auto;
   padding-right: 4px;
 }
 
@@ -376,14 +381,17 @@ main {
 
 .hc-nome {
   display: block;
-  margin-top: 4px;
-  font-size: 0.84rem;
+  margin-top: 2px;
+  font-size: 0.75rem;   
   line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .hc-umi-val {
-  margin-top: 8px;
-  font-size: 1.2rem;
+  margin-top: 4px;
+  font-size: 1.1rem;
   font-weight: 800;
 }
 
@@ -1061,9 +1069,14 @@ canvas {
 }
 
 /* ===== UMIDADE GAUGE ===== */
+.gauge-card {
+  padding: 12px 20px;
+    flex-shrink: 0;
+}
+
 .umidade-gauge {
-  margin-top: 6px;      /* era 14px */
-  padding: 6px 4px 0;  /* era 12px 4px 4px */
+  margin-top: 14px;
+  padding: 6px 4px 0;
   flex-shrink: 0;
 }
 
@@ -1071,7 +1084,7 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;  /* era 10px */
+  margin-bottom: 6px;   
 }
 
 .gauge-estado-nome {

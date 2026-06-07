@@ -24,6 +24,30 @@ function cor(u) {
     return "#22c55e";
 }
 
+function renderMapa() {
+    const container = document.getElementById("mapaCards");
+    container.innerHTML = "";
+    listaEstados().forEach(e => {
+        container.innerHTML += `...`; 
+    });
+
+    // ── Estrutura de decisão: scroll ou não ──────────────────────────────────
+    const card       = container.closest(".v-card");
+    const qtdEstados = listaEstados().length;
+
+    if (qtdEstados > 6) {
+        // Muitos estados — ativa scroll no card inteiro
+        card.style.maxHeight  = "320px";
+        card.style.overflowY  = "auto";
+        container.style.height = "auto";
+    } else {
+        // Poucos estados — sem scroll, mostra tudo
+        card.style.maxHeight  = "none";
+        card.style.overflowY  = "visible";
+        container.style.height = "auto";
+    }
+}
+
 function status(u) {
     if (u < 12) return "CRÍTICO";
     if (u < 20) return "EMERGÊNCIA";
@@ -59,6 +83,9 @@ function abrirOpcoes() {
     fecharDrawer();
     configurarModalOpcoes();
     setTab(tabAtiva);
+
+    carregarConfiguracaoSlack();
+    registrarListenerSlack();
 }
 
 function fecharOpcoes() {

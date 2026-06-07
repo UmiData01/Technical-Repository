@@ -1,11 +1,15 @@
 // ── Configuração base da API ─────────────────────────────────────────────────
 const API_BASE = `${window.location.protocol}//${window.location.hostname}:3333`;
 
-// ── Pega o usuário logado da sessão ──────────────────────────────────────────
-const fkUsuario = localStorage.getItem("idUsuario") || sessionStorage.getItem("idUsuario");
+// ── Pega o usuário logado da sessão (função para sempre pegar o valor atual) ─
+function getFkUsuario() {
+    return sessionStorage.getItem("ID_USUARIO") || localStorage.getItem("idUsuario");
+}
 
 // ── Carrega as configurações atuais do usuário ao abrir a página ─────────────
 async function carregarConfiguracaoSlack() {
+
+    const fkUsuario = getFkUsuario();
 
     if (!fkUsuario) {
         console.error("Usuário não identificado na sessão.");
@@ -21,52 +25,56 @@ async function carregarConfiguracaoSlack() {
             return;
         }
 
-        document.getElementById("slack-ativo").checked     = data.statusIntegracao === "ATIVO";
-        document.getElementById("slack-alertas").checked   = data.receberAlerta;
-        document.getElementById("slack-canal").textContent = data.nomeCanal ?? "—";
+        const toggle = document.getElementById("toggleSlack");
+        if (toggle) {
+            toggle.checked = data.receberAlerta === 1 || data.receberAlerta === true;
+        }
 
     } catch (erro) {
         console.error("Falha ao buscar configuração Slack:", erro);
     }
 }
 
-// ── Salva as preferências quando o usuário alterar os toggles ────────────────
+// ── Salva as preferências quando o usuário alterar o toggle ──────────────────
 async function salvarConfiguracaoSlack() {
 
+    const fkUsuario = getFkUsuario();
+
     if (!fkUsuario) {
-        mostrarFeedback("Usuário não identificado. Faça login novamente.", "erro");
+        console.error("Usuário não identificado. Faça login novamente.");
         return;
     }
 
-    const ativo         = document.getElementById("slack-ativo").checked;
-    const receberAlerta = document.getElementById("slack-alertas").checked;
+    const toggle           = document.getElementById("toggleSlack");
+    const receberAlerta    = toggle ? toggle.checked : false;
+    const statusIntegracao = receberAlerta ? "ATIVO" : "INATIVO";
+
+    console.log("Salvando configuração Slack:", { receberAlerta, statusIntegracao });
 
     try {
         const response = await fetch(`${API_BASE}/slack/${fkUsuario}`, {
             method:  "PUT",
             headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify({
-                receberAlerta:    receberAlerta,
-                statusIntegracao: ativo ? "ATIVO" : "INATIVO"
-            })
+            body:    JSON.stringify({ receberAlerta, statusIntegracao })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            mostrarFeedback("Configurações Slack salvas com sucesso!", "sucesso");
+            console.log("Configurações Slack salvas com sucesso!");
         } else {
-            mostrarFeedback("Erro ao salvar: " + data.erro, "erro");
+            console.error("Erro ao salvar:", data.erro);
         }
 
     } catch (erro) {
-        mostrarFeedback("Falha na requisição: " + erro.message, "erro");
-        console.error(erro);
+        console.error("Falha na requisição:", erro.message);
     }
 }
 
 // ── Envia notificação manual para o Slack ────────────────────────────────────
 async function enviarNotificacaoSlack(titulo, descricao) {
+
+    const fkUsuario = getFkUsuario();
 
     if (!fkUsuario) {
         console.error("Usuário não identificado na sessão.");
@@ -93,28 +101,11 @@ async function enviarNotificacaoSlack(titulo, descricao) {
     }
 }
 
-// ── Exibe feedback visual para o usuário ─────────────────────────────────────
-function mostrarFeedback(mensagem, tipo) {
-    const el = document.getElementById("slack-feedback");
-    if (!el) return;
+// ── Registra o listener do toggle — chamado pelo dashboard.js ao abrir modal ─
+function registrarListenerSlack() {
+    const toggle = document.getElementById("toggleSlack");
+    if (!toggle) return;
 
-    el.textContent   = mensagem;
-    el.className     = tipo;
-    el.style.display = "block";
-
-    setTimeout(() => {
-        el.style.display = "none";
-    }, 3000);
+    toggle.removeEventListener("change", salvarConfiguracaoSlack);
+    toggle.addEventListener("change",   salvarConfiguracaoSlack);
 }
-
-// ── Inicialização ─────────────────────────────────────────────────────────────
-document.addEventListener("DOMContentLoaded", () => {
-
-    carregarConfiguracaoSlack();
-
-    document.getElementById("slack-ativo")
-        ?.addEventListener("change", salvarConfiguracaoSlack);
-
-    document.getElementById("slack-alertas")
-        ?.addEventListener("change", salvarConfiguracaoSlack);
-});
