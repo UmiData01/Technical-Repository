@@ -47,10 +47,13 @@ function cadastrarEstado(req, res) {
 function deletarEstado(req, res) {
     var sigla = req.params.sigla;
 
-    estadosModel.deletarEstado(sigla)
+    estadosModel.deletarMedidasDoEstado(sigla)
+        .then(function() {
+            return estadosModel.deletarEstado(sigla);
+        })
         .then(function(resultado) {
             if (resultado.affectedRows > 0) {
-                res.status(200).json({ mensagem: `Estado ${sigla} deletado com sucesso.` });
+                res.status(200).json({ mensagem: `Estado ${sigla} e suas medidas foram deletados com sucesso.` });
             } else {
                 res.status(404).send("Estado não encontrado.");
             }

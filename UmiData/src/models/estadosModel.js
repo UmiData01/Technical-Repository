@@ -47,8 +47,19 @@ function deletarEstado(uf) {
     return database.executar(instrucaoSql);
 }
 
+function deletarMedidasDoEstado(sigla) {
+    var instrucaoSql = `
+        DELETE FROM medida 
+        WHERE fkEstado IN (
+            SELECT idEstado FROM estado WHERE uf = '${sigla}'
+        )
+    `;
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarEstadosPorRegiao,
     cadastrarEstado,
-    deletarEstado
+    deletarEstado,
+    deletarMedidasDoEstado
 };
