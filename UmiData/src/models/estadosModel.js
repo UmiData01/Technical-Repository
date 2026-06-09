@@ -11,8 +11,11 @@ function buscarEstadosPorRegiao(regiao, nomeEmpresa) {
                 SELECT m.umidade 
                 FROM medida m 
                 WHERE m.fkEstado = e.idEstado
-                ORDER BY m.dataHora DESC 
-                LIMIT 1                    
+                AND m.idMedida = (
+                    SELECT MAX(m2.idMedida)
+                    FROM medida m2
+                    WHERE m2.fkEstado = e.idEstado
+                )
             ), 0) AS umidade
         FROM estado e
         INNER JOIN regiao r ON e.fkRegiao = r.idRegiao
@@ -20,7 +23,6 @@ function buscarEstadosPorRegiao(regiao, nomeEmpresa) {
         WHERE r.nomeRegiao = '${regiao}'
         AND (eg.nomeEmpresa = '${nomeEmpresa}' OR e.fkEmpresa IS NULL);
     `;
-
     return database.executar(instrucaoSql);
 }
 
