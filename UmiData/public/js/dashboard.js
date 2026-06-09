@@ -350,7 +350,7 @@ async function renderKPIs() {
             : `Atenção: ${criticos} estado${criticos !== 1 ? "s" : ""} em nível crítico.`;
         
         const pop = { "Sudeste": 88e6, "Nordeste": 57e6, "Sul": 31e6, "Norte": 18e6, "Centro-Oeste": 17e6 }[REGIAO] || 1;
-        const infoInternac = `${((internacoes / pop) * 100).toFixed(1)}% da população internada.`;
+        const infoInternac = `${((internacoes / pop) * 100).toFixed(3)}% da população internada.`;
         
         const infoMin = minUmi < 30 ? "Necessário reforço em alertas." : "Cenário estável.";
 
@@ -468,7 +468,6 @@ function renderTabela() {
             <td>${i + 1}</td>
             <td class="td-nm">${e.nome}</td>
             <td>${e.umidade}%</td>
-            <td>${e.internacoes}</td>
             <td><span class="pill ${classeStatus(e.umidade)}">${status(e.umidade)}</span></td>
           </tr>`;
     });
@@ -588,34 +587,41 @@ setTimeout(() => {
   modalEl.addEventListener('salvar', async (e) => {
     const { nome, sigla, ibge } = e.detail;
 
-    if (DB[sigla]) { alert('Estado já cadastrado no seu painel.'); return; }
+        if (DB[sigla]) { 
+            alert('Estado já cadastrado no seu painel.'); 
+            return; 
+        }
 
-    try {
-      const resposta = await fetch('/estados/cadastrar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nomeServer: nome,
-          siglaServer: sigla,
-          ibgeServer: ibge,
-          regiaoServer: REGIAO,
-          empresaServer: EMPRESA_LOGADA
-        })
-      });
+        try {
+            const resposta = await fetch('/estados/cadastrar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nomeServer:    nome,
+                    siglaServer:   sigla,
+                    ibgeServer:    ibge,
+                    regiaoServer:  REGIAO,
+                    empresaServer: EMPRESA_LOGADA
+                })
+            });
 
-      if (resposta.ok) {
-        alert(`${nome} adicionado com sucesso!`);
-        modalEl.aberto = false;
-        renderTudo();
-      } else {
-        const erro = await resposta.text();
-        alert(`Erro ao cadastrar estado: ${erro}`);
-      }
-    } catch (erro) {
-      console.error('Erro na requisição:', erro);
-      alert('Erro de conexão ao tentar cadastrar o estado.');
-    }
-  });
+            if (resposta.ok) {
+                alert(`${nome} adicionado com sucesso!`);
+                modalEl.aberto = false;
+                renderTudo();
+            } else {
+                // Tenta pegar a mensagem de erro do servidor
+                const erro = await resposta.json().catch(() => null) 
+                        || await resposta.text().catch(() => null);
+                
+                const mensagemErro = erro?.erro || erro || "Erro desconhecido ao cadastrar estado.";
+                alert(`Erro ao cadastrar estado:\n\n${mensagemErro}`);
+            }
+        } catch (erro) {
+            console.error('Erro na requisição:', erro);
+            alert('Erro de conexão ao tentar cadastrar o estado.');
+        }
+    });
 
   modalEl.addEventListener('excluir', async (e) => {
     const sigla = e.detail; // Pega a sigla que foi emitida pelo Angular

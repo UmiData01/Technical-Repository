@@ -26,6 +26,27 @@ function buscarEstadosPorRegiao(regiao, nomeEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function buscarEstadoPorIbge(ibge) {
+    var instrucaoSql = `
+        SELECT e.idEstado, e.nomeEstado, e.uf, r.nomeRegiao
+        FROM estado e
+        INNER JOIN regiao r ON e.fkRegiao = r.idRegiao
+        WHERE e.idEstado = ${ibge}
+    `;
+    return database.executar(instrucaoSql);
+}
+
+function associarEmpresaAoEstado(ibge, nomeEmpresa) {
+    var instrucaoSql = `
+        UPDATE estado
+        SET fkEmpresa = (
+            SELECT idEmpresa FROM empresas_governamentais WHERE nomeEmpresa = '${nomeEmpresa}'
+        )
+        WHERE idEstado = ${ibge}
+    `;
+    return database.executar(instrucaoSql);
+}
+
 function cadastrarEstado(idEstado, nomeEstado, uf, nomeRegiao, nomeEmpresa) {
 
     var instrucaoSql = `
@@ -63,5 +84,7 @@ module.exports = {
     buscarEstadosPorRegiao,
     cadastrarEstado,
     deletarEstado,
-    deletarMedidasDoEstado
+    deletarMedidasDoEstado,
+    buscarEstadoPorIbge,
+    associarEmpresaAoEstado
 };
