@@ -1172,26 +1172,30 @@ canvas {
 /* ===== SCROLLBAR ===== */
 .estado-grid::-webkit-scrollbar,
 .table-wrap::-webkit-scrollbar,
-.mopc-content::-webkit-scrollbar {
+.mopc-content::-webkit-scrollbar,
+.v-card:first-child::-webkit-scrollbar {
   width: 6px;
 }
 
 .estado-grid::-webkit-scrollbar-track,
 .table-wrap::-webkit-scrollbar-track,
-.mopc-content::-webkit-scrollbar-track {
+.mopc-content::-webkit-scrollbar-track,
+.v-card:first-child::-webkit-scrollbar-track {
   background: #f1f5f9;
   border-radius: 999px;
 }
 
 .estado-grid::-webkit-scrollbar-thumb,
 .table-wrap::-webkit-scrollbar-thumb,
-.mopc-content::-webkit-scrollbar-thumb {
+.mopc-content::-webkit-scrollbar-thumb,
+.v-card:first-child::-webkit-scrollbar-thumb {
   background: #bfdbfe;
   border-radius: 999px;
 }
 
 .estado-grid::-webkit-scrollbar-thumb:hover,
 .table-wrap::-webkit-scrollbar-thumb:hover,
-.mopc-content::-webkit-scrollbar-thumb:hover {
+.mopc-content::-webkit-scrollbar-thumb:hover,
+.v-card:first-child::-webkit-scrollbar-thumb:hover {
   background: #93c5fd;
 }
