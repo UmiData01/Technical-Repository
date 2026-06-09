@@ -1,17 +1,18 @@
 var database = require("../database/config");
 
 function buscarEstadosPorRegiao(regiao, nomeEmpresa) {
-    
     var instrucaoSql = `
         SELECT 
             e.idEstado,
             e.nomeEstado AS nome,
             e.uf AS sigla,
-            e.fkEmpresa,  -- ADICIONE ESTA LINHA AQUI!
+            e.fkEmpresa,
             COALESCE((
-                SELECT ROUND(AVG(m.umidade), 1) 
+                SELECT m.umidade 
                 FROM medida m 
                 WHERE m.fkEstado = e.idEstado
+                ORDER BY m.dataHora DESC 
+                LIMIT 1                    
             ), 0) AS umidade
         FROM estado e
         INNER JOIN regiao r ON e.fkRegiao = r.idRegiao
@@ -33,7 +34,9 @@ function cadastrarEstado(idEstado, nomeEstado, uf, nomeRegiao, nomeEmpresa) {
             '${uf}', 
             (SELECT idRegiao FROM regiao WHERE nomeRegiao = '${nomeRegiao}'),
             (SELECT idEmpresa FROM empresas_governamentais WHERE nomeEmpresa = '${nomeEmpresa}')
-        );
+        )
+        ON DUPLICATE KEY UPDATE 
+            fkEmpresa = VALUES(fkEmpresa);
     `;
 
     return database.executar(instrucaoSql);

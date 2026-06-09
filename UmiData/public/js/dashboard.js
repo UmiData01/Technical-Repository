@@ -328,65 +328,46 @@ async function buscarGraficos() {
 async function renderKPIs() {
     try {
         const resposta = await fetch(`/kpi/${REGIAO}`);
-        if (!resposta.ok) throw new Error("Erro ao buscar KPIs");
-        const dados = await resposta.json();
+        const dados = resposta.ok ? await resposta.json() : {};
+        const estados = listaEstados();
 
-        const maxUmi      = Number(dados.umidadeMaxima)    || 0;
-        const minUmi      = Number(dados.umidadeMinima)    || 0;
-        const criticos    = Number(dados.estadosCriticos)  || 0;
+        if (estados.length === 0) return;
+
+        // 1. Extração e cálculos básicos das umidades
+        const umidades = estados.map(e => e.umidade);
+        const maxUmi = Math.max(...umidades);
+        const minUmi = Math.min(...umidades);
+        const criticos = estados.filter(e => e.umidade < 30).length;
         const internacoes = Number(dados.totalInternacoes) || 0;
-        const totalEstados = Object.keys(DB).length;
 
-        // ── KPI Umidade Máxima ──────────────────────────────────────────
-        const estados     = listaEstados();
-        const mediaRegiao = estados.length > 0
-            ? (estados.reduce((soma, e) => soma + e.umidade, 0) / estados.length).toFixed(1)
-            : 0;
+        // 2. Cálculos das médias e textos das KPIs
+        const media = (umidades.reduce((a, b) => a + b, 0) / estados.length).toFixed(1);
+        const diff = media - 60;
+        const infoMax = `Média: ${Math.abs(diff).toFixed(1)}% ${diff >= 0 ? 'acima' : 'abaixo'} do ideal`;
+        
+        const infoCriticos = `${criticos > estados.length / 2 ? 'Crítico' : 'Controlado'}: ${criticos} de ${estados.length} estados`;
+        
+        const pop = { "Sudeste": 88e6, "Nordeste": 57e6, "Sul": 31e6, "Norte": 18e6, "Centro-Oeste": 17e6 }[REGIAO] || 1;
+        const infoInternac = `${((internacoes / pop) * 100).toFixed(1)}% da população internada.`;
+        
+        const infoMin = minUmi < 30 ? "Necessário reforço em alertas." : "Cenário estável.";
 
-        const diff = Number(mediaRegiao) - 60;
-        const infoMax = diff >= 0
-            ? `A média da região é ${diff.toFixed(1)}% acima do ideal.`
-            : `A média da região é ${Math.abs(diff).toFixed(1)}% abaixo do ideal.`;
-
-        // ── KPI Estados Críticos ────────────────────────────────────────
-        const metade        = totalEstados / 2;
-        const cenario       = criticos > metade ? "Cenário Problemático" : "Cenário Controlado";
-        const infoCriticos  = `${cenario}, ${criticos} estado${criticos !== 1 ? "s" : ""} no nível crítico.`;
-
-        // ── KPI Internações ─────────────────────────────────────────────
-        const popRegioes = {
-            "Sudeste":      88000000,
-            "Nordeste":     57000000,
-            "Sul":          31000000,
-            "Norte":        18000000,
-            "Centro-Oeste": 17000000
-        };
-        const pop          = popRegioes[REGIAO] || 1;
-        const pctInternac  = ((internacoes / pop) * 100).toFixed(1);
-        const infoInternac = `${pctInternac}% da população precisou de internação.`;
-
-        // ── KPI Umidade Mínima ──────────────────────────────────────────
-        const infoMin = minUmi < 30
-            ? "Necessário reforço em alertas públicos."
-            : "Não é necessário reforço em alertas públicos.";
-
+        // 3. Definição dos cards e renderização unificada
         const cards = [
-            { label: "Umidade Máxima",   value: maxUmi,      unit: "%", color: cor(maxUmi), info: infoMax      },
-            { label: "Estados Críticos", value: criticos,    unit: "",  color: "#ef4444",   info: infoCriticos },
+            { label: "Umidade Máxima",   value: maxUmi,     unit: "%", color: cor(maxUmi), info: infoMax },
+            { label: "Estados Críticos", value: criticos,   unit: "",  color: "#ef4444",   info: infoCriticos },
             { label: "Internações",      value: internacoes, unit: "",  color: "#2563eb",   info: infoInternac },
-            { label: "Umidade Mínima",   value: minUmi,      unit: "%", color: cor(minUmi), info: infoMin      }
+            { label: "Umidade Mínima",   value: minUmi,     unit: "%", color: cor(minUmi), info: infoMin }
         ];
 
-        const container = document.getElementById("kpiGrid");
-        container.innerHTML = "";
-        cards.forEach(card => {
-            container.innerHTML += `
-              <div class="kpi-card" style="--kc: ${card.color}">
-                <div class="kpi-label">${card.label}</div>
-                <div class="kpi-val" style="color:${card.color}">${card.value}${card.unit ? `<span class="kpi-unit"> ${card.unit}</span>` : ""}</div>
-                <div class="kpi-info">${card.info}</div>
-              </div>`;
-        });
+        document.getElementById("kpiGrid").innerHTML = cards.map(c => `
+            <div class="kpi-card" style="--kc: ${c.color}">
+                <div class="kpi-label">${c.label}</div>
+                <div class="kpi-val" style="color:${c.color}">${c.value}${c.unit ? `<span class="kpi-unit"> ${c.unit}</span>` : ""}</div>
+                <div class="kpi-info">${c.info}</div>
+            </div>
+        `).join("");
+
     } catch (erro) {
         console.error("Erro KPIs:", erro);
     }
