@@ -107,14 +107,6 @@ async function cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCarg
     }
 }
 
-function criarSlackIntegracao(idUsuario) {
-    var instrucaoSql = `
-        INSERT INTO slack_integracao (nomeCanal, receberAlerta, statusIntegracao, fkUsuario)
-        VALUES ('notifier', false, 'INATIVO', ${idUsuario})
-    `;
-    return database.executar(instrucaoSql);
-}
-
 function listarPorEmpresa(nomeEmpresa) {
     var instrucaoSql = `
         SELECT u.idUsuario, u.nome, u.sobrenome, u.email, c.tipoCargo 
@@ -150,8 +142,7 @@ function alterarSenha(idUsuario, senhaAtual, novaSenha) {
 
 module.exports = {
     autenticar,
-    cadastrar, 
-    criarSlackIntegracao,
+    cadastrar,
     listarPorEmpresa, 
     alterarCargo, 
     deletarUsuario,
