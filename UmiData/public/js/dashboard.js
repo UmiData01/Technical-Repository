@@ -148,8 +148,8 @@ async function carregarUsuariosEmpresa() {
                       </td>
                       <td>
                         <select class="perm-select" onchange="alterarPermissao(${user.idUsuario}, this.value)">
-                          <option value="1" ${user.tipoCargo === 'Admin' ? 'selected' : ''}>Admin</option>
-                          <option value="2" ${user.tipoCargo === 'Padrao' ? 'selected' : ''}>Padrão</option>
+                          <option value="1" ${user.tipoCargo === 'Administrador' ? 'selected' : ''}>Administrador</option>
+                          <option value="2" ${user.tipoCargo === 'Funcionario' ? 'selected' : ''}>Funcionario</option>
                         </select>
                       </td>
                       <td>
@@ -587,11 +587,11 @@ setTimeout(() => {
 
   const btnAdmin = document.getElementById("btnAdmin");
 
-    if (TIPO_CARGO_LOGADO !== "Admin") {
+    if (TIPO_CARGO_LOGADO !== "Administrador") {
         btnAdmin.style.display = "none";
     }  
 
-  if (TIPO_CARGO_LOGADO === "Admin") {
+  if (TIPO_CARGO_LOGADO === "Administrador") {
   document.getElementById('btnAdmin').addEventListener('click', () => {
     modalEl.aberto = true;
     fecharDrawer();
