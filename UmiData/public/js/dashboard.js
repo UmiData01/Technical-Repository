@@ -337,7 +337,7 @@ async function renderKPIs() {
         const umidades = estados.map(e => e.umidade);
         const maxUmi = Math.max(...umidades);
         const minUmi = Math.min(...umidades);
-        const criticos = estados.filter(e => e.umidade < 30).length;
+        const criticos = estados.filter(e => e.umidade < 12).length;
         const internacoes = Number(dados.totalInternacoes) || 0;
 
         // 2. Cálculos das médias e textos das KPIs
@@ -345,7 +345,9 @@ async function renderKPIs() {
         const diff = media - 60;
         const infoMax = `Média: ${Math.abs(diff).toFixed(1)}% ${diff >= 0 ? 'acima' : 'abaixo'} do ideal`;
         
-        const infoCriticos = `${criticos > estados.length / 2 ? 'Crítico' : 'Controlado'}: ${criticos} de ${estados.length} estados`;
+        const infoCriticos = criticos === 0
+            ? `Controlado: nenhum estado em nível crítico.`
+            : `Atenção: ${criticos} estado${criticos !== 1 ? "s" : ""} em nível crítico.`;
         
         const pop = { "Sudeste": 88e6, "Nordeste": 57e6, "Sul": 31e6, "Norte": 18e6, "Centro-Oeste": 17e6 }[REGIAO] || 1;
         const infoInternac = `${((internacoes / pop) * 100).toFixed(1)}% da população internada.`;

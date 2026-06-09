@@ -518,6 +518,11 @@ td {
   color: #16a34a;
 }
 
+.pill-c {
+  background: #7f1d1d;
+  color: white;
+}
+
 /* ===== CHART ===== */
 .chart-wrap {
   position: relative;
