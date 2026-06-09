@@ -5,37 +5,40 @@ function buscarGraficos(estado) {
     console.log("Buscando dados dos gráficos do estado:", estado);
 
     var instrucaoSqlLinha = `
-    SELECT HOUR(m.dataHora) AS hora,  AVG(m.umidade) AS mediaUmidade  FROM medida m  INNER JOIN estado e  ON m.fkEstado = e.idEstado  WHERE e.uf = '${estado}'  AND DATE(m.dataHora) = (  SELECT DATE(MAX(m2.dataHora))  FROM medida m2  INNER JOIN estado e2 ON m2.fkEstado = e2.idEstado  WHERE e2.uf = '${estado}'  )  GROUP BY HOUR(m.dataHora)  ORDER BY hora ASC; `;
-    ;
+        SELECT
+            HOUR(m.dataHora) AS hora,
+            AVG(m.umidade) AS mediaUmidade
+        FROM medida m
+        INNER JOIN estado e ON m.fkEstado = e.idEstado
+        WHERE e.uf = '${estado}'
+        AND DATE(m.dataHora) = (
+            SELECT DATE(MAX(m2.dataHora))
+            FROM medida m2
+            INNER JOIN estado e2 ON m2.fkEstado = e2.idEstado
+            WHERE e2.uf = '${estado}'
+        )
+        GROUP BY HOUR(m.dataHora)
+        ORDER BY hora ASC
+    `;
 
     var instrucaoSqlBarra = `
         SELECT
             WEEK(m.dataHora) AS semana,
             AVG(m.umidade) AS mediaUmidade
         FROM medida m
-        INNER JOIN estado e
-            ON m.fkEstado = e.idEstado
+        INNER JOIN estado e ON m.fkEstado = e.idEstado
         WHERE e.uf = '${estado}'
         GROUP BY WEEK(m.dataHora)
-        ORDER BY WEEK(m.dataHora);
+        ORDER BY WEEK(m.dataHora)
     `;
 
-    console.log("Executando SQL linha:");
-    console.log(instrucaoSqlLinha);
-
-    console.log("Executando SQL barras:");
-    console.log(instrucaoSqlBarra);
-
-    return Promise.all([
-        database.executar(instrucaoSqlLinha),
-        database.executar(instrucaoSqlBarra)
-    ]).then(function(resultado) {
-        return {
-            linha: resultado[0],
-            barras: resultado[1]
-        };
-    });
-
+    return database.executar(instrucaoSqlLinha)
+        .then(function(linha) {
+            return database.executar(instrucaoSqlBarra)
+                .then(function(barras) {
+                    return { linha, barras };
+                });
+        });
 }
 
 module.exports = {
