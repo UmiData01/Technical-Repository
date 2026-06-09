@@ -108,7 +108,7 @@ function configurarModalOpcoes() {
     const tabNotificacoes = document.getElementById('tab-notificacoes');
     const btnNotificacoes = document.querySelector('[data-tab="notificacoes"]');
 
-    if (TIPO_CARGO_LOGADO !== 'Admin') {
+    if (TIPO_CARGO_LOGADO !== 'Administrador') {
         btnAcessos.style.display = 'none';
         tabAcessos.style.display = 'none';
         btnAcessos.classList.remove('active');
