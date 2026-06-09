@@ -75,7 +75,6 @@ async function cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCarg
             idEmpresa = resInsertEmpresa.insertId;
         }
 
-
         instrucaoSql = `
             SELECT idCargo FROM cargo WHERE tipoCargo = '${tipoCargo}';
         `;
@@ -84,18 +83,36 @@ async function cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCarg
         let resultadoCargo = await database.executar(instrucaoSql);
         let idCargo = resultadoCargo[0].idCargo;
 
-
         instrucaoSql = `
             INSERT INTO usuario (nome, sobrenome, telefone, email, senha, fkEmpresa, fkCargo)
             VALUES ('${nome}', '${sobrenome}', '${telefone}', '${email}', '${senha}', ${idEmpresa}, ${idCargo});
         `;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
-        return database.executar(instrucaoSql);
 
+        let resultadoUsuario = await database.executar(instrucaoSql);
+        let idUsuario = resultadoUsuario.insertId;
+
+        // Cria automaticamente a integração Slack para o novo usuário
+        instrucaoSql = `
+            INSERT INTO slack_integracao (nomeCanal, receberAlerta, statusIntegracao, fkUsuario)
+            VALUES ('notifier', false, 'INATIVO', ${idUsuario});
+        `;
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        await database.executar(instrucaoSql);
+
+        return resultadoUsuario;
     } catch (erro) {
         console.error("Erro ao cadastrar:", erro);
         throw erro;
     }
+}
+
+function criarSlackIntegracao(idUsuario) {
+    var instrucaoSql = `
+        INSERT INTO slack_integracao (nomeCanal, receberAlerta, statusIntegracao, fkUsuario)
+        VALUES ('notifier', false, 'INATIVO', ${idUsuario})
+    `;
+    return database.executar(instrucaoSql);
 }
 
 function listarPorEmpresa(nomeEmpresa) {
@@ -134,6 +151,7 @@ function alterarSenha(idUsuario, senhaAtual, novaSenha) {
 module.exports = {
     autenticar,
     cadastrar, 
+    criarSlackIntegracao,
     listarPorEmpresa, 
     alterarCargo, 
     deletarUsuario,

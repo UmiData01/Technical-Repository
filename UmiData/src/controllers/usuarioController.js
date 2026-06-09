@@ -74,17 +74,17 @@ function cadastrar(req, res) {
     } else {
 
         usuarioModel.cadastrar(nome, sobrenome, email, telefone, senha, cnpj, tipoCargo, nomeRegiao, empresa, sigla)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+        .then(function(resultado) {
+            var idUsuario = resultado.insertId;
+            return usuarioModel.criarSlackIntegracao(idUsuario);
+        })
+        .then(function() {
+            res.json({ mensagem: "Usuário cadastrado com sucesso!" });
+        })
+        .catch(function(erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
     }
 }
 
