@@ -273,16 +273,37 @@ async function carregarEstados() {
 
         const dados = await resposta.json();
         DB = {};
+
+        // 1. Define os estados base de cada região
+        const estadosBasePorRegiao = {
+            'Sudeste': 'SP',
+            'Sul': 'PR',
+            'Centro-Oeste': 'DF',
+            'Nordeste': 'BA',
+            'Norte': 'AM'
+        };
+        const siglaBase = estadosBasePorRegiao[REGIAO]; // Ex: 'SP' se for Sudeste
+
+        // 2. Filtra os dados que vieram do banco
         dados.forEach(est => {
-            DB[est.sigla] = {
-                id: est.idEstado,
-                nome: est.nome,
-                sigla: est.sigla,
-                umidade: Number(est.umidade),
-                internacoes: 0
-            };
+            // Regra de exibição: 
+            // Mostra se for a Sigla Base da região OU se a fkEmpresa não for nula (ou seja, foi adicionado via Modal)
+            if (est.sigla === siglaBase || est.fkEmpresa !== null) {
+                
+                // O if abaixo evita duplicatas caso o banco traga o SP base e um SP adicionado
+                if (!DB[est.sigla]) {
+                    DB[est.sigla] = {
+                        id: est.idEstado,
+                        nome: est.nome,
+                        sigla: est.sigla,
+                        umidade: Number(est.umidade),
+                        internacoes: 0 // Valor mocado, caso venha do banco depois, é só alterar
+                    };
+                }
+            }
         });
 
+        // 3. Define o primeiro estado do objeto como o estado focado na tela
         if (!estadoAtual || !DB[estadoAtual]) {
             estadoAtual = Object.keys(DB)[0];
         }
@@ -317,10 +338,15 @@ async function renderKPIs() {
         const totalEstados = Object.keys(DB).length;
 
         // ── KPI Umidade Máxima ──────────────────────────────────────────
-        const diffMax  = maxUmi - 60;
-        const infoMax  = diffMax >= 0
-            ? `A região está ${diffMax} pontos acima do ideal.`
-            : `A região está ${Math.abs(diffMax)} pontos abaixo do ideal.`;
+        const estados     = listaEstados();
+        const mediaRegiao = estados.length > 0
+            ? (estados.reduce((soma, e) => soma + e.umidade, 0) / estados.length).toFixed(1)
+            : 0;
+
+        const diff = Number(mediaRegiao) - 60;
+        const infoMax = diff >= 0
+            ? `A média da região é ${diff.toFixed(1)}% acima do ideal.`
+            : `A média da região é ${Math.abs(diff).toFixed(1)}% abaixo do ideal.`;
 
         // ── KPI Estados Críticos ────────────────────────────────────────
         const metade        = totalEstados / 2;
@@ -548,22 +574,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalSair = document.getElementById("modalSairOv");
 
     document.getElementById("btnSairMenu").addEventListener("click", () => {
-        modalSair.classList.add("open");
-        fecharDrawer();
-    });
-
-    document.getElementById("btnCancelarSair").addEventListener("click", () => {
-        modalSair.classList.remove("open");
-    });
-
-    modalSair.addEventListener("click", (e) => {
-        if (e.target === modalSair) modalSair.classList.remove("open");
-    });
-
-    document.getElementById("btnConfirmarSair").addEventListener("click", () => {
-        sessionStorage.clear();
+     sessionStorage.clear();
         window.location = "../index.html";
     });
+
 
     // ===== MODAL ADICIONAR ESTADO (Angular Element) =====
     // ===== MODAL ADICIONAR ESTADO (Angular Element) =====

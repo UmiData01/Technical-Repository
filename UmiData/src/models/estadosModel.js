@@ -1,12 +1,13 @@
 var database = require("../database/config");
 
 function buscarEstadosPorRegiao(regiao, nomeEmpresa) {
-
+    
     var instrucaoSql = `
         SELECT 
             e.idEstado,
             e.nomeEstado AS nome,
             e.uf AS sigla,
+            e.fkEmpresa,  -- ADICIONE ESTA LINHA AQUI!
             COALESCE((
                 SELECT ROUND(AVG(m.umidade), 1) 
                 FROM medida m 
