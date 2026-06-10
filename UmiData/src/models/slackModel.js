@@ -39,13 +39,8 @@ function atualizarConfiguracao(fkUsuario, receberAlerta, statusIntegracao, token
 function enviarNotificacao(fkUsuario, titulo, descricao) {
     console.log("Enviando notificação Slack para o usuário:", fkUsuario);
 
-    if (!WEBHOOK_URL || WEBHOOK_URL.trim() === "") {
-        console.log("SLACK_WEBHOOK_URL não definida no .env");
-        return Promise.resolve({ enviado: false, motivo: "Webhook não configurado." });
-    }
-
     var instrucaoSql = `
-        SELECT receberAlerta, statusIntegracao
+        SELECT receberAlerta, statusIntegracao, tokenSlack
         FROM slack_integracao
         WHERE fkUsuario = ${fkUsuario}
         LIMIT 1
@@ -65,8 +60,17 @@ function enviarNotificacao(fkUsuario, titulo, descricao) {
             return { enviado: false, motivo: "Notificações desativadas." };
         }
 
+        // ✅ Usa o webhook do banco, com fallback para o .env
+        var webhookUrl = (integracao.tokenSlack && integracao.tokenSlack.trim() !== "")
+            ? integracao.tokenSlack
+            : WEBHOOK_URL;
+
+        if (!webhookUrl || webhookUrl.trim() === "") {
+            return { enviado: false, motivo: "Webhook não configurado." };
+        }
+
         var texto = `*${titulo}*\n${descricao}`;
-        return enviarWebhook(texto, WEBHOOK_URL);
+        return enviarWebhook(texto, webhookUrl);
     });
 }
 
