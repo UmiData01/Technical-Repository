@@ -28,6 +28,7 @@ function atualizarConfiguracao(req, res) {
     var fkUsuario       = req.params.fkUsuario;
     var receberAlerta   = req.body.receberAlerta;
     var statusIntegracao = req.body.statusIntegracao;
+    var tokenSlack       = req.body.tokenSlack || "";
  
     if (receberAlerta === undefined || !statusIntegracao) {
         return res.status(400).json({ erro: "Campos receberAlerta e statusIntegracao são obrigatórios." });
@@ -35,7 +36,7 @@ function atualizarConfiguracao(req, res) {
  
     console.log("Atualizando configuração Slack do usuário:", fkUsuario);
  
-    slackModel.atualizarConfiguracao(fkUsuario, receberAlerta, statusIntegracao)
+    slackModel.atualizarConfiguracao(fkUsuario, receberAlerta, statusIntegracao, tokenSlack)
         .then(function (resultado) {
  
             if (resultado.affectedRows > 0) {
@@ -80,9 +81,24 @@ function enviarNotificacao(req, res) {
  
         });
 }
+
+async function dispararNotificacoes(req, res) {
+    console.log("Disparando notificações Slack para todos os usuários ativos...");
+
+    try {
+        const resultado = await slackModel.dispararNotificacoes();
+        res.status(200).json({ 
+            mensagem: `Notificações disparadas: ${resultado.enviadas} enviadas, ${resultado.falhas} falhas.` 
+        });
+    } catch (erro) {
+        console.log("Erro ao disparar notificações:", erro);
+        res.status(500).json({ erro: erro.message });
+    }
+}
  
 module.exports = {
     buscarConfiguracao,
     atualizarConfiguracao,
-    enviarNotificacao
+    enviarNotificacao,
+    dispararNotificacoes
 };

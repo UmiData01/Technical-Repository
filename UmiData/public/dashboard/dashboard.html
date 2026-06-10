@@ -238,6 +238,17 @@
                 <span class="toggle-track"></span>
               </label>
             </div>
+
+            <div class="fg-senha" style="margin-top: 12px;">
+                <label>Webhook URL do canal</label>
+                <input type="text" id="slackWebhook" placeholder="https://hooks.slack.com/services/..." 
+                      style="border:1px solid #dbeafe; background:#f8fafc; border-radius:10px; padding:11px 12px; font-size:0.92rem;">
+                <span style="font-size:0.74rem; color:#94a3b8;">Cole aqui a URL do webhook do seu canal Slack</span>
+            </div>
+
+            <button class="btn-senha-s" style="margin-top:12px" onclick="salvarConfiguracaoSlack()">
+                Salvar configurações
+            </button>
           </div>
 
           <div class="mopc-tab" id="tab-senha" style="display:none">

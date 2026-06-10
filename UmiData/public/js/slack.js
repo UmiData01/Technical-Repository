@@ -45,8 +45,8 @@ async function salvarConfiguracaoSlack() {
         return;
     }
 
-    const toggle           = document.getElementById("toggleSlack");
-    const receberAlerta    = toggle ? toggle.checked : false;
+    const toggle = document.getElementById("toggleSlack");
+    const receberAlerta = toggle ? toggle.checked : false;
     const statusIntegracao = receberAlerta ? "ATIVO" : "INATIVO";
 
     console.log("Salvando configuração Slack:", { receberAlerta, statusIntegracao });
@@ -68,6 +68,49 @@ async function salvarConfiguracaoSlack() {
 
     } catch (erro) {
         console.error("Falha na requisição:", erro.message);
+    }
+}
+
+async function salvarConfiguracaoSlack() {
+    const fkUsuario        = getFkUsuario();
+    const toggle           = document.getElementById("toggleSlack");
+    const webhook          = document.getElementById("slackWebhook")?.value || "";
+    const receberAlerta    = toggle ? toggle.checked : false;
+    const statusIntegracao = receberAlerta ? "ATIVO" : "INATIVO";
+
+    try {
+        const response = await fetch(`${API_BASE}/slack/${fkUsuario}`, {
+            method:  "PUT",
+            headers: { "Content-Type": "application/json" },
+            body:    JSON.stringify({ receberAlerta, statusIntegracao, tokenSlack: webhook })
+        });
+
+        if (response.ok) {
+            alert("Configurações Slack salvas com sucesso!");
+        }
+    } catch (erro) {
+        console.error("Falha na requisição:", erro.message);
+    }
+}
+
+async function carregarConfiguracaoSlack() {
+    const fkUsuario = getFkUsuario();
+    if (!fkUsuario) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/slack/${fkUsuario}`);
+        const data     = await response.json();
+        if (!response.ok) return;
+
+        const toggle = document.getElementById("toggleSlack");
+        if (toggle) toggle.checked = data.receberAlerta === 1 || data.receberAlerta === true;
+
+        // Carrega a webhook salva
+        const webhookInput = document.getElementById("slackWebhook");
+        if (webhookInput && data.tokenSlack) webhookInput.value = data.tokenSlack;
+
+    } catch (erro) {
+        console.error("Falha ao buscar configuração Slack:", erro);
     }
 }
 
